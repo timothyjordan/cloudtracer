@@ -40,7 +40,8 @@
     "whois",
     "rdap"
   ],
-  "license": "MIT",
+  "author": "Timothy Jordan",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/timothyjordan/sitestack.git"

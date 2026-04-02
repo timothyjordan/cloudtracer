@@ -2,7 +2,15 @@
 
 Scan a website and identify all the cloud providers it uses — domain registration, DNS, CDN, hosting, SSL/TLS, email, and third-party services.
 
+## Quick Start
+
+```bash
+npx sitestack example.com
+```
+
 ## Install
+
+Or install globally for repeated use:
 
 ```bash
 npm install -g sitestack
@@ -22,6 +30,7 @@ sitestack example.com
 | `--yaml` | Output as YAML |
 | `--markdown` | Output as Markdown with Mermaid diagram |
 | `--verbose` | Show debug information |
+| `--timeout <ms>` | Per-scanner timeout in milliseconds (default: 10000) |
 
 ## License
 
