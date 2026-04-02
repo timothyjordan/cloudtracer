@@ -1,0 +1,65 @@
+{
+  "name": "sitestack",
+  "version": "0.0.1",
+  "description": "Scan a website and identify all cloud providers it uses",
+  "type": "module",
+  "bin": {
+    "sitestack": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src/",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "website",
+    "scanner",
+    "cloud",
+    "infrastructure",
+    "dns",
+    "cdn",
+    "hosting",
+    "ssl",
+    "whois",
+    "rdap"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timothyjordan/sitestack.git"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^25.5.0",
+    "eslint": "^9.39.4",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.0",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "cheerio": "^1.2.0",
+    "commander": "^14.0.3",
+    "ipaddr.js": "^2.3.0",
+    "whoiser": "^2.0.0-beta.10",
+    "yaml": "^2.8.3"
+  }
+}

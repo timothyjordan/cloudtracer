@@ -1,0 +1,345 @@
+{
+  "dns": {
+    "cloudflare": { "patterns": ["*.ns.cloudflare.com"] },
+    "route53": { "patterns": ["*.awsdns-*"] },
+    "google_cloud_dns": { "patterns": ["ns-cloud-*.googledomains.com"] },
+    "digitalocean": { "patterns": ["ns*.digitalocean.com"] },
+    "namecheap": { "patterns": ["*.registrar-servers.com"] },
+    "godaddy": { "patterns": ["*.domaincontrol.com"] },
+    "dnsimple": { "patterns": ["*.dnsimple.com"] },
+    "azure": { "patterns": ["*.azure-dns.com", "*.azure-dns.net", "*.azure-dns.org", "*.azure-dns.info"] },
+    "netlify": { "patterns": ["dns*.p*.nsone.net"] },
+    "vercel": { "patterns": ["*.vercel-dns.com"] },
+    "ns1": { "patterns": ["dns*.p*.nsone.net"] },
+    "dyn": { "patterns": ["*.dynect.net"] },
+    "ultradns": { "patterns": ["*.ultradns.com", "*.ultradns.net"] },
+    "hetzner": { "patterns": ["*.hetzner.com"] },
+    "linode": { "patterns": ["*.linode.com"] },
+    "ovh": { "patterns": ["*.ovh.net"] }
+  },
+  "cdn": {
+    "cloudflare": {
+      "headers": { "CF-Ray": "*", "Server": "cloudflare", "CF-Cache-Status": "*" },
+      "cnames": ["*.cloudflare.net", "*.cloudflaressl.com"]
+    },
+    "fastly": {
+      "headers": { "X-Served-By": "cache-*", "Via": "*Fastly*", "X-Fastly-Request-ID": "*" },
+      "cnames": ["*.fastly.net", "*.fastlylb.net"]
+    },
+    "akamai": {
+      "headers": { "X-Akamai-Transformed": "*", "Server": "AkamaiGHost" },
+      "cnames": ["*.akamaiedge.net", "*.akamai.net", "*.akamaitechnologies.com", "*.edgekey.net"]
+    },
+    "cloudfront": {
+      "headers": { "X-Amz-Cf-Id": "*", "X-Amz-Cf-Pop": "*", "Via": "*CloudFront*" },
+      "cnames": ["*.cloudfront.net"]
+    },
+    "bunnycdn": {
+      "headers": { "Server": "BunnyCDN*", "CDN-PullZone": "*", "CDN-Uid": "*" },
+      "cnames": ["*.b-cdn.net"]
+    },
+    "keycdn": {
+      "headers": { "Server": "keycdn*", "X-Edge-Location": "*" },
+      "cnames": ["*.kxcdn.com"]
+    },
+    "stackpath": {
+      "headers": { "X-HW": "*" },
+      "cnames": ["*.stackpathdns.com", "*.hwcdn.net"]
+    },
+    "sucuri": {
+      "headers": { "Server": "Sucuri*", "X-Sucuri-ID": "*" },
+      "cnames": ["*.sucuri.net"]
+    },
+    "incapsula": {
+      "headers": { "X-CDN": "Imperva", "X-Iinfo": "*" },
+      "cnames": ["*.incapdns.net"]
+    },
+    "vercel": {
+      "headers": { "Server": "Vercel", "X-Vercel-Id": "*", "X-Vercel-Cache": "*" },
+      "cnames": ["*.vercel-dns.com", "cname.vercel-dns.com"]
+    },
+    "netlify": {
+      "headers": { "Server": "Netlify", "X-NF-Request-ID": "*" },
+      "cnames": ["*.netlify.app", "*.netlify.com"]
+    }
+  },
+  "hosting": {
+    "aws": { "asns": [16509, 14618] },
+    "google_cloud": { "asns": [15169, 396982] },
+    "azure": { "asns": [8075] },
+    "digitalocean": { "asns": [14061] },
+    "hetzner": { "asns": [24940] },
+    "ovh": { "asns": [16276] },
+    "linode": { "asns": [63949] },
+    "vultr": { "asns": [20473] },
+    "oracle_cloud": { "asns": [31898] },
+    "ibm_cloud": { "asns": [36351] },
+    "vercel": { "asns": [209242] },
+    "cloudflare": { "asns": [13335] },
+    "fastly": { "asns": [54113] },
+    "github_pages": { "asns": [36459] },
+    "fly_io": { "asns": [40509] },
+    "render": { "asns": [397086] },
+    "railway": { "asns": [399561] }
+  },
+  "email": {
+    "google_workspace": { "mx_patterns": ["*.google.com", "*.googlemail.com"] },
+    "microsoft_365": { "mx_patterns": ["*.outlook.com", "*.protection.outlook.com"] },
+    "protonmail": { "mx_patterns": ["*.protonmail.ch", "*.proton.me"] },
+    "zoho": { "mx_patterns": ["*.zoho.com", "*.zoho.eu"] },
+    "fastmail": { "mx_patterns": ["*.fastmail.com", "*.messagingengine.com"] },
+    "mimecast": { "mx_patterns": ["*.mimecast.com"] },
+    "barracuda": { "mx_patterns": ["*.barracudanetworks.com"] },
+    "mailgun": { "mx_patterns": ["*.mailgun.org"] },
+    "sendgrid": { "mx_patterns": ["*.sendgrid.net"] },
+    "postmark": { "mx_patterns": ["*.mtasv.net"] },
+    "amazon_ses": { "mx_patterns": ["*.amazonaws.com"] },
+    "icloud": { "mx_patterns": ["*.icloud.com", "*.apple.com"] },
+    "yahoo": { "mx_patterns": ["*.yahoodns.net"] },
+    "rackspace": { "mx_patterns": ["*.emailsrvr.com"] }
+  },
+  "thirdparty": {
+    "google_analytics": { "scripts": ["googletagmanager.com", "google-analytics.com", "gtag/js"], "category": "analytics" },
+    "facebook_pixel": { "scripts": ["connect.facebook.net", "fbevents.js"], "category": "analytics" },
+    "hotjar": { "scripts": ["static.hotjar.com"], "category": "analytics" },
+    "mixpanel": { "scripts": ["cdn.mxpnl.com", "mixpanel.com/track"], "category": "analytics" },
+    "segment": { "scripts": ["cdn.segment.com", "analytics.min.js"], "category": "analytics" },
+    "amplitude": { "scripts": ["cdn.amplitude.com"], "category": "analytics" },
+    "heap": { "scripts": ["cdn.heapanalytics.com"], "category": "analytics" },
+    "plausible": { "scripts": ["plausible.io"], "category": "analytics" },
+    "fathom": { "scripts": ["cdn.usefathom.com"], "category": "analytics" },
+    "cloudflare_insights": { "scripts": ["static.cloudflareinsights.com"], "category": "analytics" },
+    "posthog": { "scripts": ["us.posthog.com", "eu.posthog.com", "app.posthog.com", "us.i.posthog.com"], "category": "analytics" },
+    "microsoft_clarity": { "scripts": ["clarity.ms"], "category": "analytics" },
+    "matomo": { "scripts": ["matomo.js", "matomo.cloud", "piwik.js"], "category": "analytics" },
+    "pendo": { "scripts": ["cdn.pendo.io", "pendo-io-static.storage.googleapis.com"], "category": "analytics" },
+    "fullstory": { "scripts": ["fullstory.com/s/fs.js", "edge.fullstory.com"], "category": "analytics" },
+    "logrocket": { "scripts": ["cdn.logrocket.io", "cdn.lr-ingest.io"], "category": "analytics" },
+    "mouseflow": { "scripts": ["cdn.mouseflow.com"], "category": "analytics" },
+    "heap_analytics": { "scripts": ["cdn.heapanalytics.com"], "category": "analytics" },
+    "pirsch": { "scripts": ["api.pirsch.io"], "category": "analytics" },
+    "simple_analytics": { "scripts": ["scripts.simpleanalyticscdn.com", "simpleanalytics.com"], "category": "analytics" },
+    "google_ads": { "scripts": ["pagead2.googlesyndication.com", "googleads.g.doubleclick.net"], "category": "advertising" },
+    "twitter_pixel": { "scripts": ["static.ads-twitter.com", "analytics.twitter.com", "t.co/i/adsct"], "category": "advertising" },
+    "linkedin_insight": { "scripts": ["snap.licdn.com", "px.ads.linkedin.com"], "category": "advertising" },
+    "pinterest_tag": { "scripts": ["s.pinimg.com/ct/core.js", "ct.pinterest.com"], "category": "advertising" },
+    "tiktok_pixel": { "scripts": ["analytics.tiktok.com", "tiktok.com/i18n/pixel"], "category": "advertising" },
+    "reddit_pixel": { "scripts": ["alb.reddit.com", "www.redditstatic.com/ads"], "category": "advertising" },
+    "snapchat_pixel": { "scripts": ["sc-static.net/scevent.min.js"], "category": "advertising" },
+    "bing_ads": { "scripts": ["bat.bing.com"], "category": "advertising" },
+    "criteo": { "scripts": ["static.criteo.net", "dynamic.criteo.com"], "category": "advertising" },
+    "intercom": { "scripts": ["widget.intercom.io", "intercomcdn.com"], "category": "chat" },
+    "drift": { "scripts": ["js.driftt.com"], "category": "chat" },
+    "crisp": { "scripts": ["client.crisp.chat"], "category": "chat" },
+    "livechat": { "scripts": ["cdn.livechatinc.com"], "category": "chat" },
+    "tawk_to": { "scripts": ["embed.tawk.to"], "category": "chat" },
+    "olark": { "scripts": ["static.olark.com"], "category": "chat" },
+    "tidio": { "scripts": ["code.tidio.co"], "category": "chat" },
+    "freshchat": { "scripts": ["wchat.freshchat.com"], "category": "chat" },
+    "chatwoot": { "scripts": ["app.chatwoot.com"], "category": "chat" },
+    "zendesk": { "scripts": ["static.zdassets.com", "zendesk.com"], "category": "support" },
+    "freshdesk": { "scripts": ["assets.freshdesk.com", "widget.freshworks.com"], "category": "support" },
+    "help_scout": { "scripts": ["beacon-v2.helpscout.net"], "category": "support" },
+    "hubspot": { "scripts": ["js.hs-scripts.com", "js.hsforms.net", "hubspot.com"], "category": "marketing" },
+    "mailchimp": { "scripts": ["chimpstatic.com", "list-manage.com"], "category": "marketing" },
+    "marketo": { "scripts": ["munchkin.marketo.net", "marketo.com/js"], "category": "marketing" },
+    "activecampaign": { "scripts": ["trackcmp.net", "activehosted.com"], "category": "marketing" },
+    "klaviyo": { "scripts": ["static.klaviyo.com", "a.klaviyo.com"], "category": "marketing" },
+    "convertkit": { "scripts": ["f.convertkit.com"], "category": "marketing" },
+    "drip": { "scripts": ["tag.getdrip.com"], "category": "marketing" },
+    "optinmonster": { "scripts": ["a.optinmonster.com", "api.opmnstr.com"], "category": "marketing" },
+    "sumo": { "scripts": ["load.sumo.com", "load.sumome.com"], "category": "marketing" },
+    "privy": { "scripts": ["widget.privy.com"], "category": "marketing" },
+    "stripe": { "scripts": ["js.stripe.com"], "category": "payments" },
+    "paypal": { "scripts": ["www.paypal.com/sdk/js", "www.paypalobjects.com"], "category": "payments" },
+    "square": { "scripts": ["web.squarecdn.com", "js.squareup.com"], "category": "payments" },
+    "paddle": { "scripts": ["cdn.paddle.com"], "category": "payments" },
+    "lemon_squeezy": { "scripts": ["assets.lemonsqueezy.com", "lmsqueezy.com"], "category": "payments" },
+    "braintree": { "scripts": ["js.braintreegateway.com"], "category": "payments" },
+    "sentry": { "scripts": ["browser.sentry-cdn.com", "sentry.io"], "category": "monitoring" },
+    "datadog": { "scripts": ["datadoghq.com", "datadog-rum"], "category": "monitoring" },
+    "new_relic": { "scripts": ["js-agent.newrelic.com", "bam.nr-data.net"], "category": "monitoring" },
+    "bugsnag": { "scripts": ["d2wy8f7a9ursnm.cloudfront.net/bugsnag", "bugsnag.com"], "category": "monitoring" },
+    "rollbar": { "scripts": ["cdn.rollbar.com"], "category": "monitoring" },
+    "google_fonts": { "scripts": ["fonts.googleapis.com", "fonts.gstatic.com"], "category": "fonts" },
+    "typekit": { "scripts": ["use.typekit.net"], "category": "fonts" },
+    "font_awesome": { "scripts": ["kit.fontawesome.com", "use.fontawesome.com", "cdnjs.cloudflare.com/ajax/libs/font-awesome"], "category": "fonts" },
+    "bunny_fonts": { "scripts": ["fonts.bunny.net"], "category": "fonts" },
+    "fontshare": { "scripts": ["api.fontshare.com"], "category": "fonts" },
+    "jquery": { "scripts": ["code.jquery.com", "ajax.googleapis.com/ajax/libs/jquery"], "category": "framework" },
+    "react": { "scripts": ["unpkg.com/react", "cdnjs.cloudflare.com/ajax/libs/react"], "category": "framework" },
+    "bootstrap": { "scripts": ["stackpath.bootstrapcdn.com", "cdn.jsdelivr.net/npm/bootstrap"], "category": "framework" },
+    "vue": { "scripts": ["unpkg.com/vue", "cdn.jsdelivr.net/npm/vue", "cdnjs.cloudflare.com/ajax/libs/vue"], "category": "framework" },
+    "angular": { "scripts": ["ajax.googleapis.com/ajax/libs/angularjs", "cdnjs.cloudflare.com/ajax/libs/angular"], "category": "framework" },
+    "tailwind_css": { "scripts": ["cdn.tailwindcss.com"], "category": "framework" },
+    "htmx": { "scripts": ["unpkg.com/htmx.org", "cdn.jsdelivr.net/npm/htmx.org"], "category": "framework" },
+    "alpine_js": { "scripts": ["unpkg.com/alpinejs", "cdn.jsdelivr.net/npm/alpinejs"], "category": "framework" },
+    "d3": { "scripts": ["d3js.org", "cdnjs.cloudflare.com/ajax/libs/d3"], "category": "framework" },
+    "lodash": { "scripts": ["cdn.jsdelivr.net/npm/lodash", "cdnjs.cloudflare.com/ajax/libs/lodash"], "category": "framework" },
+    "recaptcha": { "scripts": ["www.google.com/recaptcha", "www.gstatic.com/recaptcha"], "category": "security" },
+    "hcaptcha": { "scripts": ["hcaptcha.com"], "category": "security" },
+    "cloudflare_turnstile": { "scripts": ["challenges.cloudflare.com/turnstile"], "category": "security" },
+    "optimizely": { "scripts": ["cdn.optimizely.com", "optimizely.com/js"], "category": "ab_testing" },
+    "launchdarkly": { "scripts": ["app.launchdarkly.com", "clientsdk.launchdarkly.com"], "category": "ab_testing" },
+    "vwo": { "scripts": ["dev.visualwebsiteoptimizer.com"], "category": "ab_testing" },
+    "google_optimize": { "scripts": ["www.googleoptimize.com"], "category": "ab_testing" },
+    "ab_tasty": { "scripts": ["try.abtasty.com"], "category": "ab_testing" },
+    "wordpress": { "scripts": ["wp-content/", "wp-includes/", "wp-json/"], "category": "cms" },
+    "shopify": { "scripts": ["cdn.shopify.com", "shopifycdn.com"], "category": "cms" },
+    "squarespace": { "scripts": ["static1.squarespace.com", "squarespace-cdn.com"], "category": "cms" },
+    "webflow": { "scripts": ["assets.website-files.com", "webflow.com"], "category": "cms" },
+    "wix": { "scripts": ["static.parastorage.com", "static.wixstatic.com"], "category": "cms" },
+    "ghost": { "scripts": ["ghost.org", "ghost.io"], "category": "cms" },
+    "contentful": { "scripts": ["cdn.contentful.com", "contentful.com"], "category": "cms" },
+    "prismic": { "scripts": ["prismic.io", "cdn.prismic.io"], "category": "cms" },
+    "sanity": { "scripts": ["cdn.sanity.io", "apicdn.sanity.io"], "category": "cms" },
+    "youtube": { "scripts": ["www.youtube.com/embed", "www.youtube.com/iframe_api", "youtube-nocookie.com"], "category": "video" },
+    "vimeo": { "scripts": ["player.vimeo.com", "vimeo.com/api"], "category": "video" },
+    "wistia": { "scripts": ["fast.wistia.com", "fast.wistia.net"], "category": "video" },
+    "vidyard": { "scripts": ["play.vidyard.com"], "category": "video" },
+    "loom": { "scripts": ["cdn.loom.com", "loom.com/embed"], "category": "video" },
+    "google_maps": { "scripts": ["maps.googleapis.com", "maps.google.com"], "category": "maps" },
+    "mapbox": { "scripts": ["api.mapbox.com", "api.tiles.mapbox.com"], "category": "maps" },
+    "leaflet": { "scripts": ["unpkg.com/leaflet", "cdnjs.cloudflare.com/ajax/libs/leaflet", "cdn.jsdelivr.net/npm/leaflet"], "category": "maps" },
+    "openstreetmap": { "scripts": ["tile.openstreetmap.org"], "category": "maps" },
+    "auth0": { "scripts": ["cdn.auth0.com"], "category": "auth" },
+    "firebase": { "scripts": ["www.gstatic.com/firebasejs", "firebase.googleapis.com"], "category": "auth" },
+    "clerk": { "scripts": ["clerk.com", "clerk.dev"], "category": "auth" },
+    "supabase": { "scripts": ["supabase.co", "supabase.com"], "category": "auth" },
+    "algolia": { "scripts": ["cdn.jsdelivr.net/npm/algoliasearch", "algoliasearch-lite", "instantsearch"], "category": "search" },
+    "typesense": { "scripts": ["cdn.jsdelivr.net/npm/typesense"], "category": "search" },
+    "cookiebot": { "scripts": ["consent.cookiebot.com"], "category": "consent" },
+    "onetrust": { "scripts": ["cdn.cookielaw.org", "optanon.blob.core.windows.net"], "category": "consent" },
+    "trustarc": { "scripts": ["consent.trustarc.com"], "category": "consent" },
+    "iubenda": { "scripts": ["cdn.iubenda.com"], "category": "consent" },
+    "osano": { "scripts": ["cmp.osano.com"], "category": "consent" },
+    "usercentrics": { "scripts": ["app.usercentrics.eu"], "category": "consent" },
+    "quantcast": { "scripts": ["quantcast.mgr.consensu.org", "secure.quantserve.com"], "category": "consent" },
+    "gravatar": { "scripts": ["gravatar.com", "secure.gravatar.com"], "category": "social" },
+    "disqus": { "scripts": ["disqus.com/embed.js"], "category": "social" },
+    "addthis": { "scripts": ["s7.addthis.com"], "category": "social" },
+    "sharethis": { "scripts": ["platform-api.sharethis.com"], "category": "social" },
+    "typeform": { "scripts": ["embed.typeform.com"], "category": "forms" },
+    "jotform": { "scripts": ["cdn.jotfor.ms", "form.jotform.com"], "category": "forms" },
+    "calendly": { "scripts": ["assets.calendly.com"], "category": "scheduling" },
+    "cal_com": { "scripts": ["cal.com/embed"], "category": "scheduling" }
+  },
+  "html_frameworks": {
+    "nextjs": {
+      "html_patterns": ["__NEXT_DATA__", "/_next/", "__next"],
+      "category": "framework"
+    },
+    "nuxtjs": {
+      "html_patterns": ["__NUXT__", "/_nuxt/", "__nuxt"],
+      "category": "framework"
+    },
+    "gatsby": {
+      "html_patterns": ["___gatsby", "gatsby-focus-wrapper", "/static/d/"],
+      "category": "framework"
+    },
+    "remix": {
+      "html_patterns": ["__remix", "remix-run"],
+      "category": "framework"
+    },
+    "sveltekit": {
+      "html_patterns": ["__sveltekit", "sveltekit:"],
+      "category": "framework"
+    },
+    "astro": {
+      "html_patterns": ["astro-island", "astro-slot"],
+      "category": "framework"
+    },
+    "vite": {
+      "html_patterns": ["/@vite/client", "vite/modulepreload-polyfill"],
+      "category": "build_tool"
+    },
+    "webpack": {
+      "html_patterns": ["webpackJsonp", "webpackChunk"],
+      "category": "build_tool"
+    },
+    "turbopack": {
+      "html_patterns": ["__turbopack_"],
+      "category": "build_tool"
+    },
+    "tanstack_query": {
+      "html_patterns": ["@tanstack/react-query", "tanstack/query", "ReactQueryDevtools", "TanStackQueryDevtools"],
+      "category": "framework"
+    },
+    "tanstack_router": {
+      "html_patterns": ["@tanstack/react-router", "@tanstack/router", "TanStackRouterDevtools"],
+      "category": "framework"
+    },
+    "tanstack_table": {
+      "html_patterns": ["@tanstack/react-table", "@tanstack/table"],
+      "category": "framework"
+    },
+    "react_router": {
+      "html_patterns": ["react-router", "data-reactroot"],
+      "category": "framework"
+    },
+    "emotion": {
+      "html_patterns": ["data-emotion", "__EMOTION_"],
+      "category": "framework"
+    },
+    "styled_components": {
+      "html_patterns": ["__sc-", "sc-bdvvtL", "data-styled"],
+      "category": "framework"
+    },
+    "material_ui": {
+      "html_patterns": ["MuiBox-root", "MuiTypography", "MuiButton", "mui-"],
+      "category": "framework"
+    },
+    "chakra_ui": {
+      "html_patterns": ["chakra-ui", "css-"],
+      "category": "framework"
+    },
+    "tailwind_css_detected": {
+      "html_patterns": ["tailwindcss", "tailwind.config"],
+      "category": "framework"
+    },
+    "angular_detected": {
+      "html_patterns": ["ng-version", "ng-app", "_ngcontent", "_nghost"],
+      "category": "framework"
+    },
+    "vue_detected": {
+      "html_patterns": ["data-v-", "data-vue-ssr", "__vue__", "Vue.js"],
+      "category": "framework"
+    },
+    "svelte_detected": {
+      "html_patterns": ["svelte-", "__svelte"],
+      "category": "framework"
+    },
+    "ember": {
+      "html_patterns": ["ember-view", "ember-application", "data-ember"],
+      "category": "framework"
+    },
+    "solid_js": {
+      "html_patterns": ["_$HY", "solid-js"],
+      "category": "framework"
+    },
+    "qwik": {
+      "html_patterns": ["q:container", "qwik/", "q:"],
+      "category": "framework"
+    },
+    "eleventy": {
+      "html_patterns": ["generator\" content=\"Eleventy"],
+      "category": "framework"
+    },
+    "hugo": {
+      "html_patterns": ["generator\" content=\"Hugo"],
+      "category": "framework"
+    },
+    "jekyll": {
+      "html_patterns": ["generator\" content=\"Jekyll"],
+      "category": "framework"
+    },
+    "docusaurus": {
+      "html_patterns": ["docusaurus", "__docusaurus"],
+      "category": "framework"
+    },
+    "storybook": {
+      "html_patterns": ["storybook-root", "sb-show-main"],
+      "category": "framework"
+    }
+  }
+}
