@@ -5,6 +5,8 @@ import { formatJson } from "./output/json.js";
 import { formatYaml } from "./output/yaml.js";
 import { formatMarkdown } from "./output/markdown.js";
 
+declare const __PACKAGE_VERSION__: string;
+
 interface CliOptions {
   json?: boolean;
   yaml?: boolean;
@@ -18,7 +20,7 @@ const program = new Command();
 program
   .name("sitestack")
   .description("Scan a website and identify all cloud providers it uses")
-  .version("0.0.1")
+  .version(__PACKAGE_VERSION__)
   .argument("<domain>", "Domain to scan (e.g. example.com)")
   .option("--json", "Output as JSON")
   .option("--yaml", "Output as YAML")
