@@ -95,46 +95,43 @@
 
       <section class="demo container" aria-labelledby="demo-title">
         <h2 id="demo-title" class="visually-hidden">Example output</h2>
-        <div class="terminal" role="img" aria-label="Example CloudTracer output for example.com">
+        <div class="terminal" role="img" aria-label="CloudTracer output for cloudtracer.dev">
           <div class="terminal-chrome" aria-hidden="true">
             <span class="dot dot-red"></span>
             <span class="dot dot-yellow"></span>
             <span class="dot dot-green"></span>
-            <span class="terminal-title">cloudtracer — example.com</span>
+            <span class="terminal-title">cloudtracer — cloudtracer.dev</span>
           </div>
-          <pre class="terminal-body"><span class="t-dim">$</span> <span class="t-fg">cloudtracer example.com</span>
+          <pre class="terminal-body"><span class="t-dim">$</span> <span class="t-fg">cloudtracer cloudtracer.dev</span>
 
-  <span class="t-cyan t-bold">🌐 example.com</span>
+  <span class="t-cyan t-bold">🌐 cloudtracer.dev</span>
 
   ├── <span class="t-yellow t-bold">Registration</span>
-  │   Registrar  : IANA (RDAP)
-  │   Registered : Aug 14, 1995
-  │   Expires    : Aug 13, 2027
+  │   Registrar  : Porkbun LLC (RDAP)
+  │   Registered : Apr 20, 2026
+  │   Expires    : Apr 20, 2027
   ├── <span class="t-yellow t-bold">DNS</span>
-  │   Provider     : AWS Route 53
-  │   Nameservers  : a.iana-servers.net, b.iana-servers.net
+  │   Nameservers  : maceio.ns.porkbun.com, curitiba.ns.porkbun.com, fortaleza.ns.porkbun.com, salvador.ns.porkbun.com
   ├── <span class="t-yellow t-bold">CDN</span>
-  │   Amazon CloudFront (server header; x-amz-cf-id)
+  │   Fastly (Header: x-served-by: cache-sjc1000095-SJC; Header: x-fastly-request-id: 1f2c10441eb35c0440b9b87e9326d584ac80a36f)
   ├── <span class="t-yellow t-bold">Hosting</span>
-  │   Platform : AWS (us-east-1)
-  │   ASN      : 16509 (AMAZON-02)
-  │   IPv4     : 93.184.215.14
+  │   Provider : Fastly
+  │   ASN      : 54113 (FASTLY - Fastly, Inc., US)
+  │   IPv4     : 185.199.110.153, 185.199.111.153, 185.199.108.153, 185.199.109.153
+  │   IPv6     : 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8003::153, 2606:50c0:8002::153
   ├── <span class="t-yellow t-bold">SSL/TLS</span>
-  │   Issuer   : DigiCert Global G2 TLS RSA SHA256 2020 CA1
+  │   Issuer   : Let's Encrypt
   │   Protocol : TLSv1.3
-  │   Expires  : Mar 1, 2027 <span class="t-green">(312 days remaining)</span>
-  ├── <span class="t-yellow t-bold">Email</span>
-  │   MX       : (none configured)
-  │   SPF      : <span class="t-green">✓</span> configured
-  │   DMARC    : <span class="t-green">✓</span> configured
+  │   Expires  : Jul 19, 2026 <span class="t-yellow">(89 days remaining)</span>
+  │   SANs     : cloudtracer.dev, www.cloudtracer.dev
   ├── <span class="t-yellow t-bold">Performance</span>
-  │   DNS      : <span class="t-green">18ms</span>
-  │   TLS      : <span class="t-green">72ms</span>
-  │   TTFB     : <span class="t-yellow">412ms</span>
-  │   Response : <span class="t-green">487ms</span>
-  │   Size     : 1.3 KB
+  │   DNS      : <span class="t-green">14ms</span>
+  │   TLS      : <span class="t-green">41ms</span>
+  │   TTFB     : <span class="t-green">64ms</span>
+  │   Response : <span class="t-green">68ms</span>
+  │   Size     : 3.2 KB
   └── <span class="t-yellow t-bold">Third-Party Services</span>
-      (none detected)
+      Fonts : Google Fonts
 </pre>
         </div>
       </section>
