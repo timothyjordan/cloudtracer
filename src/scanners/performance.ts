@@ -70,7 +70,7 @@ async function measureHttp(
       redirect: "follow",
       headers: {
         "User-Agent":
-          "sitestack/0.1 (https://github.com/timothyjordan/sitestack)",
+          "cloudtracer/0.1 (https://github.com/timothyjordan/cloudtracer)",
       },
     });
 

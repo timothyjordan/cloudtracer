@@ -20,7 +20,7 @@ export async function scan(
   const { verbose } = options;
 
   const log = verbose
-    ? (msg: string) => console.error(`[sitestack] ${msg}`)
+    ? (msg: string) => console.error(`[cloudtracer] ${msg}`)
     : () => {};
 
   log(`Starting scan of ${domain}`);

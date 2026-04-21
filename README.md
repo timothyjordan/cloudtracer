@@ -1,11 +1,11 @@
-# sitestack
+# CloudTracer
 
 Scan a website and identify all the cloud providers it uses — domain registration, DNS, CDN, hosting, SSL/TLS, email, and third-party services.
 
 ## Quick Start
 
 ```bash
-npx sitestack example.com
+npx cloudtracer example.com
 ```
 
 ## Install
@@ -13,13 +13,13 @@ npx sitestack example.com
 Or install globally for repeated use:
 
 ```bash
-npm install -g sitestack
+npm install -g cloudtracer
 ```
 
 ## Usage
 
 ```bash
-sitestack example.com
+cloudtracer example.com
 ```
 
 ### Options
