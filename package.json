@@ -1,10 +1,10 @@
 {
-  "name": "sitestack",
-  "version": "0.0.1",
+  "name": "cloudtracer",
+  "version": "0.0.2",
   "description": "Scan a website and identify all cloud providers it uses",
   "type": "module",
   "bin": {
-    "sitestack": "./dist/cli.js"
+    "cloudtracer": "./dist/cli.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -44,7 +44,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/timothyjordan/sitestack.git"
+    "url": "https://github.com/timothyjordan/cloudtracer.git"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

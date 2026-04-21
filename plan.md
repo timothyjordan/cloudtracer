@@ -1,12 +1,12 @@
-# Site Stack
+# CloudTracer
 
-Site Stack scans a website and tells you all the cloud providers that it uses including domain name registration, DNS, CDN, hosting, etc. It is operated from the command line or from a website.
+CloudTracer scans a website and tells you all the cloud providers that it uses including domain name registration, DNS, CDN, hosting, etc. It is operated from the command line or from a website.
 
 ## Implementation plan
 
-1. Create npm package placeholders and reserve the package name: sitestack
+1. Create npm package placeholders and reserve the package name: cloudtracer
 2. Build a CLI tool and test locally
-3. Make the CLI tool work as "npx sitestack"
+3. Make the CLI tool work as "npx cloudtracer"
 4. Create a Chrome Extension that perfomrs the same thing on the current web domain when clicked
 
 ## Implementation details

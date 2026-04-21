@@ -18,7 +18,7 @@ interface CliOptions {
 const program = new Command();
 
 program
-  .name("sitestack")
+  .name("cloudtracer")
   .description("Scan a website and identify all cloud providers it uses")
   .version(__PACKAGE_VERSION__)
   .argument("<domain>", "Domain to scan (e.g. example.com)")

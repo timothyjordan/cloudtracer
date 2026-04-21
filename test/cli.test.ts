@@ -32,7 +32,7 @@ describe("CLI", () => {
 
   it("should show help with --help", async () => {
     const { stdout } = await run("--help");
-    expect(stdout).toContain("sitestack");
+    expect(stdout).toContain("cloudtracer");
     expect(stdout).toContain("Scan a website");
     expect(stdout).toContain("--json");
     expect(stdout).toContain("--yaml");
