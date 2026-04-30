@@ -1,19 +1,31 @@
 :root {
-  --bg: #0a0f14;
-  --bg-raised: #0f1620;
-  --bg-terminal: #05090d;
-  --border: #1c2530;
-  --border-strong: #2a3643;
+  /* Page surface — ink on warm cream */
+  --bg: oklch(97.5% 0.005 85);
+  --bg-raised: oklch(94% 0.008 85);
+  --border: oklch(88% 0.008 85);
+  --border-strong: oklch(78% 0.012 85);
 
-  --fg: #e6edf3;
-  --fg-muted: #8b98a5;
-  --fg-dim: #5c6773;
+  --fg: oklch(22% 0.012 250);
+  --fg-muted: oklch(46% 0.012 250);
+  --fg-dim: oklch(62% 0.010 250);
 
-  --cyan: #00bfff;
-  --cyan-soft: #3dd6ff;
-  --green: #4ade80;
-  --yellow: #facc15;
-  --red: #ff3b30;
+  /* Terminal block — the dark island */
+  --bg-terminal: oklch(18% 0.02 240);
+  --bg-terminal-chrome: oklch(24% 0.02 240);
+  --terminal-border: oklch(28% 0.02 240);
+  --terminal-fg: oklch(92% 0.005 240);
+  --terminal-fg-dim: oklch(58% 0.012 240);
+
+  /* One saturated accent — live state on cream */
+  --cyan: oklch(56% 0.18 220);
+  --cyan-strong: oklch(48% 0.20 220);
+  /* Brighter accent for use on the dark terminal */
+  --terminal-cyan: oklch(76% 0.16 220);
+
+  /* Status — used inside the dark terminal block */
+  --green: oklch(78% 0.18 145);
+  --yellow: oklch(82% 0.16 95);
+  --red: oklch(64% 0.22 25);
 
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, monospace;
@@ -96,7 +108,7 @@ a:focus-visible {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(10, 15, 20, 0.75);
+  background: color-mix(in oklch, var(--bg) 88%, transparent);
   backdrop-filter: saturate(140%) blur(10px);
   -webkit-backdrop-filter: saturate(140%) blur(10px);
   border-bottom: 1px solid var(--border);
@@ -199,13 +211,13 @@ a:focus-visible {
 }
 .install-copy:hover,
 .install-copy:focus-visible {
-  background: rgba(0, 191, 255, 0.08);
+  background: color-mix(in oklch, var(--cyan) 10%, transparent);
   border-color: var(--cyan);
 }
 .install-copy.is-copied {
   color: var(--green);
   border-color: var(--green);
-  background: rgba(74, 222, 128, 0.08);
+  background: color-mix(in oklch, var(--green) 12%, transparent);
 }
 
 .hero-ctas {
@@ -232,13 +244,13 @@ a:focus-visible {
 }
 .btn-primary {
   background: var(--cyan);
-  color: #001823;
+  color: var(--bg);
   border-color: var(--cyan);
 }
 .btn-primary:hover,
 .btn-primary:focus-visible {
-  background: var(--cyan-soft);
-  border-color: var(--cyan-soft);
+  background: var(--cyan-strong);
+  border-color: var(--cyan-strong);
 }
 .btn-ghost {
   background: transparent;
@@ -250,24 +262,24 @@ a:focus-visible {
   color: var(--cyan);
 }
 
-/* Terminal demo */
+/* Terminal demo — the dark island */
 .demo {
   padding-bottom: 80px;
 }
 .terminal {
   background: var(--bg-terminal);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--terminal-border);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 60px -20px oklch(20% 0.02 250 / 0.25);
 }
 .terminal-chrome {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  background: linear-gradient(180deg, #141c26, #0d141c);
-  border-bottom: 1px solid var(--border);
+  background: var(--bg-terminal-chrome);
+  border-bottom: 1px solid var(--terminal-border);
 }
 .dot {
   width: 12px;
@@ -276,18 +288,18 @@ a:focus-visible {
   display: inline-block;
 }
 .dot-red {
-  background: #ff5f56;
+  background: oklch(68% 0.20 25);
 }
 .dot-yellow {
-  background: #ffbd2e;
+  background: oklch(82% 0.17 85);
 }
 .dot-green {
-  background: #27c93f;
+  background: oklch(72% 0.18 145);
 }
 .terminal-title {
   margin-left: 10px;
-  color: var(--fg-dim);
-  font-size: 12px;
+  color: var(--terminal-fg-dim);
+  font-size: 13px;
   letter-spacing: 0.02em;
 }
 .terminal-body {
@@ -296,19 +308,19 @@ a:focus-visible {
   font-family: var(--font-mono);
   font-size: 13.5px;
   line-height: 1.55;
-  color: var(--fg);
+  color: var(--terminal-fg);
   overflow-x: auto;
   white-space: pre;
 }
 
 .t-dim {
-  color: var(--fg-dim);
+  color: var(--terminal-fg-dim);
 }
 .t-fg {
-  color: var(--fg);
+  color: var(--terminal-fg);
 }
 .t-cyan {
-  color: var(--cyan);
+  color: var(--terminal-cyan);
 }
 .t-yellow {
   color: var(--yellow);
@@ -404,12 +416,12 @@ section h2 {
   margin: 0;
   padding: 14px 16px;
   background: var(--bg-terminal);
-  border: 1px solid var(--border);
+  border: 1px solid var(--terminal-border);
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 13.5px;
   line-height: 1.6;
-  color: var(--fg);
+  color: var(--terminal-fg);
   overflow-x: auto;
   white-space: pre;
 }
@@ -437,7 +449,7 @@ section h2 {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  background: rgba(0, 0, 0, 0.15);
+  background: color-mix(in oklch, var(--fg) 6%, transparent);
 }
 .options-table tbody tr:last-child td {
   border-bottom: none;
