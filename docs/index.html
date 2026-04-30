@@ -147,68 +147,69 @@
       <section class="features container" id="features" aria-labelledby="features-title">
         <h2 id="features-title">Eight scanners, one tree</h2>
         <p class="section-lede">
-          Every scan runs these layers in parallel and stitches the results into
-          a single readable view.
+          Each scan runs every layer in parallel. The tree above is what comes
+          back — here's what each row tells you.
         </p>
 
-        <ul class="feature-grid" role="list">
-          <li class="feature-card">
-            <h3><span class="feature-prompt">01</span> Registration</h3>
-            <p>
-              Registrar, registration date, and expiration via RDAP with a WHOIS
-              fallback.
-            </p>
-          </li>
-          <li class="feature-card">
-            <h3><span class="feature-prompt">02</span> DNS</h3>
-            <p>
-              Authoritative nameservers and the provider behind them
-              (Cloudflare, Route 53, NS1, etc.).
-            </p>
-          </li>
-          <li class="feature-card">
-            <h3><span class="feature-prompt">03</span> CDN</h3>
-            <p>
-              CDN and WAF detection from response headers — Cloudflare, Fastly,
-              CloudFront, Akamai, and more.
-            </p>
-          </li>
-          <li class="feature-card">
-            <h3><span class="feature-prompt">04</span> Hosting</h3>
-            <p>
-              IPv4/IPv6, ASN, and the hosting platform — including Vercel,
-              Netlify, Fly.io, and GitHub Pages.
-            </p>
-          </li>
-          <li class="feature-card">
-            <h3><span class="feature-prompt">05</span> SSL / TLS</h3>
-            <p>
-              Issuer, protocol version, SANs, and days-until-expiry with traffic
-              light coloring.
-            </p>
-          </li>
-          <li class="feature-card">
-            <h3><span class="feature-prompt">06</span> Email</h3>
-            <p>
-              MX provider, SPF and DMARC presence — a quick read on deliverability
-              posture.
-            </p>
-          </li>
-          <li class="feature-card">
-            <h3><span class="feature-prompt">07</span> Third-Party Services</h3>
-            <p>
-              Analytics, marketing, and monitoring tools embedded in the page —
-              scraped from the rendered HTML.
-            </p>
-          </li>
-          <li class="feature-card">
-            <h3><span class="feature-prompt">08</span> Performance</h3>
-            <p>
-              DNS resolution, TLS handshake, TTFB, total response time, and
-              content size.
-            </p>
-          </li>
-        </ul>
+        <div class="feature-groups">
+          <section class="feature-group">
+            <h3 class="feature-group-label">Who runs the domain</h3>
+            <dl class="scanner-list">
+              <dt>Registration</dt>
+              <dd>
+                Registrar, registration date, and expiration via RDAP with a
+                WHOIS fallback.
+              </dd>
+              <dt>DNS</dt>
+              <dd>
+                Authoritative nameservers and the provider behind them —
+                Cloudflare, Route 53, NS1, and others.
+              </dd>
+            </dl>
+          </section>
+
+          <section class="feature-group">
+            <h3 class="feature-group-label">How it's served</h3>
+            <dl class="scanner-list">
+              <dt>CDN</dt>
+              <dd>
+                CDN and WAF detection from response headers — Cloudflare,
+                Fastly, CloudFront, Akamai, and more.
+              </dd>
+              <dt>Hosting</dt>
+              <dd>
+                IPv4/IPv6, ASN, and the hosting platform — including Vercel,
+                Netlify, Fly.io, and GitHub Pages.
+              </dd>
+              <dt>SSL / TLS</dt>
+              <dd>
+                Issuer, protocol version, SANs, and days-until-expiry with
+                traffic-light coloring.
+              </dd>
+              <dt>Performance</dt>
+              <dd>
+                DNS resolution, TLS handshake, TTFB, total response time, and
+                content size.
+              </dd>
+            </dl>
+          </section>
+
+          <section class="feature-group">
+            <h3 class="feature-group-label">What's bolted on</h3>
+            <dl class="scanner-list">
+              <dt>Email</dt>
+              <dd>
+                MX provider, SPF and DMARC presence — a quick read on
+                deliverability posture.
+              </dd>
+              <dt>Third-Party Services</dt>
+              <dd>
+                Analytics, marketing, and monitoring tools embedded in the
+                page, scraped from the rendered HTML.
+              </dd>
+            </dl>
+          </section>
+        </div>
       </section>
 
       <section class="usage container" id="usage" aria-labelledby="usage-title">
