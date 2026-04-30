@@ -50,7 +50,9 @@
 
   --radius: 10px;
   --radius-sm: 6px;
-  --max-w: 820px;
+  --max-w: 720px;
+  --max-w-wide: 1080px;
+  --max-w-tight: 640px;
 }
 
 * {
@@ -138,6 +140,7 @@ a:focus-visible {
   border-bottom: 1px solid var(--border);
 }
 .site-header .container {
+  max-width: var(--max-w-wide);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -174,8 +177,9 @@ a:focus-visible {
 
 /* Hero */
 .hero {
-  padding-top: 88px;
-  padding-bottom: 64px;
+  max-width: var(--max-w);
+  padding-top: 96px;
+  padding-bottom: 56px;
   text-align: center;
 }
 .hero h1 {
@@ -288,7 +292,8 @@ a:focus-visible {
 
 /* Terminal demo — the dark island */
 .demo {
-  padding-bottom: 80px;
+  max-width: var(--max-w-wide);
+  padding-bottom: 96px;
 }
 .terminal {
   background: var(--bg-terminal);
@@ -373,7 +378,8 @@ section h2 {
 }
 
 .features {
-  padding: 24px 0 80px;
+  max-width: var(--max-w-wide);
+  padding: 24px 0 88px;
 }
 .feature-groups {
   display: grid;
@@ -422,7 +428,8 @@ section h2 {
 
 /* Usage */
 .usage {
-  padding-bottom: 80px;
+  max-width: var(--max-w);
+  padding-bottom: 96px;
 }
 .usage h3 {
   font-family: var(--font-mono);
@@ -492,6 +499,7 @@ section h2 {
   color: var(--fg-muted);
 }
 .site-footer .container {
+  max-width: var(--max-w-tight);
   display: flex;
   flex-direction: column;
   gap: 4px;
