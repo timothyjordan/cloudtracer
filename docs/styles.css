@@ -20,8 +20,6 @@
 
   --radius: 10px;
   --radius-sm: 6px;
-  --shadow-glow: 0 0 0 1px rgba(0, 191, 255, 0.35),
-    0 0 40px -8px rgba(0, 191, 255, 0.45);
   --max-w: 820px;
 }
 
@@ -40,14 +38,7 @@ body {
   font-size: 15px;
   line-height: 1.65;
   color: var(--fg);
-  background:
-    radial-gradient(
-      ellipse 80% 50% at 50% -10%,
-      rgba(0, 191, 255, 0.08),
-      transparent 60%
-    ),
-    var(--bg);
-  background-attachment: fixed;
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -130,17 +121,6 @@ a:focus-visible {
 .wordmark-prompt {
   color: var(--cyan);
 }
-.wordmark-name::after {
-  content: "_";
-  color: var(--cyan);
-  margin-left: 2px;
-  animation: blink 1.1s step-end infinite;
-}
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
 .site-header nav {
   display: flex;
   gap: 20px;
@@ -170,7 +150,6 @@ a:focus-visible {
 }
 .accent {
   color: var(--cyan);
-  text-shadow: 0 0 24px rgba(0, 191, 255, 0.35);
 }
 .hero .lede {
   margin: 0 auto 36px;
@@ -188,7 +167,6 @@ a:focus-visible {
   background: var(--bg-raised);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-glow);
   margin: 0 auto 28px;
   max-width: 100%;
   font-size: 15px;
