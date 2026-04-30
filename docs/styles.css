@@ -38,10 +38,12 @@
   /* Brighter accent for use on the dark terminal */
   --terminal-cyan: oklch(76% 0.16 220);
 
-  /* Status — used inside the dark terminal block */
-  --green: oklch(78% 0.18 145);
-  --yellow: oklch(82% 0.16 95);
-  --red: oklch(64% 0.22 25);
+  /* Status — used inside the dark terminal block.
+     Tuned to match how chalk's yellow/green/red render in real terminals:
+     yellow → amber, green → bright lime, red → desaturated brick. */
+  --green: oklch(76% 0.22 145);
+  --yellow: oklch(74% 0.13 75);
+  --red: oklch(62% 0.21 28);
 
   --font-sans: "Inter Tight Variable", -apple-system, "Segoe UI", system-ui,
     ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
