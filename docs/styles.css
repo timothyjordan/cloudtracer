@@ -512,6 +512,16 @@ section h2 {
   margin: 0;
   color: var(--fg-dim);
 }
+.site-footer .footer-links {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 8px;
+}
+.site-footer .footer-links a {
+  color: inherit;
+}
 .site-footer p {
   margin: 0;
 }
