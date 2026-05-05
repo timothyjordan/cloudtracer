@@ -8,5 +8,4 @@ CloudTracer is an open-source CLI (Apache-2.0) for auditing your stack, vetting 
 
 - [Home](https://cloudtracer.dev/index.md): Overview, install, options, and example output.
 - [Agent guide](https://cloudtracer.dev/AGENTS.md): Project metadata, glossary, and citation conventions for AI agents.
-- [Sitemap (markdown)](https://cloudtracer.dev/sitemap.md): All public URLs.
-- [Sitemap (XML)](https://cloudtracer.dev/sitemap.xml): XML sitemap.
+- [Sitemap](https://cloudtracer.dev/sitemap.md): All public URLs.
