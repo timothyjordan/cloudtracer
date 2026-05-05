@@ -1,0 +1,11 @@
+# CloudTracer
+
+> Command-line tool that scans a website and prints registrar, DNS, CDN, hosting, SSL, email, and third-party services as a single tree.
+
+CloudTracer is an open-source CLI (Apache-2.0) for auditing your stack, vetting a vendor, or understanding a competitor's infrastructure. Install with `npx cloudtracer example.com` or `npm install -g cloudtracer`. Requires Node.js 20+.
+
+## Docs
+
+- [Home](https://cloudtracer.dev/index.md): Overview, install, options, and example output.
+- [Agent guide](https://cloudtracer.dev/AGENTS.md): Project metadata, glossary, and citation conventions for AI agents.
+- [Sitemap](https://cloudtracer.dev/sitemap.md): All public URLs.
