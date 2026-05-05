@@ -99,4 +99,5 @@ cloudtracer.dev is hosted on GitHub Pages. GitHub Pages does not honor `Accept: 
 - Scorecard: 0.2.0
 - Mode: site
 - Last runs:
+  - 2026-05-05 — 95 (scorecard 0.2.0)
   - 2026-05-05 — 50 (scorecard 0.2.0)
