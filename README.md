@@ -32,6 +32,32 @@ cloudtracer example.com
 | `--verbose` | Show debug information |
 | `--timeout <ms>` | Per-scanner timeout in milliseconds (default: 10000) |
 
+## Chrome extension
+
+CloudTracer also runs as a Chrome extension: click the toolbar icon to scan the
+domain of the tab you're on and see its cloud stack in a popup dashboard. The
+extension runs entirely client-side (no backend) using DNS-over-HTTPS, RDAP, and
+Certificate Transparency logs.
+
+### Build and load
+
+```bash
+npm install
+npm run build:ext    # type-check and bundle the extension into dist-extension/
+```
+
+Then load it in Chrome:
+
+1. Open `chrome://extensions`
+2. Enable **Developer mode** (top right)
+3. Click **Load unpacked** and select the `dist-extension/` folder
+
+Use `npm run dev:ext` for a watch build while developing.
+
+> Note: the SSL/TLS card is derived from Certificate Transparency logs (crt.sh),
+> which is best-effort and occasionally unavailable. The CLI reads the live
+> certificate directly instead.
+
 ## License
 
 Apache 2.0
