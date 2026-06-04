@@ -12,6 +12,12 @@ import { scanPerformance } from "./scanners/performance.js";
 export interface ScanOptions {
   timeout?: number;
   verbose?: boolean;
+  /**
+   * Called each time a scanner finishes, with the result assembled so far.
+   * Lets a UI render fast categories immediately and fill slower ones (e.g.
+   * the browser's crt.sh SSL lookup) as they arrive.
+   */
+  onResult?: (partial: ScanResult) => void;
 }
 
 /**
@@ -25,7 +31,7 @@ export async function runScan(
   platform: Platform,
   options: ScanOptions = {},
 ): Promise<ScanResult> {
-  const { verbose } = options;
+  const { verbose, onResult } = options;
 
   const log = verbose
     ? (msg: string) => console.error(`[cloudtracer] ${msg}`)
@@ -44,63 +50,64 @@ export async function runScan(
     { name: "performance", fn: () => scanPerformance(domain, platform) },
   ];
 
-  const results = await Promise.allSettled(
-    scanners.map(async ({ name, fn }) => {
-      log(`Running ${name} scanner...`);
-      const start = Date.now();
-      const result = await fn();
-      log(`${name} scanner completed in ${Date.now() - start}ms`);
-      return { name, result };
-    }),
-  );
-
   const result: ScanResult = {
     domain,
     scannedAt: new Date().toISOString(),
   };
 
-  for (const entry of results) {
-    if (entry.status === "rejected") {
-      log(`Scanner failed: ${entry.reason}`);
-      continue;
-    }
+  // Run every scanner in parallel; assemble results as each one settles so a UI
+  // can render progressively. A single scanner failing never aborts the scan.
+  await Promise.all(
+    scanners.map(async ({ name, fn }) => {
+      log(`Running ${name} scanner...`);
+      const start = Date.now();
+      try {
+        const scanResult = await fn();
+        assign(result, name, scanResult);
+        log(`${name} scanner completed in ${Date.now() - start}ms`);
+      } catch (err) {
+        log(`${name} scanner failed: ${err}`);
+        return;
+      }
+      crossReferencePlatform(result);
+      onResult?.({ ...result });
+    }),
+  );
 
-    const { name, result: scanResult } = entry.value;
-
-    switch (name) {
-      case "dns":
-        result.dns = scanResult as ScanResult["dns"];
-        break;
-      case "registration":
-        result.registration = scanResult as ScanResult["registration"];
-        break;
-      case "ssl":
-        result.ssl = scanResult as ScanResult["ssl"];
-        break;
-      case "hosting":
-        result.hosting = scanResult as ScanResult["hosting"];
-        break;
-      case "cdn":
-        result.cdn = scanResult as ScanResult["cdn"];
-        break;
-      case "email":
-        result.email = scanResult as ScanResult["email"];
-        break;
-      case "thirdparty":
-        result.thirdPartyServices = scanResult as ScanResult["thirdPartyServices"];
-        break;
-      case "performance":
-        result.performance = scanResult as ScanResult["performance"];
-        break;
-    }
-  }
-
-  // Cross-reference: if a PaaS platform (Vercel, Netlify, etc.) is detected
-  // via CDN headers, enrich the hosting info to show "platform on infra"
+  // Final cross-reference once every scanner has reported.
   crossReferencePlatform(result);
 
   log("Scan complete");
   return result;
+}
+
+function assign(result: ScanResult, name: string, scanResult: unknown): void {
+  switch (name) {
+    case "dns":
+      result.dns = scanResult as ScanResult["dns"];
+      break;
+    case "registration":
+      result.registration = scanResult as ScanResult["registration"];
+      break;
+    case "ssl":
+      result.ssl = scanResult as ScanResult["ssl"];
+      break;
+    case "hosting":
+      result.hosting = scanResult as ScanResult["hosting"];
+      break;
+    case "cdn":
+      result.cdn = scanResult as ScanResult["cdn"];
+      break;
+    case "email":
+      result.email = scanResult as ScanResult["email"];
+      break;
+    case "thirdparty":
+      result.thirdPartyServices = scanResult as ScanResult["thirdPartyServices"];
+      break;
+    case "performance":
+      result.performance = scanResult as ScanResult["performance"];
+      break;
+  }
 }
 
 const PLATFORM_PROVIDERS = new Set([

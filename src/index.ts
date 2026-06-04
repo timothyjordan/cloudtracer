@@ -19,6 +19,7 @@ export type { Platform, DnsResolver } from "./platform/types.js";
 export { runScan } from "./scanner.js";
 export type { ScanOptions } from "./scanner.js";
 export { nodePlatform } from "./platform/node.js";
+export { browserPlatform } from "./platform/browser.js";
 
 /**
  * Scan a domain using the Node platform (native DNS, live TLS handshake, WHOIS).
