@@ -1,13 +1,16 @@
 import type { RegistrationInfo } from "../types.js";
+import type { Platform } from "../platform/types.js";
 
-export async function scanDomain(domain: string): Promise<RegistrationInfo | undefined> {
-  // Try RDAP first
+export async function scanDomain(
+  domain: string,
+  platform: Platform,
+): Promise<RegistrationInfo | undefined> {
+  // Try RDAP first (works in both Node and the browser over plain HTTPS)
   const rdapResult = await tryRdap(domain);
   if (rdapResult) return rdapResult;
 
-  // Fall back to whoiser
-  const whoisResult = await tryWhois(domain);
-  return whoisResult;
+  // Fall back to WHOIS where the platform supports it (Node only)
+  return platform.whois?.(domain);
 }
 
 async function tryRdap(domain: string): Promise<RegistrationInfo | undefined> {
@@ -45,47 +48,6 @@ async function tryRdap(domain: string): Promise<RegistrationInfo | undefined> {
   }
 }
 
-async function tryWhois(domain: string): Promise<RegistrationInfo | undefined> {
-  try {
-    const { default: whoiser } = await import("whoiser");
-    const result = await whoiser.domain(domain, { timeout: 10000 });
-
-    // whoiser returns results keyed by WHOIS server
-    const firstResult = Object.values(result)[0] as WhoisResult | undefined;
-    if (!firstResult) return undefined;
-
-    const registrar = firstResult["Registrar"] ?? firstResult["registrar"];
-    if (!registrar) return undefined;
-
-    return {
-      registrar: Array.isArray(registrar) ? registrar[0] : registrar,
-      registeredDate: normalizeDate(
-        firstResult["Creation Date"] ??
-        firstResult["Created Date"] ??
-        firstResult["created"],
-      ),
-      expirationDate: normalizeDate(
-        firstResult["Registry Expiry Date"] ??
-        firstResult["Expiration Date"] ??
-        firstResult["expires"],
-      ),
-      source: "whois",
-    };
-  } catch {
-    return undefined;
-  }
-}
-
-function normalizeDate(value: unknown): string | undefined {
-  if (!value) return undefined;
-  const str = Array.isArray(value) ? value[0] : String(value);
-  try {
-    return new Date(str).toISOString();
-  } catch {
-    return str;
-  }
-}
-
 interface RdapResponse {
   entities?: Array<{
     roles?: string[];
@@ -95,8 +57,4 @@ interface RdapResponse {
     eventAction: string;
     eventDate: string;
   }>;
-}
-
-interface WhoisResult {
-  [key: string]: unknown;
 }

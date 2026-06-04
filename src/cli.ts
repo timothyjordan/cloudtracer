@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { scan } from "./scanner.js";
+import { scan } from "./index.js";
 import { formatTree } from "./output/tree.js";
 import { formatJson } from "./output/json.js";
 import { formatYaml } from "./output/yaml.js";

@@ -1,12 +1,12 @@
 import type { CdnInfo } from "../types.js";
-import { resolveCname } from "../utils/dns.js";
+import type { Platform } from "../platform/types.js";
 import { fetchHeaders } from "../utils/http.js";
 import { matchCdnByHeaders, matchCdnByCname } from "../providers/match.js";
 
-export async function scanCdn(domain: string): Promise<CdnInfo> {
+export async function scanCdn(domain: string, platform: Platform): Promise<CdnInfo> {
   const [headers, cnames] = await Promise.all([
     fetchHeaders(domain),
-    resolveCname(domain),
+    platform.dns.resolveCname(domain),
   ]);
 
   const headerMatches = matchCdnByHeaders(headers);

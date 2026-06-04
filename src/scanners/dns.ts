@@ -1,9 +1,9 @@
 import type { DnsInfo } from "../types.js";
-import { resolveNs } from "../utils/dns.js";
+import type { Platform } from "../platform/types.js";
 import { matchDnsProvider } from "../providers/match.js";
 
-export async function scanDns(domain: string): Promise<DnsInfo> {
-  const nameservers = await resolveNs(domain);
+export async function scanDns(domain: string, platform: Platform): Promise<DnsInfo> {
+  const nameservers = await platform.dns.resolveNs(domain);
   const provider = matchDnsProvider(nameservers);
 
   return {

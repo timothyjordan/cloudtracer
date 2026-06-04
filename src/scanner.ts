@@ -1,4 +1,5 @@
 import type { ScanResult } from "./types.js";
+import type { Platform } from "./platform/types.js";
 import { scanDns } from "./scanners/dns.js";
 import { scanDomain } from "./scanners/domain.js";
 import { scanSsl } from "./scanners/ssl.js";
@@ -13,8 +14,15 @@ export interface ScanOptions {
   verbose?: boolean;
 }
 
-export async function scan(
+/**
+ * Platform-agnostic scan orchestrator. Runs every scanner in parallel against
+ * the supplied platform (Node or browser) and cross-references the results.
+ * The Node entry point wraps this as `scan(domain, options)` with nodePlatform;
+ * the Chrome extension calls it directly with browserPlatform.
+ */
+export async function runScan(
   domain: string,
+  platform: Platform,
   options: ScanOptions = {},
 ): Promise<ScanResult> {
   const { verbose } = options;
@@ -26,14 +34,14 @@ export async function scan(
   log(`Starting scan of ${domain}`);
 
   const scanners = [
-    { name: "dns", fn: () => scanDns(domain) },
-    { name: "registration", fn: () => scanDomain(domain) },
-    { name: "ssl", fn: () => scanSsl(domain) },
-    { name: "hosting", fn: () => scanHosting(domain) },
-    { name: "cdn", fn: () => scanCdn(domain) },
-    { name: "email", fn: () => scanEmail(domain) },
+    { name: "dns", fn: () => scanDns(domain, platform) },
+    { name: "registration", fn: () => scanDomain(domain, platform) },
+    { name: "ssl", fn: () => scanSsl(domain, platform) },
+    { name: "hosting", fn: () => scanHosting(domain, platform) },
+    { name: "cdn", fn: () => scanCdn(domain, platform) },
+    { name: "email", fn: () => scanEmail(domain, platform) },
     { name: "thirdparty", fn: () => scanThirdParty(domain) },
-    { name: "performance", fn: () => scanPerformance(domain) },
+    { name: "performance", fn: () => scanPerformance(domain, platform) },
   ];
 
   const results = await Promise.allSettled(
