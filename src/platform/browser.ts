@@ -149,33 +149,53 @@ async function getCertificate(domain: string): Promise<SslInfo | undefined> {
   }
 }
 
+const CRTSH_TIMEOUT_MS = 12000;
+
 /**
- * Fetch certificate entries from crt.sh. The service is fast but intermittently
- * returns 502s or times out, so we try a couple of query variants before giving
- * up. `exclude=expired` returns a small current-cert payload; the plain query is
- * the fallback. Returns null if every attempt fails.
+ * Fetch certificate entries from crt.sh. The service is intermittently slow and
+ * returns 502s, so we issue two query variants concurrently and resolve on the
+ * first that returns certificates rather than waiting on them in series.
+ * `exclude=expired` returns a small current-cert payload; the plain query is the
+ * fallback. Returns null if every attempt fails.
  */
-async function fetchCrtSh(domain: string): Promise<CrtShEntry[] | null> {
+function fetchCrtSh(domain: string): Promise<CrtShEntry[] | null> {
   const q = encodeURIComponent(domain);
-  const urls = [
+  const variants = [
     `https://crt.sh/?q=${q}&output=json&exclude=expired`,
     `https://crt.sh/?q=${q}&output=json`,
-  ];
+  ].map(fetchCrtShVariant);
 
-  for (const url of urls) {
-    try {
-      const res = await fetch(url, {
-        headers: { accept: "application/json" },
-        signal: AbortSignal.timeout(12000),
-      });
-      if (!res.ok) continue;
-      const data = (await res.json()) as unknown;
-      if (Array.isArray(data)) return data as CrtShEntry[];
-    } catch {
-      // transient failure (502 / timeout) — fall through to the next variant
+  // Resolve as soon as any variant returns a non-empty array; otherwise settle
+  // with an empty array (no certs) or null (every attempt failed).
+  return new Promise((resolve) => {
+    let remaining = variants.length;
+    let fallback: CrtShEntry[] | null = null;
+    for (const variant of variants) {
+      variant
+        .then((value) => {
+          if (value && value.length) resolve(value);
+          else if (value) fallback = value;
+        })
+        .finally(() => {
+          if (--remaining === 0) resolve(fallback);
+        });
     }
+  });
+}
+
+async function fetchCrtShVariant(url: string): Promise<CrtShEntry[] | null> {
+  try {
+    const res = await fetch(url, {
+      headers: { accept: "application/json" },
+      signal: AbortSignal.timeout(CRTSH_TIMEOUT_MS),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as unknown;
+    return Array.isArray(data) ? (data as CrtShEntry[]) : null;
+  } catch {
+    // transient failure (502 / timeout)
+    return null;
   }
-  return null;
 }
 
 /** Does a crt.sh entry cover this exact host (by common name or a SAN line)? */

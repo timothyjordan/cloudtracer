@@ -140,6 +140,28 @@ describe("browserPlatform.getCertificate (crt.sh)", () => {
     expect(ssl!.issuer).toBe("Some Internal CA");
   });
 
+  it("resolves from the second variant when the first one fails", async () => {
+    // Both query variants are issued concurrently; the first (exclude=expired)
+    // fails here, so the result must still come from the fallback variant.
+    mockFetch
+      .mockRejectedValueOnce(new Error("502 bad gateway"))
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => [
+          {
+            issuer_name: "C=US, O=Let's Encrypt, CN=R3",
+            common_name: "example.com",
+            name_value: "example.com",
+            not_before: "2025-01-01T00:00:00",
+            not_after: "2035-01-01T00:00:00",
+          },
+        ],
+      });
+
+    const ssl = await browserPlatform.getCertificate("example.com");
+    expect(ssl!.issuer).toBe("Let's Encrypt");
+  });
+
   it("returns undefined for an empty crt.sh result", async () => {
     mockFetch.mockResolvedValueOnce({ ok: true, json: async () => [] });
     expect(await browserPlatform.getCertificate("example.com")).toBeUndefined();
