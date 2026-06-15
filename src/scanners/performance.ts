@@ -1,13 +1,13 @@
-import { promises as dns } from "node:dns";
-import * as tls from "node:tls";
 import type { PerformanceInfo } from "../types.js";
+import type { Platform } from "../platform/types.js";
 
 export async function scanPerformance(
   domain: string,
+  platform: Platform,
 ): Promise<PerformanceInfo> {
   const [dnsResolutionMs, tlsHandshakeMs, httpTimings] = await Promise.all([
-    measureDns(domain),
-    measureTls(domain),
+    measureDns(domain, platform),
+    platform.measureTlsMs ? platform.measureTlsMs(domain) : Promise.resolve(-1),
     measureHttp(domain),
   ]);
 
@@ -20,43 +20,11 @@ export async function scanPerformance(
   };
 }
 
-async function measureDns(domain: string): Promise<number> {
+async function measureDns(domain: string, platform: Platform): Promise<number> {
   const start = performance.now();
-  try {
-    await dns.resolve4(domain);
-  } catch {
-    // Domain may not have A records, that's fine
-  }
+  // Domain may not have A records, that's fine — resolveA returns [] on failure.
+  await platform.dns.resolveA(domain);
   return Math.round(performance.now() - start);
-}
-
-function measureTls(domain: string): Promise<number> {
-  return new Promise((resolve) => {
-    const start = performance.now();
-
-    const socket = tls.connect(
-      {
-        host: domain,
-        port: 443,
-        servername: domain,
-        rejectUnauthorized: false,
-      },
-      () => {
-        const elapsed = Math.round(performance.now() - start);
-        socket.destroy();
-        resolve(elapsed);
-      },
-    );
-
-    socket.setTimeout(5000, () => {
-      socket.destroy();
-      resolve(-1);
-    });
-
-    socket.on("error", () => {
-      resolve(-1);
-    });
-  });
 }
 
 async function measureHttp(

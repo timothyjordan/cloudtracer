@@ -49,7 +49,7 @@ vi.mock("../src/scanners/performance.js", () => ({
   }),
 }));
 
-import { scan } from "../src/scanner.js";
+import { scan } from "../src/index.js";
 
 describe("Firebase Hosting detection", () => {
   it("should detect Firebase Hosting on Fastly by IP + SSL issuer", async () => {

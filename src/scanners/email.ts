@@ -1,11 +1,11 @@
 import type { EmailInfo } from "../types.js";
-import { resolveMx, resolveTxt } from "../utils/dns.js";
+import type { Platform } from "../platform/types.js";
 import { matchEmailProvider } from "../providers/match.js";
 
-export async function scanEmail(domain: string): Promise<EmailInfo> {
+export async function scanEmail(domain: string, platform: Platform): Promise<EmailInfo> {
   const [mxRecords, txtRecords] = await Promise.all([
-    resolveMx(domain),
-    resolveTxt(domain),
+    platform.dns.resolveMx(domain),
+    platform.dns.resolveTxt(domain),
   ]);
 
   const sorted = mxRecords.sort((a, b) => a.priority - b.priority);
@@ -13,7 +13,7 @@ export async function scanEmail(domain: string): Promise<EmailInfo> {
   const provider = matchEmailProvider(exchanges);
 
   const spf = txtRecords.find((r) => r.startsWith("v=spf1"));
-  const dmarc = await getDmarc(domain);
+  const dmarc = await getDmarc(domain, platform);
 
   return {
     mxRecords: sorted,
@@ -23,7 +23,7 @@ export async function scanEmail(domain: string): Promise<EmailInfo> {
   };
 }
 
-async function getDmarc(domain: string): Promise<string | undefined> {
-  const records = await resolveTxt(`_dmarc.${domain}`);
+async function getDmarc(domain: string, platform: Platform): Promise<string | undefined> {
+  const records = await platform.dns.resolveTxt(`_dmarc.${domain}`);
   return records.find((r) => r.startsWith("v=DMARC1"));
 }

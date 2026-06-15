@@ -41,7 +41,7 @@ vi.mock("../src/scanners/performance.js", () => ({
   }),
 }));
 
-import { scan } from "../src/scanner.js";
+import { scan } from "../src/index.js";
 
 describe("scan orchestrator", () => {
   it("should cross-reference platform from CDN to hosting", async () => {

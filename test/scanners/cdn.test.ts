@@ -1,15 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
 import { scanCdn } from "../../src/scanners/cdn.js";
-
-vi.mock("../../src/utils/dns.js", () => ({
-  resolveCname: vi.fn(),
-}));
+import { mockPlatform } from "../helpers/platform.js";
 
 vi.mock("../../src/utils/http.js", () => ({
   fetchHeaders: vi.fn(),
 }));
 
-import { resolveCname } from "../../src/utils/dns.js";
 import { fetchHeaders } from "../../src/utils/http.js";
 
 describe("scanCdn", () => {
@@ -18,9 +14,11 @@ describe("scanCdn", () => {
       "cf-ray": "abc123",
       "server": "cloudflare",
     });
-    vi.mocked(resolveCname).mockResolvedValue([]);
+    const platform = mockPlatform({
+      dns: { resolveCname: vi.fn().mockResolvedValue([]) },
+    });
 
-    const result = await scanCdn("example.com");
+    const result = await scanCdn("example.com", platform);
 
     expect(result.providers).toHaveLength(1);
     expect(result.providers[0].provider.name).toBe("Cloudflare");
@@ -29,9 +27,11 @@ describe("scanCdn", () => {
 
   it("should detect CDN by CNAME", async () => {
     vi.mocked(fetchHeaders).mockResolvedValue({});
-    vi.mocked(resolveCname).mockResolvedValue(["d1234.cloudfront.net"]);
+    const platform = mockPlatform({
+      dns: { resolveCname: vi.fn().mockResolvedValue(["d1234.cloudfront.net"]) },
+    });
 
-    const result = await scanCdn("example.com");
+    const result = await scanCdn("example.com", platform);
 
     expect(result.providers).toHaveLength(1);
     expect(result.providers[0].provider.name).toBe("Amazon CloudFront");
@@ -41,9 +41,11 @@ describe("scanCdn", () => {
     vi.mocked(fetchHeaders).mockResolvedValue({
       "x-amz-cf-id": "abc",
     });
-    vi.mocked(resolveCname).mockResolvedValue(["d1234.cloudfront.net"]);
+    const platform = mockPlatform({
+      dns: { resolveCname: vi.fn().mockResolvedValue(["d1234.cloudfront.net"]) },
+    });
 
-    const result = await scanCdn("example.com");
+    const result = await scanCdn("example.com", platform);
 
     expect(result.providers).toHaveLength(1);
     expect(result.providers[0].provider.name).toBe("Amazon CloudFront");
@@ -52,9 +54,11 @@ describe("scanCdn", () => {
 
   it("should return empty providers when no CDN detected", async () => {
     vi.mocked(fetchHeaders).mockResolvedValue({ "content-type": "text/html" });
-    vi.mocked(resolveCname).mockResolvedValue([]);
+    const platform = mockPlatform({
+      dns: { resolveCname: vi.fn().mockResolvedValue([]) },
+    });
 
-    const result = await scanCdn("example.com");
+    const result = await scanCdn("example.com", platform);
 
     expect(result.providers).toHaveLength(0);
   });

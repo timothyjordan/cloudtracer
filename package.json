@@ -20,7 +20,9 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "lint": "eslint src/",
+    "build:ext": "tsc --noEmit -p extension/tsconfig.json && node extension/build.mjs",
+    "dev:ext": "node extension/build.mjs --watch",
+    "lint": "eslint src/ extension/src/",
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build"
@@ -48,7 +50,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@types/chrome": "^0.1.42",
     "@types/node": "^25.5.0",
+    "esbuild": "^0.28.0",
     "eslint": "^9.39.4",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",

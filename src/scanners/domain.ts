@@ -1,89 +1,64 @@
 import type { RegistrationInfo } from "../types.js";
+import type { Platform } from "../platform/types.js";
 
-export async function scanDomain(domain: string): Promise<RegistrationInfo | undefined> {
-  // Try RDAP first
+export async function scanDomain(
+  domain: string,
+  platform: Platform,
+): Promise<RegistrationInfo | undefined> {
+  // Try RDAP first (works in both Node and the browser over plain HTTPS)
   const rdapResult = await tryRdap(domain);
   if (rdapResult) return rdapResult;
 
-  // Fall back to whoiser
-  const whoisResult = await tryWhois(domain);
-  return whoisResult;
+  // Fall back to WHOIS where the platform supports it (Node only)
+  return platform.whois?.(domain);
 }
+
+const RDAP_TIMEOUT_MS = 8000;
 
 async function tryRdap(domain: string): Promise<RegistrationInfo | undefined> {
-  try {
-    const response = await fetch(`https://rdap.org/domain/${domain}`, {
-      signal: AbortSignal.timeout(10000),
-    });
+  // rdap.org redirects to the authoritative server, which occasionally times out
+  // or rate-limits. A single transient failure shouldn't silently drop the
+  // registrar, so retry once before giving up. A 4xx (other than 429) is an
+  // authoritative "no record" and is not retried.
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const response = await fetch(`https://rdap.org/domain/${domain}`, {
+        headers: { accept: "application/rdap+json" },
+        signal: AbortSignal.timeout(RDAP_TIMEOUT_MS),
+      });
 
-    if (!response.ok) return undefined;
-
-    const data = await response.json() as RdapResponse;
-
-    const registrar = data.entities
-      ?.find((e) => e.roles?.includes("registrar"))
-      ?.vcardArray?.[1]
-      ?.find((v) => v[0] === "fn")?.[3] as string | undefined;
-
-    const registrationEvent = data.events?.find(
-      (e) => e.eventAction === "registration",
-    );
-    const expirationEvent = data.events?.find(
-      (e) => e.eventAction === "expiration",
-    );
-
-    if (!registrar) return undefined;
-
-    return {
-      registrar,
-      registeredDate: registrationEvent?.eventDate,
-      expirationDate: expirationEvent?.eventDate,
-      source: "rdap",
-    };
-  } catch {
-    return undefined;
+      if (response.ok) {
+        return parseRdap(await response.json() as RdapResponse);
+      }
+      if (response.status !== 429 && response.status < 500) return undefined;
+    } catch {
+      // network error / timeout — fall through and retry
+    }
   }
+  return undefined;
 }
 
-async function tryWhois(domain: string): Promise<RegistrationInfo | undefined> {
-  try {
-    const { default: whoiser } = await import("whoiser");
-    const result = await whoiser.domain(domain, { timeout: 10000 });
+function parseRdap(data: RdapResponse): RegistrationInfo | undefined {
+  const registrar = data.entities
+    ?.find((e) => e.roles?.includes("registrar"))
+    ?.vcardArray?.[1]
+    ?.find((v) => v[0] === "fn")?.[3] as string | undefined;
 
-    // whoiser returns results keyed by WHOIS server
-    const firstResult = Object.values(result)[0] as WhoisResult | undefined;
-    if (!firstResult) return undefined;
+  if (!registrar) return undefined;
 
-    const registrar = firstResult["Registrar"] ?? firstResult["registrar"];
-    if (!registrar) return undefined;
+  const registrationEvent = data.events?.find(
+    (e) => e.eventAction === "registration",
+  );
+  const expirationEvent = data.events?.find(
+    (e) => e.eventAction === "expiration",
+  );
 
-    return {
-      registrar: Array.isArray(registrar) ? registrar[0] : registrar,
-      registeredDate: normalizeDate(
-        firstResult["Creation Date"] ??
-        firstResult["Created Date"] ??
-        firstResult["created"],
-      ),
-      expirationDate: normalizeDate(
-        firstResult["Registry Expiry Date"] ??
-        firstResult["Expiration Date"] ??
-        firstResult["expires"],
-      ),
-      source: "whois",
-    };
-  } catch {
-    return undefined;
-  }
-}
-
-function normalizeDate(value: unknown): string | undefined {
-  if (!value) return undefined;
-  const str = Array.isArray(value) ? value[0] : String(value);
-  try {
-    return new Date(str).toISOString();
-  } catch {
-    return str;
-  }
+  return {
+    registrar,
+    registeredDate: registrationEvent?.eventDate,
+    expirationDate: expirationEvent?.eventDate,
+    source: "rdap",
+  };
 }
 
 interface RdapResponse {
@@ -95,8 +70,4 @@ interface RdapResponse {
     eventAction: string;
     eventDate: string;
   }>;
-}
-
-interface WhoisResult {
-  [key: string]: unknown;
 }

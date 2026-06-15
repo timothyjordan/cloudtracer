@@ -1,0 +1,351 @@
+:root {
+  /* Ink-on-cream identity, mirrored from cloudtracer.dev */
+  --bg: oklch(97.5% 0.005 85);
+  --bg-raised: oklch(94% 0.008 85);
+  --border: oklch(88% 0.008 85);
+  --border-strong: oklch(78% 0.012 85);
+
+  --fg: oklch(22% 0.012 250);
+  --fg-muted: oklch(46% 0.012 250);
+  /* fg-dim carries card titles, row labels and "not detected" states, so it
+     must clear WCAG AA (4.5:1) on --bg: 54% measures 4.51:1. */
+  --fg-dim: oklch(54% 0.01 250);
+
+  --cyan: oklch(48% 0.2 220);
+  --green: oklch(52% 0.16 150);
+  /* 54% clears 4.5:1 on --bg for the warn state. */
+  --amber: oklch(54% 0.13 75);
+  --red: oklch(55% 0.21 28);
+
+  --font-sans: -apple-system, "Segoe UI", system-ui, ui-sans-serif, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Monaco, Consolas,
+    monospace;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  width: 380px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  /* Single scroll container: the body is a fixed-height column (popups cap at
+     ~600px) with the header and footer pinned, so only .content scrolls. */
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  overflow: hidden;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-raised);
+  flex: 0 0 auto;
+}
+
+.brand {
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+
+.brand-accent {
+  color: var(--cyan);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.domain {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 170px;
+  text-align: right;
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.icon-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.icon-btn:hover {
+  background: var(--bg);
+  border-color: var(--border-strong);
+  color: var(--fg);
+}
+
+.icon-btn:active {
+  background: var(--bg-raised);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 1px;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  background: transparent;
+  border-color: transparent;
+  color: var(--fg-muted);
+}
+
+.icon-btn.copied {
+  color: var(--green);
+  border-color: var(--border-strong);
+}
+
+.content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-dim);
+}
+
+.card-status {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--fg-dim);
+}
+
+.primary {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.primary.none {
+  color: var(--fg-dim);
+  font-weight: 500;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.row .k {
+  flex: 0 0 64px;
+  color: var(--fg-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-top: 1px;
+}
+
+.row .v {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  word-break: break-word;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-raised);
+  color: var(--fg-muted);
+}
+
+.ok {
+  color: var(--green);
+}
+.warn {
+  color: var(--amber);
+}
+.bad {
+  color: var(--red);
+}
+
+.skeleton {
+  height: 14px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--bg-raised) 25%,
+    var(--border) 37%,
+    var(--bg-raised) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+}
+
+.skeleton.short {
+  width: 55%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--bg-raised);
+  }
+  .icon-btn {
+    transition: none;
+  }
+  .cta-arrow {
+    transition: none;
+  }
+  .cta:hover .cta-arrow {
+    transform: none;
+  }
+}
+
+.empty {
+  padding: 40px 22px;
+  text-align: center;
+  color: var(--fg-muted);
+}
+
+.empty .empty-title {
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 6px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-raised);
+  text-align: center;
+  flex: 0 0 auto;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--cyan);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.cta:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.cta-arrow {
+  width: 13px;
+  height: 13px;
+  transition: transform 160ms ease;
+}
+
+.cta:hover .cta-arrow {
+  transform: translateX(2px);
+}
+
+.footer-note {
+  font-size: 10.5px;
+  color: var(--fg-dim);
+}
