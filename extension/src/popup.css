@@ -43,6 +43,12 @@ body {
   font-size: 13px;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
+  /* Single scroll container: the body is a fixed-height column (popups cap at
+     ~600px) with the header and footer pinned, so only .content scrolls. */
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  overflow: hidden;
 }
 
 .topbar {
@@ -53,9 +59,7 @@ body {
   padding: 10px 12px 10px 14px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-raised);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  flex: 0 0 auto;
 }
 
 .brand {
@@ -149,7 +153,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 520px;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
 }
 
@@ -297,4 +302,5 @@ body {
   font-size: 10.5px;
   color: var(--fg-dim);
   text-align: center;
+  flex: 0 0 auto;
 }
