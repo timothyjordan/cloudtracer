@@ -6,6 +6,11 @@ import {
 
 const content = document.getElementById("content") as HTMLElement;
 const domainEl = document.getElementById("domain") as HTMLElement;
+const copyBtn = document.getElementById("copy") as HTMLButtonElement;
+const rescanBtn = document.getElementById("rescan") as HTMLButtonElement;
+
+let latest: ScanResult = { domain: "", scannedAt: "" };
+let scanning = false;
 
 void main();
 
@@ -19,8 +24,17 @@ async function main(): Promise<void> {
   }
 
   domainEl.textContent = domain;
+  copyBtn.addEventListener("click", copyResult);
+  rescanBtn.addEventListener("click", () => void scan(domain));
+  await scan(domain);
+}
 
-  let latest: ScanResult = { domain, scannedAt: "" };
+async function scan(domain: string): Promise<void> {
+  if (scanning) return;
+  scanning = true;
+  setControls();
+
+  latest = { domain, scannedAt: "" };
   render(latest, false);
 
   try {
@@ -34,6 +48,34 @@ async function main(): Promise<void> {
     // fall through and render whatever was gathered
   }
   render(latest, true);
+  scanning = false;
+  setControls();
+}
+
+// ---- topbar controls ---------------------------------------------------------
+
+function setControls(): void {
+  rescanBtn.disabled = scanning;
+  copyBtn.disabled = scanning || !latest.scannedAt;
+}
+
+let copiedTimer: ReturnType<typeof setTimeout> | undefined;
+
+async function copyResult(): Promise<void> {
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(latest, null, 2));
+    copyBtn.classList.add("copied");
+    copyBtn.setAttribute("aria-label", "Copied");
+    copyBtn.title = "Copied";
+    clearTimeout(copiedTimer);
+    copiedTimer = setTimeout(() => {
+      copyBtn.classList.remove("copied");
+      copyBtn.setAttribute("aria-label", "Copy result as JSON");
+      copyBtn.title = "Copy result as JSON";
+    }, 1200);
+  } catch {
+    // clipboard blocked — leave the button state unchanged
+  }
 }
 
 // ---- tab / domain ------------------------------------------------------------

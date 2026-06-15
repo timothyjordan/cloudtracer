@@ -7,11 +7,14 @@
 
   --fg: oklch(22% 0.012 250);
   --fg-muted: oklch(46% 0.012 250);
-  --fg-dim: oklch(62% 0.01 250);
+  /* fg-dim carries card titles, row labels and "not detected" states, so it
+     must clear WCAG AA (4.5:1) on --bg: 54% measures 4.51:1. */
+  --fg-dim: oklch(54% 0.01 250);
 
   --cyan: oklch(48% 0.2 220);
   --green: oklch(52% 0.16 150);
-  --amber: oklch(58% 0.13 75);
+  /* 54% clears 4.5:1 on --bg for the warn state. */
+  --amber: oklch(54% 0.13 75);
   --red: oklch(55% 0.21 28);
 
   --font-sans: -apple-system, "Segoe UI", system-ui, ui-sans-serif, "Helvetica Neue",
@@ -44,25 +47,33 @@ body {
 
 .topbar {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 12px 14px;
+  padding: 10px 12px 10px 14px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-raised);
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 }
 
 .brand {
   font-weight: 650;
   letter-spacing: -0.01em;
   font-size: 14px;
+  flex: 0 0 auto;
 }
 
 .brand-accent {
   color: var(--cyan);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .domain {
@@ -72,8 +83,65 @@ body {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 220px;
+  max-width: 170px;
   text-align: right;
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.icon-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.icon-btn:hover {
+  background: var(--bg);
+  border-color: var(--border-strong);
+  color: var(--fg);
+}
+
+.icon-btn:active {
+  background: var(--bg-raised);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 1px;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  background: transparent;
+  border-color: transparent;
+  color: var(--fg-muted);
+}
+
+.icon-btn.copied {
+  color: var(--green);
+  border-color: var(--border-strong);
 }
 
 .content {
@@ -197,6 +265,16 @@ body {
   }
   100% {
     background-position: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--bg-raised);
+  }
+  .icon-btn {
+    transition: none;
   }
 }
 
