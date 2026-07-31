@@ -41,6 +41,20 @@ cloudtracer example.com
 
 The default output is a colorized tree printed to stdout. Use `--json`, `--yaml`, or `--markdown` for machine-readable output (see the table below). Pipe results into any tool that consumes JSON or markdown.
 
+## Agent skill
+
+CloudTracer ships an [agentskills.io](https://agentskills.io/specification) skill so coding agents
+can drive it. Install it with the CLI:
+
+```sh
+npx cloudtracer skill            # install (idempotent; auto-detects your agents)
+cloudtracer skill update         # update
+cloudtracer skill uninstall      # remove
+```
+
+- Skill definition: [`/.well-known/agent-skills/cloudtracer/SKILL.md`](/.well-known/agent-skills/cloudtracer/SKILL.md)
+- Discovery index: [`/.well-known/agent-skills/index.json`](/.well-known/agent-skills/index.json)
+
 ## Configuration
 
 CloudTracer is configured via command-line flags only — it does not read a config file or environment variables. Configurable behavior:

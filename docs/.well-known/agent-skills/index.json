@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "updated": "2026-06-16",
+  "skills": [
+    {
+      "name": "cloudtracer",
+      "description": "Use when the user wants to know what cloud providers, infrastructure, and third-party services a website depends on — audit your own stack, vet a vendor, or map a competitor's infrastructure. Runs the read-only CloudTracer CLI against a domain and reports registrar, DNS, CDN/WAF, hosting/ASN, SSL/TLS, performance timings, email posture, and embedded third-party services as one tree. Read-only: it scans and reports, it never changes the target site or your project.",
+      "url": "/.well-known/agent-skills/cloudtracer/SKILL.md",
+      "license": "Apache-2.0",
+      "compatibility": "Requires Node.js 18+ for `npx`, network access to reach the target domain, and shell access. Works with any coding agent that supports the agentskills.io spec (Claude Code, Codex, Cursor, OpenCode, etc.).",
+      "metadata": {
+        "version": "0.1.0",
+        "homepage": "https://cloudtracer.dev",
+        "source": "https://github.com/timothyjordan/cloudtracer",
+        "spec": "https://agentskills.io/specification"
+      }
+    }
+  ]
+}

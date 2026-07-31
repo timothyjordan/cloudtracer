@@ -30,15 +30,34 @@ describe("CLI", () => {
     }
   });
 
-  it("should show help with --help", async () => {
+  it("should show help with --help, listing the scan and skill commands", async () => {
     const { stdout } = await run("--help");
     expect(stdout).toContain("cloudtracer");
     expect(stdout).toContain("Scan a website");
+    expect(stdout).toContain("scan");
+    expect(stdout).toContain("skill");
+  });
+
+  it("should show the scan options under `scan --help`", async () => {
+    const { stdout } = await run("scan", "--help");
     expect(stdout).toContain("--json");
     expect(stdout).toContain("--yaml");
     expect(stdout).toContain("--markdown");
     expect(stdout).toContain("--verbose");
     expect(stdout).toContain("--timeout");
+  });
+
+  it("should show the skill installer under `skill --help`", async () => {
+    const { stdout } = await run("skill", "--help");
+    expect(stdout).toContain("Install, update, or uninstall");
+    expect(stdout).toContain("install");
+    expect(stdout).toContain("--check");
+    expect(stdout).toContain("--target");
+  });
+
+  it("routes a bare domain to the scan command (rejects an invalid domain)", async () => {
+    const err = await runExpectFail("bad domain");
+    expect(err.stderr || err.stdout).toContain("Invalid domain");
   });
 
   it("should show version with --version", async () => {
