@@ -32,6 +32,33 @@ cloudtracer example.com
 | `--verbose` | Show debug information |
 | `--timeout <ms>` | Per-scanner timeout in milliseconds (default: 10000) |
 
+## Agent skill
+
+CloudTracer ships an [agent skill](https://agentskills.io/specification) so AI coding agents
+(Claude Code, Codex, Cursor, OpenCode, and others) know how to run it. Install it into the agents
+you use with the CLI:
+
+```bash
+npx cloudtracer skill            # install (auto-detects your configured agents)
+cloudtracer skill update         # pull the latest version
+cloudtracer skill uninstall      # remove it
+```
+
+The command is idempotent — it auto-detects your coding agents, shows a checklist, and only writes
+what changed. Useful flags:
+
+| Flag | Description |
+|------|-------------|
+| `--project` | Guided install into the current repo so collaborators share the skill |
+| `--check` | Report what would change without writing (exits 1 on drift) |
+| `--agent <name>` | Restrict to one agent (repeatable) |
+| `--target <dir>` | Write to `<dir>/cloudtracer/SKILL.md`, bypassing auto-detection |
+| `-y, --yes` | Skip the checklist and act on all detected agents |
+
+The skill definition lives at [`skills/cloudtracer/SKILL.md`](skills/cloudtracer/SKILL.md) and is
+also discoverable from the live site at
+`https://cloudtracer.dev/.well-known/agent-skills/cloudtracer/SKILL.md`.
+
 ## Chrome extension
 
 CloudTracer also runs as a Chrome extension: click the toolbar icon to scan the
