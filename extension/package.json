@@ -1,0 +1,7 @@
+{
+  "name": "@cloudtracer/extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CloudTracer Chrome extension. Not published to npm; released as a .zip attached to the extension-v<version> GitHub Release."
+}

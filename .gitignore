@@ -10,3 +10,6 @@ coverage/
 # ghostrail factory: local run store and agent result files
 .factory/
 .ghostrail/
+
+# Chrome Web Store upload artifact, built by npm run package:ext
+cloudtracer-extension-*.zip

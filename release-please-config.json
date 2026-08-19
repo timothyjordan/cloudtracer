@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "include-component-in-tag": true,
+  "include-v-in-tag": true,
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "pull-request-header": "**Merge this PR when you're ready to ship.** Each section below shows the new version and changelog computed from Conventional Commits since the last release. Merging publishes `cloudtracer` to npm for a CLI bump, and attaches a fresh `.zip` to the `extension-v<version>` GitHub Release for an extension bump. Full flow in [RELEASING.md](https://github.com/timothyjordan/cloudtracer/blob/main/RELEASING.md). This PR refreshes on every push to `main`, so it always reflects what would ship right now.",
+  "pull-request-footer": "_Need to republish after an infra failure? Use the `Release` workflow's manual `workflow_dispatch` with the package path (`.` or `extension`). Don't use that for routine releases._",
+  "packages": {
+    ".": {
+      "package-name": "cloudtracer",
+      "component": "cloudtracer",
+      "exclude-paths": ["extension"],
+      "draft": true
+    },
+    "extension": {
+      "package-name": "@cloudtracer/extension",
+      "component": "extension",
+      "extra-files": [
+        { "type": "json", "path": "manifest.json", "jsonpath": "$.version" }
+      ]
+    }
+  }
+}
