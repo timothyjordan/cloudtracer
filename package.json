@@ -23,6 +23,7 @@
     "build:ext": "tsc --noEmit -p extension/tsconfig.json && node extension/build.mjs",
     "dev:ext": "node extension/build.mjs --watch",
     "lint": "eslint src/ extension/src/",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build"

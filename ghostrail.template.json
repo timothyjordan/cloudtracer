@@ -1,0 +1,10 @@
+{
+  "template": "code-local",
+  "version": "0.6.0",
+  "files": {
+    "ghostrail.toml": "cdf8c14cb1d759821b06adeb3a1105c4202015269158536b49558c34b1432f7c",
+    "prompts/resolve-issue.md": "6c9bb7be0476e3c13a10cd44e7d95fcca15045d405b5f0718f04c8409b8304c8",
+    "prompts/respond.md": "55d2700038ac6d48481e251e3fc6f904b511d2dc4ceccadae541ae3c5d6c696f",
+    "prompts/triage.md": "f64e4e13180a66496ef17d45acd58cbb2cb74c52574623336431633c3930dc01"
+  }
+}

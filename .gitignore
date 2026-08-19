@@ -6,3 +6,7 @@ coverage/
 .env
 .env.local
 .DS_Store
+
+# ghostrail factory: local run store and agent result files
+.factory/
+.ghostrail/
