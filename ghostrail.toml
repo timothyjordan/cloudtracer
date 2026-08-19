@@ -1,0 +1,46 @@
+# code-local: a code factory on your own hardware, zero infrastructure.
+# Point it at a repo and a tracker queue; it resolves issues and opens PRs you merge.
+
+[factory]
+name = "code-local"
+base_branch = "main"
+
+[source]
+kind = "linear"                # linear | github-issues (Phase 2)
+team = "TJ"                    # your Linear team key
+project = "CloudTracer"        # exact Linear project name (case-sensitive eq)
+eligible = { state = "Todo", label = "factory", assignee = "unassigned" }
+
+[agent]
+kind = "claude-code"
+prompt = "prompts/resolve-issue.md"
+# default allowed_tools = ["Read", "Edit", "Write", "Bash", "Grep", "Glob"]
+
+[backend]
+kind = "local-worktree"        # zero infrastructure; git worktree in place
+
+[gate]                         # the oracle: this repo has no CI yet, so this is the check
+commands = [
+  "npm ci",
+  "npm run lint",
+  "npm run typecheck",
+  "npm run build",
+  "npm run build:ext",   # type-checks extension/ then bundles it
+  "npm run test:unit",   # must follow build: pack.test.ts reads dist/
+]
+
+[guardrails]
+max_items_per_run = 3
+budget_usd_per_item = 3
+timeout = "30m"
+
+[output]
+open_pr = true
+auto_merge = false             # a human owns every merge
+
+[respond]                      # `ghostrail respond` folds PR + tracker comments back in
+prompt = "prompts/respond.md"
+
+[triage]                       # `ghostrail triage` splits large issues into sub-issues
+prompt = "prompts/triage.md"
+eligible = { state = "Todo", label = "triage", assignee = "unassigned" }

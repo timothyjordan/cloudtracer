@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      # Type-checks extension/src against extension/tsconfig.json, then bundles.
+      - run: npm run build:ext
+      # Must follow build: test/pack.test.ts asserts on `npm pack` output.
+      - run: npm run test:unit
