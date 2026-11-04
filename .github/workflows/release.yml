@@ -73,8 +73,14 @@ jobs:
       # CLIs sign sigstore provenance but don't use the OIDC token as actual
       # auth, so the publish lands without credentials and npm returns a
       # misleading 404. Upgrade in place.
+      #
+      # Pinned to 11.x on purpose, NOT `@latest`. npm 12 requires Node
+      # ^22.22.2 || ^24.15.0 || >=26.0.0, so on this job's Node 20 an
+      # unpinned `@latest` fails with EBADENGINE before anything publishes.
+      # Every 11.x allows `^20.17.0 || >=22.9.0`, which Node 20 satisfies.
+      # If this job ever moves to Node 22+, widen the range then.
       - name: Upgrade npm for Trusted Publishing
-        run: npm install -g npm@latest
+        run: npm install -g npm@^11.5.1
 
       - name: Install dependencies
         run: npm ci

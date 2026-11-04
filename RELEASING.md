@@ -61,6 +61,11 @@ The workflow upgrades npm before publishing because Node 20 ships npm 10, and
 Trusted Publishing needs 11.5.1 or newer. Older npm signs provenance but does
 not use the OIDC token as actual auth.
 
+That upgrade is pinned to `npm@^11.5.1`, not `@latest`. npm 12 dropped Node 20,
+so an unpinned upgrade fails with `EBADENGINE` on this job and nothing
+publishes. This is not hypothetical: it is exactly how the `0.1.1` release
+failed. If the publish job ever moves to Node 22 or newer, widen the pin then.
+
 ## B. The Chrome extension
 
 **Trigger:** merge the bot's PR, same as above.
