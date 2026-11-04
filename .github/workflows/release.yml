@@ -1,0 +1,152 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  # Manual escape hatch for re-publishing after a fixable infra failure.
+  # Pass the release-please package path (`.` for the CLI, `extension` for
+  # the extension); that job runs alone and release-please is skipped.
+  # Don't use this for routine releases, let release-please drive those.
+  workflow_dispatch:
+    inputs:
+      path:
+        description: Package path to republish (`.` or `extension`)
+        required: true
+        type: choice
+        options: ['.', 'extension']
+
+# release-please commits the version bumps and tags the releases.
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write # required for npm provenance attestations
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    # Skipped on manual dispatch: the point of dispatch is to bypass it.
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      paths_released: ${{ steps.release.outputs.paths_released }}
+    steps:
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v5
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  # The CLI + library, published to npm as `cloudtracer`.
+  publish-npm:
+    needs: release-please
+    # `always()` lets this run even when release-please is skipped (manual
+    # dispatch); the body then decides whether we actually publish.
+    if: |
+      always() && (
+        (github.event_name == 'workflow_dispatch' && inputs.path == '.') ||
+        (github.event_name == 'push' &&
+         needs.release-please.result == 'success' &&
+         needs.release-please.outputs.releases_created == 'true' &&
+         contains(fromJSON(needs.release-please.outputs.paths_released), '.'))
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Node 20 ships npm 10. npm Trusted Publishing needs 11.5.1+: older
+      # CLIs sign sigstore provenance but don't use the OIDC token as actual
+      # auth, so the publish lands without credentials and npm returns a
+      # misleading 404. Upgrade in place.
+      - name: Upgrade npm for Trusted Publishing
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Re-run the full gate. CI already ran on the release PR, but an npm
+      # publish cannot be taken back, so it is worth ~30s to be sure.
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run build:ext
+      # Must follow build: test/pack.test.ts asserts on `npm pack` output.
+      - run: npm run test:unit
+
+      # Auth is npm Trusted Publishing (OIDC). With `id-token: write` above
+      # and `registry-url` set by setup-node, `npm publish --provenance`
+      # exchanges the Actions OIDC token for a short-lived npm token at
+      # publish time. No long-lived NPM_TOKEN secret is involved. The
+      # package needs its Trusted Publisher configured once on npmjs.com,
+      # pointing at this repo and this workflow filename.
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public
+
+  # The Chrome extension. Not on npm: it ships as a CWS-ready .zip attached
+  # to the `extension-v<version>` GitHub Release, which is why the extension
+  # entry in release-please-config.json is not a draft.
+  publish-extension:
+    needs: release-please
+    if: |
+      always() && (
+        (github.event_name == 'workflow_dispatch' && inputs.path == 'extension') ||
+        (github.event_name == 'push' &&
+         needs.release-please.result == 'success' &&
+         needs.release-please.outputs.releases_created == 'true' &&
+         contains(fromJSON(needs.release-please.outputs.paths_released), 'extension'))
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      # `gh release upload` writes to the release release-please just made.
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - run: npm run build
+      - run: npm run build:ext
+      - run: npm run test:unit
+
+      # build:ext already ran, so no --rebuild.
+      - name: Package extension
+        run: node scripts/package-extension.mjs
+
+      - name: Read extension version
+        id: ext_version
+        run: echo "value=$(node -p "require('./extension/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # --clobber overwrites if an earlier run uploaded the same asset name,
+      # e.g. a manual dispatch republish. The release and its tag were made
+      # by release-please upstream; this job never creates them.
+      - name: Attach .zip to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload \
+            "extension-v${{ steps.ext_version.outputs.value }}" \
+            "cloudtracer-extension-${{ steps.ext_version.outputs.value }}.zip" \
+            --clobber

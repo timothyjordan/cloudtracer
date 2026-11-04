@@ -66,6 +66,13 @@ domain of the tab you're on and see its cloud stack in a popup dashboard. The
 extension runs entirely client-side (no backend) using DNS-over-HTTPS, RDAP, and
 Certificate Transparency logs.
 
+### Install a released build
+
+Each extension release attaches a Chrome Web Store-ready zip to its GitHub
+Release. Grab `cloudtracer-extension-<version>.zip` from the
+[latest `extension-v*` release](https://github.com/timothyjordan/cloudtracer/releases),
+unzip it, and load the folder with **Load unpacked** as below.
+
 ### Build and load
 
 ```bash
@@ -84,6 +91,13 @@ Use `npm run dev:ext` for a watch build while developing.
 > Note: the SSL/TLS card is derived from Certificate Transparency logs (crt.sh),
 > which is best-effort and occasionally unavailable. The CLI reads the live
 > certificate directly instead.
+
+## Releasing
+
+The CLI and the extension version independently, both driven by release-please
+from Conventional Commits. Merging the bot's release PR publishes `cloudtracer`
+to npm and attaches a fresh extension zip to a GitHub Release. See
+[RELEASING.md](RELEASING.md).
 
 ## License
 
