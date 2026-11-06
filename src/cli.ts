@@ -6,6 +6,10 @@ import { formatJson } from "./output/json.js";
 import { formatYaml } from "./output/yaml.js";
 import { formatMarkdown } from "./output/markdown.js";
 import { runSkillsCommand } from "./skills/index.js";
+import { createCliTelemetry } from "./telemetry/cli.js";
+import { bridgeTrackFn } from "./telemetry/bridge.js";
+import { classifyError, durationBucket, resolvedScanners } from "./telemetry/derive.js";
+import { maybeShowNotice } from "./telemetry/notice.js";
 
 declare const __PACKAGE_VERSION__: string;
 
@@ -45,6 +49,18 @@ program
       process.exit(1);
     }
 
+    const { telemetry, provider } = createCliTelemetry();
+    await maybeShowNotice({ telemetry, provider });
+
+    const format = options.json
+      ? "json"
+      : options.yaml
+        ? "yaml"
+        : options.markdown
+          ? "markdown"
+          : "tree";
+    const startedAt = Date.now();
+
     try {
       const result = await scan(cleanDomain, {
         timeout: parseInt(options.timeout ?? "10000"),
@@ -60,7 +76,23 @@ program
       } else {
         console.log(formatTree(result));
       }
+
+      await telemetry.track({
+        name: "scan_completed",
+        props: {
+          surface: "cli",
+          format,
+          resolved: resolvedScanners(result),
+          duration: durationBucket(Date.now() - startedAt),
+        },
+      });
+      await telemetry.flush();
     } catch (err) {
+      await telemetry.track({
+        name: "error",
+        props: { surface: "cli", kind: classifyError(err) },
+      });
+      await telemetry.flush();
       console.error(`Error scanning ${cleanDomain}:`, err instanceof Error ? err.message : err);
       process.exit(1);
     }
@@ -92,21 +124,56 @@ program
       console.error(chalk.red(`Invalid --output "${options.output}", expected "text" or "json"`));
       process.exit(2);
     }
+    const { telemetry, provider } = createCliTelemetry();
+    await maybeShowNotice({ telemetry, provider });
+
     const exitCode = await runSkillsCommand(
       { ...options, action },
       {
         stdout: (line) => console.log(line),
         stderr: (line) => console.error(chalk.red(line)),
+        track: bridgeTrackFn(telemetry),
       },
     );
+    await telemetry.flush();
     if (exitCode !== 0) process.exit(exitCode);
+  });
+
+program
+  .command("telemetry")
+  .description("Show or change anonymous usage analytics")
+  .argument("[action]", "on, off, or status (default: status)")
+  .action(async (action: string | undefined) => {
+    const { telemetry } = createCliTelemetry();
+    const verb = (action ?? "status").toLowerCase();
+
+    if (verb === "on" || verb === "off") {
+      await telemetry.setEnabled(verb === "on");
+      console.log(`Analytics ${verb === "on" ? "enabled" : "disabled"}.`);
+      return;
+    }
+
+    if (verb !== "status") {
+      console.error(`Unknown action "${action}". Use on, off, or status.`);
+      process.exit(1);
+    }
+
+    const enabled = await telemetry.isEnabled();
+    console.log(`Analytics is ${enabled ? "on" : "off"}.`);
+    console.log("The domains you scan and your results are never sent.");
+    if (enabled) console.log("Turn it off with: cloudtracer telemetry off");
   });
 
 // Default to the `scan` subcommand so `cloudtracer example.com` (and
 // `cloudtracer --json example.com`) behave like `cloudtracer scan …`. Insert
 // `scan` right after the binary unless the user invoked a known command or asked
-// for top-level help/version — that way any flags belong to `scan`, not the root.
-const KNOWN_COMMANDS = new Set(["scan", "skill", "help"]);
+// for top-level help/version, so that any flags belong to `scan`, not the root.
+//
+// The command list is derived from the registered commands rather than written
+// out by hand. A hardcoded list silently swallowed `cloudtracer telemetry` as a
+// domain to scan, and would have done the same to every future subcommand, so
+// this block has to run after every `.command()` call.
+const KNOWN_COMMANDS = new Set([...program.commands.map((c) => c.name()), "help"]);
 const TOP_LEVEL_FLAGS = new Set(["-h", "--help", "-V", "--version"]);
 const argv = process.argv.slice();
 const first = argv[2];
