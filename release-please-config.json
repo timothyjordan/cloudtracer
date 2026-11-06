@@ -11,8 +11,7 @@
     ".": {
       "package-name": "cloudtracer",
       "component": "cloudtracer",
-      "exclude-paths": ["extension"],
-      "draft": true
+      "exclude-paths": ["extension"]
     },
     "extension": {
       "package-name": "@cloudtracer/extension",
