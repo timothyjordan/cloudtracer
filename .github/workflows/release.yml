@@ -62,19 +62,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Node 24, not the Node 20 the rest of the repo targets. Trusted
+      # Publishing needs npm 11.5.1+ (older CLIs sign sigstore provenance but
+      # don't use the OIDC token as actual auth, so the publish lands
+      # uncredentialed and npm returns a misleading 404), and npm documents a
+      # Node 22.14+ floor of its own. Node 24 ships npm 11.19.1, clearing both
+      # with nothing to install.
+      #
+      # Do NOT reintroduce a `npm install -g npm@...` step here. That is what
+      # broke the 0.1.1 release: Node 20 bundles npm 10, the workaround was an
+      # unpinned `npm@latest`, and npm 12 dropped Node 20, so the step failed
+      # with EBADENGINE before anything published. Raising the Node version
+      # removes the moving part instead of pinning it.
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
-
-      # Node 20 ships npm 10. npm Trusted Publishing needs 11.5.1+: older
-      # CLIs sign sigstore provenance but don't use the OIDC token as actual
-      # auth, so the publish lands without credentials and npm returns a
-      # misleading 404. Upgrade in place.
-      - name: Upgrade npm for Trusted Publishing
-        run: npm install -g npm@latest
 
       - name: Install dependencies
         run: npm ci

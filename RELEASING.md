@@ -9,7 +9,7 @@ and what a human still has to do.
 
 | Surface | Trigger | Versioned by | Distribution | Manual step |
 |---|---|---|---|---|
-| `cloudtracer` (CLI + library) | merge the release-please PR | Conventional Commits touching anything outside `extension/` | npm, with provenance via OIDC | optional: publish the draft GitHub Release |
+| `cloudtracer` (CLI + library) | merge the release-please PR | Conventional Commits touching anything outside `extension/` | npm, with provenance via OIDC | none |
 | Chrome extension | merge the release-please PR | Conventional Commits touching `extension/` | `.zip` on the `extension-v<version>` GitHub Release | upload the `.zip` to the Chrome Web Store |
 
 The one action that ships a release is **merging the "chore: release main" PR**
@@ -41,7 +41,7 @@ force an extension release.
 **What merging does:**
 
 1. release-please re-runs on the merge commit, tags `cloudtracer-v<version>`,
-   and creates a **draft** GitHub Release.
+   and publishes a GitHub Release.
 2. The `publish-npm` job in `.github/workflows/release.yml` installs, re-runs
    the full gate (lint, typecheck, build, build:ext, test), and runs
    `npm publish --provenance --access public`.
@@ -57,9 +57,20 @@ npm publish cannot be taken back, so the extra 30 seconds is worth it.
 > exists, the publish step fails with a 404 that does not obviously mean
 > "unauthenticated". Nobody can do this step from CI.
 
-The workflow upgrades npm before publishing because Node 20 ships npm 10, and
-Trusted Publishing needs 11.5.1 or newer. Older npm signs provenance but does
-not use the OIDC token as actual auth.
+The publish job runs on **Node 24**, not the Node 20 the rest of the repo
+targets. Trusted Publishing needs npm 11.5.1 or newer, and npm documents a Node
+22.14 floor of its own. Node 24 ships npm 11.19.1, so both are satisfied with
+nothing to install.
+
+Do not add an `npm install -g npm@...` step to that job. That is exactly how
+the `0.1.1` release failed: Node 20 bundles npm 10, the workaround was an
+unpinned `npm@latest`, npm 12 had dropped Node 20, and the step died with
+`EBADENGINE` before anything published. Raising the Node version removes the
+moving part rather than pinning it.
+
+One tradeoff worth knowing: the pre-publish gate therefore runs on Node 24,
+while per-PR CI runs on Node 20 (the `engines` floor). The extension job stays
+on Node 20, so the zip is still built on the floor.
 
 ## B. The Chrome extension
 
@@ -89,6 +100,22 @@ npm run package:ext
 That writes `cloudtracer-extension-<version>.zip` at the repo root (gitignored).
 It excludes sourcemaps, which matters more than it sounds: `popup.js.map` is
 over 1MB, roughly six times the size of the entire rest of the extension.
+
+## Why neither release is a draft
+
+Both packages publish their GitHub Release immediately. Do not set
+`"draft": true` on either one in `release-please-config.json`.
+
+A draft GitHub Release does not create its git tag. Without the tag,
+release-please cannot find that package's release boundary, so it rescans the
+same commits and proposes the identical bump again on every run. The `0.1.1`
+release hit exactly this: `cloudtracer` was a draft, got no tag, and the next
+run opened a PR re-releasing the same commit as `0.1.2`, with a changelog
+comparing against a tag that did not exist. The extension, not a draft, got its
+tag and behaved correctly.
+
+Release notes stay editable after publication, so reviewing them is not a
+reason to reach for a draft.
 
 ## Escape hatch: republish one package
 
