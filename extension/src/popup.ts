@@ -3,20 +3,43 @@ import {
   browserPlatform,
   type ScanResult,
 } from "../../src/browser-entry.js";
+import { durationBucket, resolvedScanners } from "../../src/telemetry/derive.js";
+import { createExtensionTelemetry } from "./telemetry.js";
+import type { UiControl } from "../../src/telemetry/types.js";
 
 const content = document.getElementById("content") as HTMLElement;
 const domainEl = document.getElementById("domain") as HTMLElement;
 const copyBtn = document.getElementById("copy") as HTMLButtonElement;
 const rescanBtn = document.getElementById("rescan") as HTMLButtonElement;
+const noticeEl = document.getElementById("notice") as HTMLElement;
+const noticeOkBtn = document.getElementById("notice-ok") as HTMLButtonElement;
+const noticeOffBtn = document.getElementById("notice-off") as HTMLButtonElement;
+const telToggle = document.getElementById("tel") as HTMLInputElement;
+
+const { telemetry, provider } = createExtensionTelemetry();
 
 let latest: ScanResult = { domain: "", scannedAt: "" };
 let scanning = false;
 
 void main();
 
+/** Fire-and-forget click tracking, so a handler never awaits the network. */
+function trackClick(control: UiControl): void {
+  void telemetry.track({ name: "ui_clicked", props: { surface: "extension", control } });
+}
+
 async function main(): Promise<void> {
+  // Telemetry setup runs before the scan but never blocks it: a failure here
+  // must leave a fully working popup.
+  void setupTelemetryUi();
+
   const tab = await getActiveTab();
   const domain = tab?.url ? domainFromUrl(tab.url) : null;
+
+  void telemetry.track({
+    name: "popup_opened",
+    props: { surface: "extension", has_domain: domain !== null },
+  });
 
   if (!domain) {
     renderEmpty();
@@ -24,9 +47,55 @@ async function main(): Promise<void> {
   }
 
   domainEl.textContent = domain;
-  copyBtn.addEventListener("click", copyResult);
-  rescanBtn.addEventListener("click", () => void scan(domain));
+  copyBtn.addEventListener("click", () => {
+    trackClick("copy_json");
+    void copyResult();
+  });
+  rescanBtn.addEventListener("click", () => {
+    trackClick("rescan");
+    void scan(domain);
+  });
   await scan(domain);
+}
+
+/** Wire the toggle and show the one-time notice. Never throws at the caller. */
+async function setupTelemetryUi(): Promise<void> {
+  try {
+    const enabled = await telemetry.isEnabled();
+    telToggle.checked = enabled;
+
+    telToggle.addEventListener("change", () => {
+      const next = telToggle.checked;
+      // Track the opt-out before it takes effect, otherwise the one event that
+      // explains why the numbers dropped is the one event never sent.
+      if (!next) trackClick("telemetry_toggle");
+      void telemetry.setEnabled(next).then(() => {
+        if (next) trackClick("telemetry_toggle");
+      });
+    });
+
+    document.querySelector(".cta")?.addEventListener("click", () => trackClick("cta"));
+
+    // Silent when telemetry is already off: announcing collection that is not
+    // happening is just noise.
+    if (!enabled) return;
+    if (await provider.hasShownNotice()) return;
+
+    noticeEl.hidden = false;
+    noticeOkBtn.addEventListener("click", () => {
+      noticeEl.hidden = true;
+      void provider.markNoticeShown();
+    });
+    noticeOffBtn.addEventListener("click", () => {
+      noticeEl.hidden = true;
+      telToggle.checked = false;
+      trackClick("telemetry_toggle");
+      void provider.markNoticeShown();
+      void telemetry.setEnabled(false);
+    });
+  } catch {
+    // A broken storage layer must not cost the user their scan.
+  }
 }
 
 async function scan(domain: string): Promise<void> {
@@ -36,6 +105,7 @@ async function scan(domain: string): Promise<void> {
 
   latest = { domain, scannedAt: "" };
   render(latest, false);
+  const startedAt = Date.now();
 
   try {
     latest = await runScan(domain, browserPlatform, {
@@ -50,6 +120,15 @@ async function scan(domain: string): Promise<void> {
   render(latest, true);
   scanning = false;
   setControls();
+
+  void telemetry.track({
+    name: "scan_completed",
+    props: {
+      surface: "extension",
+      resolved: resolvedScanners(latest),
+      duration: durationBucket(Date.now() - startedAt),
+    },
+  });
 }
 
 // ---- topbar controls ---------------------------------------------------------

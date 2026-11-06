@@ -109,7 +109,28 @@ export type TelemetryEvent =
         phase?: SafeToken;
         error_class?: SafeToken;
       };
+    }
+  | {
+      name: "popup_opened";
+      props: {
+        surface: Surface;
+        /** Whether the active tab was scannable at all (http/https). */
+        has_domain: boolean;
+      };
+    }
+  | {
+      name: "ui_clicked";
+      props: {
+        surface: Surface;
+        control: UiControl;
+      };
     };
+
+/**
+ * Popup controls, as one event with a control property rather than one event
+ * per button. Same data, a smaller catalogue, and still trivially groupable.
+ */
+export type UiControl = "rescan" | "copy_json" | "cta" | "telemetry_toggle";
 
 /**
  * Fields whose domain cannot be enumerated at compile time.

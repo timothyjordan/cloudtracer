@@ -39,6 +39,7 @@ const DURATIONS: readonly DurationBucket[] = ["<1s", "1-3s", "3-10s", ">10s"];
 const SCOPES = ["global", "local"] as const;
 const METHODS = ["copy", "link"] as const;
 const OUTPUT_TARGETS = ["text", "json"] as const;
+const UI_CONTROLS = ["rescan", "copy_json", "cta", "telemetry_toggle"] as const;
 
 const ERROR_KINDS: readonly ErrorKind[] = [
   "network",
@@ -148,6 +149,14 @@ export function serializeEvent(event: TelemetryEvent): SerializedProps {
       for (const key of ["removed", "skipped", "errors"] as const) {
         put(out, key, count(raw[key]));
       }
+      break;
+    }
+    case "popup_opened": {
+      put(out, "has_domain", bool(raw.has_domain));
+      break;
+    }
+    case "ui_clicked": {
+      if (oneOf(raw.control, UI_CONTROLS)) out.control = raw.control;
       break;
     }
     case "cli_error": {

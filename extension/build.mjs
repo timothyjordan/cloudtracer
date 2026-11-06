@@ -26,6 +26,16 @@ async function copyStatic() {
 
 const buildOptions = {
   entryPoints: { popup: resolve(root, "extension/src/popup.ts") },
+  // Injected from the environment at build time, matching tsup for the CLI.
+  // Absent locally, in forks, and in contributor builds, where they resolve to
+  // "" so the telemetry core selects its noop adapter and the extension sends
+  // nothing. Only official release builds, where CI supplies these, carry the
+  // key. The key is a PostHog project token: public and write-only by design,
+  // which is why it is safe inside a store-distributed zip.
+  define: {
+    __POSTHOG_KEY__: JSON.stringify(process.env.POSTHOG_KEY ?? ""),
+    __POSTHOG_HOST__: JSON.stringify(process.env.POSTHOG_HOST ?? ""),
+  },
   bundle: true,
   format: "esm",
   platform: "browser",
