@@ -61,7 +61,74 @@ export type TelemetryEvent =
         surface: Surface;
         kind: ErrorKind;
       };
+    }
+  | {
+      name: "cli_command_invoked";
+      props: {
+        surface: Surface;
+        command: "skill";
+        action?: SafeToken;
+        scope?: "global" | "local";
+        mode?: SafeToken;
+        method?: "copy" | "link";
+        dry_run?: boolean;
+        force?: boolean;
+        target_count?: number;
+        found?: number;
+        output_format?: "text" | "json";
+      };
+    }
+  | {
+      name: "cli_skill_applied";
+      props: {
+        surface: Surface;
+        action?: SafeToken;
+        method?: "copy" | "link";
+        created?: number;
+        updated?: number;
+        unchanged?: number;
+        skipped?: number;
+        errors?: number;
+        new_version?: SafeVersion;
+      };
+    }
+  | {
+      name: "cli_skill_removed";
+      props: {
+        surface: Surface;
+        removed?: number;
+        skipped?: number;
+        errors?: number;
+      };
+    }
+  | {
+      name: "cli_error";
+      props: {
+        surface: Surface;
+        command?: "skill";
+        phase?: SafeToken;
+        error_class?: SafeToken;
+      };
     };
+
+/**
+ * Fields whose domain cannot be enumerated at compile time.
+ *
+ * `error_class` comes from `(e as Error).name`, and `action`/`mode`/`phase`
+ * grow as the skills command grows, so a literal union would be either wrong
+ * or constantly stale. These are plain strings in the type and are instead
+ * constrained at runtime by `serializeEvent`, which drops any value that is
+ * not a short bare identifier containing no dots.
+ *
+ * This is deliberately weaker than the rest of the catalogue, where every
+ * string is a literal union. The narrowing is what keeps it safe: a hostname
+ * cannot pass the identifier check, and a version cannot pass it either, so
+ * neither can ride in on one of these fields.
+ */
+export type SafeToken = string;
+
+/** A semver-shaped string. Validated at runtime; no hostname matches the shape. */
+export type SafeVersion = string;
 
 export type EventName = TelemetryEvent["name"];
 

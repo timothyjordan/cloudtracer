@@ -7,6 +7,7 @@ import { formatYaml } from "./output/yaml.js";
 import { formatMarkdown } from "./output/markdown.js";
 import { runSkillsCommand } from "./skills/index.js";
 import { createCliTelemetry } from "./telemetry/cli.js";
+import { bridgeTrackFn } from "./telemetry/bridge.js";
 import { classifyError, durationBucket, resolvedScanners } from "./telemetry/derive.js";
 import { maybeShowNotice } from "./telemetry/notice.js";
 
@@ -123,13 +124,18 @@ program
       console.error(chalk.red(`Invalid --output "${options.output}", expected "text" or "json"`));
       process.exit(2);
     }
+    const { telemetry, provider } = createCliTelemetry();
+    await maybeShowNotice({ telemetry, provider });
+
     const exitCode = await runSkillsCommand(
       { ...options, action },
       {
         stdout: (line) => console.log(line),
         stderr: (line) => console.error(chalk.red(line)),
+        track: bridgeTrackFn(telemetry),
       },
     );
+    await telemetry.flush();
     if (exitCode !== 0) process.exit(exitCode);
   });
 
