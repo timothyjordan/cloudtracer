@@ -57,14 +57,20 @@ npm publish cannot be taken back, so the extra 30 seconds is worth it.
 > exists, the publish step fails with a 404 that does not obviously mean
 > "unauthenticated". Nobody can do this step from CI.
 
-The workflow upgrades npm before publishing because Node 20 ships npm 10, and
-Trusted Publishing needs 11.5.1 or newer. Older npm signs provenance but does
-not use the OIDC token as actual auth.
+The publish job runs on **Node 24**, not the Node 20 the rest of the repo
+targets. Trusted Publishing needs npm 11.5.1 or newer, and npm documents a Node
+22.14 floor of its own. Node 24 ships npm 11.19.1, so both are satisfied with
+nothing to install.
 
-That upgrade is pinned to `npm@^11.5.1`, not `@latest`. npm 12 dropped Node 20,
-so an unpinned upgrade fails with `EBADENGINE` on this job and nothing
-publishes. This is not hypothetical: it is exactly how the `0.1.1` release
-failed. If the publish job ever moves to Node 22 or newer, widen the pin then.
+Do not add an `npm install -g npm@...` step to that job. That is exactly how
+the `0.1.1` release failed: Node 20 bundles npm 10, the workaround was an
+unpinned `npm@latest`, npm 12 had dropped Node 20, and the step died with
+`EBADENGINE` before anything published. Raising the Node version removes the
+moving part rather than pinning it.
+
+One tradeoff worth knowing: the pre-publish gate therefore runs on Node 24,
+while per-PR CI runs on Node 20 (the `engines` floor). The extension job stays
+on Node 20, so the zip is still built on the floor.
 
 ## B. The Chrome extension
 
