@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/timothyjordan/cloudtracer/compare/cloudtracer-v0.1.1...cloudtracer-v0.1.2) (2026-11-06)
+
+
+### Bug Fixes
+
+* publish from Node 24 and stop drafting the cloudtracer release (TJ-1902) ([#16](https://github.com/timothyjordan/cloudtracer/issues/16)) ([1c49aa3](https://github.com/timothyjordan/cloudtracer/commit/1c49aa3c98158b8904972d669495a045afeb514d))
+
 ## [0.1.1](https://github.com/timothyjordan/cloudtracer/compare/cloudtracer-v0.1.0...cloudtracer-v0.1.1) (2026-11-04)
 
 
