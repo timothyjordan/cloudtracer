@@ -113,9 +113,17 @@ export type TelemetryEvent =
   | {
       name: "popup_opened";
       props: {
+        /**
+         * Surface only, deliberately. An earlier version carried a
+         * `has_domain` boolean for whether the tab was scannable. Chrome
+         * defines web browsing activity as "any information about the websites
+         * or other web resources a user requests or interacts with", and while
+         * a boolean identifies nothing, it is the one field that brushed
+         * against that definition on an extension that also holds <all_urls>.
+         * The same signal is derivable from popup_opened minus scan_completed
+         * counts, so it is not worth defending in store review.
+         */
         surface: Surface;
-        /** Whether the active tab was scannable at all (http/https). */
-        has_domain: boolean;
       };
     }
   | {

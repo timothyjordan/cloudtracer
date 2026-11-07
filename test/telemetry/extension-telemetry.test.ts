@@ -120,20 +120,23 @@ describe("createBrowserConfigProvider", () => {
 });
 
 describe("extension event payloads", () => {
-  it("reports popup_opened without saying what the tab was", () => {
+  it("reports popup_opened with the surface and nothing else", () => {
     const out = serializeEvent({
       name: "popup_opened",
-      props: { surface: "extension", has_domain: true },
+      props: { surface: "extension" },
     });
-    expect(out).toEqual({ surface: "extension", has_domain: true });
+    expect(out).toEqual({ surface: "extension" });
   });
 
-  it("distinguishes an unscannable tab without naming it", () => {
-    const out = serializeEvent({
+  it("drops has_domain, so the payload says nothing about the web resource", () => {
+    // Chrome defines web browsing activity as any information about the
+    // websites a user interacts with. A boolean identifies nothing, but it is
+    // not worth defending in review, so it must not survive serialization.
+    const legacy = {
       name: "popup_opened",
-      props: { surface: "extension", has_domain: false },
-    });
-    expect(out.has_domain).toBe(false);
+      props: { surface: "extension", has_domain: true },
+    } as unknown as TelemetryEvent;
+    expect(serializeEvent(legacy)).toEqual({ surface: "extension" });
   });
 
   it("keeps a known control and drops an unknown one", () => {
