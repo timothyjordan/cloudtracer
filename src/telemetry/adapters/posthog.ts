@@ -51,7 +51,14 @@ export function createPostHogAdapter(opts: PostHogAdapterOptions): TelemetryAdap
           api_key: opts.key,
           event: event.name,
           distinct_id: distinctId,
-          properties: serializeEvent(event),
+          properties: {
+            ...serializeEvent(event),
+            // Ask PostHog not to retain the request IP. The authoritative
+            // control is the project-level "Discard client IP data" setting,
+            // which is what the privacy policy relies on; this is belt and
+            // braces and is deliberately not claimed as sufficient on its own.
+            $ip: null,
+          },
         }),
         signal: controller.signal,
         // Without this, closing the extension popup cancels in-flight sends,

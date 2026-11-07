@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CloudTracer Privacy Policy</title>
+    <meta
+      name="description"
+      content="What CloudTracer collects, what it never collects, and how to turn analytics off. The sites you scan never leave your device."
+    />
+    <meta property="og:title" content="CloudTracer Privacy Policy" />
+    <meta
+      property="og:description"
+      content="The sites you scan never leave your device. What CloudTracer collects and how to turn it off."
+    />
+    <meta property="og:url" content="https://cloudtracer.dev/privacy.html" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://cloudtracer.dev/privacy.html" />
+    <link rel="alternate" type="text/markdown" href="/privacy.md" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <!--
+      Anonymous, cookieless analytics.
+
+      cookieless_mode "always" is the whole reason this needs no consent
+      banner: PostHog stores nothing in cookies or local/session storage and
+      instead derives a privacy-preserving daily hash server-side, discarding
+      the IP once the day's events are processed. The cost is that visitors are
+      only unique within a day, which is a fair trade for not putting a banner
+      in front of a docs page.
+
+      The project token below is a PostHog publishable key: write-only and
+      public by design, which is why it lives in committed HTML rather than a
+      secret. It cannot read any data back.
+
+      Session recording is disabled explicitly rather than left to project
+      settings, so enabling it on the PostHog side can never silently start
+      recording visitors to this site.
+    -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init("phc_zvh3MRWuehPH8qz9TwEkVPnxj6MxGRgg7BKQqQBxbZnZ", {
+        api_host: "https://us.i.posthog.com",
+        defaults: "2026-08-30",
+        cookieless_mode: "always",
+        respect_dnt: true,
+        disable_session_recording: true,
+      });
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="wordmark" aria-label="CloudTracer home">
+          <span class="wordmark-prompt">$</span>
+          <span class="wordmark-name">cloudtracer</span>
+        </a>
+        <nav>
+          <a href="/#features">Features</a>
+          <a href="/#usage">Usage</a>
+          <a
+            href="https://github.com/timothyjordan/cloudtracer"
+            rel="noopener"
+            target="_blank"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="prose">
+        <div class="container">
+          <h1>CloudTracer Privacy Policy</h1>
+          <p class="muted">Last updated: 7 November 2026</p>
+
+          <p class="lede">
+            <strong>The sites you scan and the results you get never leave your
+            device.</strong> Not the domain, not the tab you are on, not the
+            report. That is the one promise worth reading this page for, and the
+            rest of this document explains how it is kept.
+          </p>
+
+          <p>
+            CloudTracer does collect anonymous usage analytics, on by default,
+            and you can turn it off in one command or one click. What that
+            covers is below.
+          </p>
+
+          <h2>How scanning works</h2>
+          <p>
+            Every CloudTracer scan runs on your own machine. There is no
+            CloudTracer server in the path, no account, and nothing to log in
+            to. The CLI and the Chrome extension both read public infrastructure
+            records directly from the sources that publish them:
+          </p>
+          <ul>
+            <li><strong>Cloudflare DNS over HTTPS</strong> for DNS records</li>
+            <li>
+              <strong>RDAP registry services</strong>, with a WHOIS fallback in
+              the CLI, for domain registration data
+            </li>
+            <li>
+              <strong>Certificate Transparency logs</strong> via crt.sh, in the
+              extension, for TLS certificate details. The CLI reads the live
+              certificate directly instead.
+            </li>
+            <li>
+              <strong>The scanned site itself</strong>, for response headers and
+              page HTML, to identify its CDN and any third-party scripts
+            </li>
+          </ul>
+          <p>
+            Those services necessarily see the domain you are looking up, in the
+            same way they would for any DNS query or web request your browser
+            already makes. They do not learn who you are from CloudTracer, and
+            CloudTracer tells them nothing else. Each operates under its own
+            privacy policy.
+          </p>
+          <p>
+            Results are not written to disk. Closing the extension popup
+            discards them. No history of what you have scanned is kept anywhere.
+          </p>
+
+          <h2>Analytics</h2>
+          <p>
+            CloudTracer reports anonymous usage so we can tell which parts are
+            worth improving. It is <strong>on by default</strong> and switchable
+            off per surface.
+          </p>
+
+          <h3>What is collected</h3>
+          <p><strong>The CLI:</strong></p>
+          <ul>
+            <li>which command ran, and the flags shape it was run with</li>
+            <li>which output format was used</li>
+            <li>which of the eight scanners returned data</li>
+            <li>
+              how long a scan took, as a coarse bucket
+              (<code>&lt;1s</code>, <code>1-3s</code>, <code>3-10s</code>,
+              <code>&gt;10s</code>)
+            </li>
+            <li>
+              errors by category only, such as <code>timeout</code> or
+              <code>dns_failure</code>
+            </li>
+            <li>
+              for the skill installer: how many targets were written, updated,
+              or skipped, and the skill version
+            </li>
+          </ul>
+          <p><strong>The Chrome extension:</strong></p>
+          <ul>
+            <li>
+              that the popup was opened, and whether the current tab was
+              scannable at all
+            </li>
+            <li>
+              which of the eight cards resolved, and the same coarse duration
+              bucket
+            </li>
+            <li>
+              which control you pressed: re-scan, copy, the link to this site,
+              or the analytics toggle
+            </li>
+          </ul>
+          <p><strong>This website:</strong></p>
+          <ul>
+            <li>page views and referrers</li>
+            <li>
+              which install command was copied, identified by a label rather
+              than its text
+            </li>
+          </ul>
+
+          <h3>What is never collected</h3>
+          <ul>
+            <li>the domain you scanned, on any surface</li>
+            <li>the URL or title of the tab you are on</li>
+            <li>any scan result, or any content from a scanned page</li>
+            <li>
+              file paths, your username, or anything about your machine
+            </li>
+            <li>
+              error messages, which can contain a hostname. Only the error
+              category is sent.
+            </li>
+          </ul>
+          <p>
+            This is enforced in the code rather than promised in this document.
+            Event payloads are typed so there is no field a hostname could be
+            passed in, and a second allowlist check drops any property the event
+            schema does not name before anything is sent.
+          </p>
+
+          <h3>Turning it off</h3>
+          <p><strong>CLI</strong>, any of these:</p>
+          <div class="code-block">
+            <pre><code>cloudtracer telemetry off     # persists to your config
+DO_NOT_TRACK=1                # the cross-tool convention, honoured
+CLOUDTRACER_TELEMETRY=0       # per-invocation</code></pre>
+          </div>
+          <p>
+            It is also off automatically in CI, without you doing anything.
+            <code>cloudtracer telemetry status</code> reports the current state.
+          </p>
+          <p>
+            <strong>Chrome extension:</strong> the "Share anonymous usage"
+            toggle in the popup footer, or "Turn off" on the notice shown the
+            first time you open it.
+          </p>
+          <p>
+            <strong>This website:</strong> the site honours your browser's Do
+            Not Track setting.
+          </p>
+
+          <h3>Who processes it</h3>
+          <p>
+            Analytics is processed by
+            <a href="https://posthog.com" rel="noopener" target="_blank">PostHog</a>
+            in their United States region. We ask PostHog to discard IP
+            addresses rather than store them with events.
+          </p>
+          <p>
+            On this website, PostHog is configured in cookieless mode. It stores
+            nothing in cookies, local storage, or session storage, which is why
+            you see no cookie banner here. Instead of an identifier, it derives a
+            privacy-preserving hash server-side that rotates daily, so visitors
+            are only distinguishable within a single day.
+          </p>
+          <p>
+            The CLI and extension use a random identifier generated on your
+            device. It is not derived from your machine, your account, your
+            network, or anything you have scanned, and deleting your config file
+            or extension storage resets it.
+          </p>
+
+          <h3>What we never do</h3>
+          <p>
+            We do not sell, rent, or share analytics data. There is no
+            advertising, no cross-site tracking, no profiles, and no attempt to
+            work out who you are.
+          </p>
+
+          <h2>Builds you compile yourself</h2>
+          <p>
+            Analytics keys are injected at build time and only present in
+            official releases. If you clone the repository, build a fork, or run
+            from source, no analytics are configured and nothing is sent,
+            regardless of settings.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Questions or corrections:
+            <a
+              href="https://github.com/timothyjordan/cloudtracer/issues"
+              rel="noopener"
+              target="_blank"
+              >github.com/timothyjordan/cloudtracer/issues</a
+            >
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          <a
+            href="https://github.com/timothyjordan/cloudtracer"
+            rel="noopener"
+            target="_blank"
+            >github.com/timothyjordan/cloudtracer</a
+          >
+        </p>
+        <p class="footer-links">
+          <a href="/AGENTS.md">Agent guide &amp; glossary</a>
+          ·
+          <a href="/index.md">Markdown</a>
+          ·
+          <a href="/llms.txt">llms.txt</a>
+          ·
+          <a href="/privacy.html">Privacy</a>
+          ·
+          <a href="/sitemap.md">Sitemap</a>
+        </p>
+        <p class="muted">
+          Apache 2.0 · © <span id="year"></span> Timothy Jordan
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const y = document.getElementById("year");
+      if (y) y.textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>

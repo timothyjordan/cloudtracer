@@ -63,8 +63,14 @@ also discoverable from the live site at
 
 CloudTracer also runs as a Chrome extension: click the toolbar icon to scan the
 domain of the tab you're on and see its cloud stack in a popup dashboard. The
-extension runs entirely client-side (no backend) using DNS-over-HTTPS, RDAP, and
-Certificate Transparency logs.
+extension scans entirely client-side using DNS-over-HTTPS, RDAP, and Certificate
+Transparency logs. There is no CloudTracer server in the scan path, and the
+domain you scan never leaves your browser.
+
+CloudTracer does report anonymous usage analytics, on by default, which never
+include the scanned domain or your results. Turn it off with the toggle in the
+popup, or `cloudtracer telemetry off` for the CLI. See the
+[privacy policy](https://cloudtracer.dev/privacy.html).
 
 ### Install a released build
 
