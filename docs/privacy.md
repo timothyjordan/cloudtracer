@@ -1,6 +1,6 @@
 ---
 title: CloudTracer Privacy Policy
-description: What CloudTracer collects, what it never collects, and how to turn analytics off.
+description: What CloudTracer collects, what it does not collect, and how to turn analytics off.
 canonical: https://cloudtracer.dev/privacy.html
 ---
 
@@ -8,9 +8,9 @@ canonical: https://cloudtracer.dev/privacy.html
 
 Last updated: 7 November 2026
 
-**The sites you scan and the results you get never leave your device.** Not the
-domain, not the tab you are on, not the report. That is the one promise worth
-reading this page for, and the rest of this document explains how it is kept.
+**The sites you scan and the results you get are not collected or tracked.** Not
+the domain, not the tab you are on, not the report. That is the line worth
+reading this page for, and the rest of this document explains how it holds.
 
 CloudTracer does collect anonymous usage analytics, on by default, and you can
 turn it off in one command or one click. What that covers is below.
@@ -67,7 +67,7 @@ improving. It is **on by default** and switchable off per surface.
 - page views and referrers
 - which install command was copied, identified by a label rather than its text
 
-### What is never collected
+### What is not collected
 
 - the domain you scanned, on any surface
 - the URL or title of the tab you are on
@@ -115,7 +115,7 @@ The CLI and extension use a random identifier generated on your device. It is
 not derived from your machine, your account, your network, or anything you have
 scanned, and deleting your config file or extension storage resets it.
 
-### What we never do
+### What we do not do
 
 We do not sell, rent, or share analytics data. There is no advertising, no
 cross-site tracking, no profiles, and no attempt to work out who you are.

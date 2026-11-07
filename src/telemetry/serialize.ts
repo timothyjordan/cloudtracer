@@ -151,10 +151,6 @@ export function serializeEvent(event: TelemetryEvent): SerializedProps {
       }
       break;
     }
-    case "popup_opened": {
-      put(out, "has_domain", bool(raw.has_domain));
-      break;
-    }
     case "ui_clicked": {
       if (oneOf(raw.control, UI_CONTROLS)) out.control = raw.control;
       break;

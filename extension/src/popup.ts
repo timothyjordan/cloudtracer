@@ -36,10 +36,7 @@ async function main(): Promise<void> {
   const tab = await getActiveTab();
   const domain = tab?.url ? domainFromUrl(tab.url) : null;
 
-  void telemetry.track({
-    name: "popup_opened",
-    props: { surface: "extension", has_domain: domain !== null },
-  });
+  void telemetry.track({ name: "popup_opened", props: { surface: "extension" } });
 
   if (!domain) {
     renderEmpty();
