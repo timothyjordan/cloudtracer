@@ -9,6 +9,7 @@ export type FetchImpl = (
     headers?: Record<string, string>;
     body?: string;
     signal?: AbortSignal;
+    keepalive?: boolean;
   },
 ) => Promise<{ ok: boolean; status: number }>;
 
@@ -53,6 +54,11 @@ export function createPostHogAdapter(opts: PostHogAdapterOptions): TelemetryAdap
           properties: serializeEvent(event),
         }),
         signal: controller.signal,
+        // Without this, closing the extension popup cancels in-flight sends,
+        // so most click events would simply never arrive. The popup has no
+        // background worker to fall back on, so keepalive is the only thing
+        // that lets a request outlive the page.
+        keepalive: true,
       });
     } catch {
       // Swallowed on purpose. A dropped analytics event is never worth

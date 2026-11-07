@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "CloudTracer",
   "version": "0.1.1",
-  "description": "See the cloud providers behind any website — DNS, CDN, hosting, SSL, email and more — for the tab you're on.",
+  "description": "See the cloud providers behind any website \u2014 DNS, CDN, hosting, SSL, email and more \u2014 for the tab you're on.",
   "action": {
     "default_popup": "popup.html",
     "default_title": "CloudTracer",
@@ -21,7 +21,7 @@
   },
   "permissions": [
     "activeTab",
-    "tabs"
+    "storage"
   ],
   "host_permissions": [
     "<all_urls>"

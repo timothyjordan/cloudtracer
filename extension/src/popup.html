@@ -41,6 +41,19 @@
         </div>
       </div>
     </header>
+    <div id="notice" class="notice" role="status" hidden>
+      <p class="notice-text">
+        CloudTracer counts anonymous usage (which cards resolve, which buttons
+        you press) to decide what to build next. <strong>The site you scan
+        never leaves your browser.</strong>
+      </p>
+      <div class="notice-actions">
+        <button id="notice-ok" class="notice-btn" type="button">Got it</button>
+        <button id="notice-off" class="notice-btn notice-btn-quiet" type="button">
+          Turn off
+        </button>
+      </div>
+    </div>
     <main id="content" class="content"></main>
     <footer class="footer">
       <a
@@ -59,6 +72,10 @@
         Runs in your browser. Reads public DNS, registration, and certificate
         records directly.
       </p>
+      <label class="tel-toggle" for="tel">
+        <input id="tel" type="checkbox" />
+        <span class="tel-label">Share anonymous usage</span>
+      </label>
     </footer>
     <script type="module" src="popup.js"></script>
   </body>

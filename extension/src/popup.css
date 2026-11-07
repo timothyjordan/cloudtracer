@@ -349,3 +349,84 @@ body {
   font-size: 10.5px;
   color: var(--fg-dim);
 }
+
+/* ---- telemetry notice + toggle ------------------------------------------- */
+
+/* Shown once, above the results rather than over them: the popup is only 380px
+   wide and an overlay would hide the thing the user opened it to see. */
+.notice {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-raised);
+}
+
+.notice-text {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--fg-muted);
+}
+
+.notice-text strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.notice-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.notice-btn {
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.notice-btn:hover {
+  background: var(--bg-raised);
+  border-color: var(--fg-dim);
+}
+
+.notice-btn:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 1px;
+}
+
+/* --fg-dim is the darkened, WCAG-AA-passing token from TJ-831. Do not swap it
+   for a lighter grey here; this is the lowest-contrast text in the popup. */
+.notice-btn-quiet {
+  color: var(--fg-dim);
+  border-color: var(--border);
+}
+
+.tel-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--fg-dim);
+  font-size: 10.5px;
+}
+
+.tel-toggle input {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  accent-color: var(--cyan);
+  cursor: pointer;
+}
+
+.tel-toggle input:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.tel-label {
+  user-select: none;
+}
