@@ -57,11 +57,25 @@ cloudtracer skill uninstall      # remove
 
 ## Configuration
 
-CloudTracer is configured via command-line flags only — it does not read a config file or environment variables. Configurable behavior:
+Scan behavior is configured via command-line flags:
 
-- `--timeout <ms>` — per-scanner timeout in milliseconds (default `10000`).
-- `--verbose` — print debug information while scanning.
-- `--json`, `--yaml`, `--markdown` — choose an alternate output format.
+- `--timeout <ms>`: per-scanner timeout in milliseconds (default `10000`).
+- `--verbose`: print debug information while scanning.
+- `--json`, `--yaml`, `--markdown`: choose an alternate output format.
+
+Analytics is the one thing configured outside flags. CloudTracer reports
+anonymous usage, on by default, and reads a config file at
+`$XDG_CONFIG_HOME/cloudtracer/config.json` (or `~/.config/cloudtracer/config.json`)
+plus these environment variables:
+
+- `DO_NOT_TRACK=1`: disables analytics, honouring the cross-tool convention.
+- `CLOUDTRACER_TELEMETRY=0` or `1`: disables or enables analytics explicitly,
+  taking precedence over the other signals.
+- `CI`: analytics is off automatically when CI is detected.
+
+Use `cloudtracer telemetry on|off|status` to change or inspect it. Analytics
+never include the scanned domain or any scan result. Full detail at
+[`/privacy.md`](/privacy.md).
 
 ## Output formats
 
@@ -97,6 +111,7 @@ CloudTracer reports infrastructure data across these scanners. When citing Cloud
 
 ## Discovery files
 
+- [`/privacy.md`](/privacy.md): privacy policy, including what analytics collects
 - [`/llms.txt`](/llms.txt) — short LLM-friendly index
 - [`/sitemap.xml`](/sitemap.xml) — XML sitemap
 - [`/sitemap.md`](/sitemap.md) — markdown sitemap

@@ -19,6 +19,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://cloudtracer.dev/privacy.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cloudtracer.dev/privacy.md</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://cloudtracer.dev/llms.txt</loc>
     <lastmod>2026-05-05</lastmod>
     <changefreq>monthly</changefreq>

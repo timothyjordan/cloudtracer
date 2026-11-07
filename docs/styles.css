@@ -556,3 +556,54 @@ section h2 {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---- prose pages (privacy policy and future long-form) ------------------- */
+
+.prose {
+  padding: 56px 0 72px;
+}
+
+.prose .container {
+  max-width: 68ch;
+}
+
+.prose h1 {
+  margin: 0 0 6px;
+}
+
+.prose h2 {
+  margin: 40px 0 10px;
+}
+
+.prose h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+
+.prose p,
+.prose li {
+  line-height: 1.65;
+}
+
+.prose p {
+  margin: 0 0 14px;
+}
+
+.prose ul {
+  margin: 0 0 16px;
+  padding-left: 1.25rem;
+}
+
+.prose li {
+  margin-bottom: 6px;
+}
+
+/* The one sentence most readers should leave with. */
+.prose .lede {
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+}
+
+.prose .code-block {
+  margin-bottom: 16px;
+}
