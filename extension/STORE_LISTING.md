@@ -44,9 +44,9 @@ Third-party services: analytics, marketing, and monitoring tools detected in the
 
 Scanning happens entirely in your browser. There is no CloudTracer server in the scan path and no account. CloudTracer reads public infrastructure records directly: DNS over HTTPS via Cloudflare, registration data over RDAP, certificates from public Certificate Transparency logs, and the page's own HTML to spot third-party scripts.
 
-The site you scan never leaves your browser. Not the domain, not the results.
+The site you scan and the content of the page are not tracked. Not the domain, not the results.
 
-CloudTracer does count anonymous usage so we can tell which parts are worth improving: that the popup was opened, which of the eight cards resolved, roughly how long a scan took, and which button you pressed. Never the domain, never your results. It is on by default and there is a "Share anonymous usage" toggle in the popup footer, plus a one-click opt out on the notice shown the first time you open it. Full detail at https://cloudtracer.dev/privacy.html
+CloudTracer does count anonymous usage so we can tell which parts are worth improving: that the popup was opened, which of the eight cards resolved, roughly how long a scan took, and which button you pressed. Not the domain, not your results. It is on by default and there is a "Share anonymous usage" toggle in the popup footer, plus a one-click opt out on the notice shown the first time you open it. Full detail at https://cloudtracer.dev/privacy.html
 
 Results fill in progressively, so the fast lookups appear immediately while slower ones resolve.
 
