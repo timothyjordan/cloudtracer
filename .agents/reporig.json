@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "reporigVersion": "0.1.2",
+  "updatedAt": "2026-11-19T00:30:07.347Z",
+  "evaluatedUpgrades": [
+    "2026-11-13-decouple-testbotpro",
+    "2026-11-13-neutral-no-em-dashes",
+    "2026-11-13-universal-harnesses",
+    "hygiene:eslint-ignore",
+    "signal:ci-provider:github-actions",
+    "signal:command:build:npm run build",
+    "signal:command:dev:npm run dev",
+    "signal:command:install:npm install",
+    "signal:command:lint:npm run lint",
+    "signal:command:testUnit:npm run test:unit",
+    "signal:command:typecheck:npm run typecheck",
+    "signal:curated-skill:addyosmani/web-quality-skills",
+    "signal:curated-skill:blader/humanizer",
+    "signal:curated-skill:cloudflare/security-audit-skill",
+    "signal:curated-skill:emilkowalski/skills",
+    "signal:curated-skill:pbakaus/impeccable",
+    "signal:curated-skill:timothyjordan/a14y",
+    "signal:curated-skill:trailofbits/skills#appsec",
+    "signal:curated-skill:vercel-labs/agent-skills#writing-guidelines"
+  ],
+  "project": {
+    "name": "cloudtracer",
+    "description": "TypeScript CLI, library, and Chrome extension that scans a website and identifies the cloud providers it uses.",
+    "packageManager": "npm",
+    "commands": {
+      "install": "npm install",
+      "dev": "npm run dev",
+      "build": "npm run build",
+      "lint": "npm run lint",
+      "typecheck": "npm run typecheck",
+      "testUnit": "npm run test:unit",
+      "testE2e": null
+    }
+  },
+  "harnesses": [],
+  "customHarnesses": [],
+  "sdlc": {
+    "preset": "adversarial-zero-trust",
+    "intentPlanning": "spec-and-plan",
+    "verificationOracle": "adversarial-spec-oracle",
+    "e2eTool": "playwright",
+    "commitCadence": "per-task",
+    "pushCadence": "when-all-tasks-complete",
+    "prGate": "local-test-before-pr",
+    "prGateCustom": null,
+    "mergeGate": "explicit-user-approval",
+    "issueCadence": "all-work",
+    "autonomy": {
+      "askFirst": [
+        "new-dependencies",
+        "existing-migrations-and-contracts",
+        "ci-and-deploy-configs",
+        "other-repositories"
+      ],
+      "never": [
+        "secrets-and-env-files",
+        "hand-edit-lockfiles-or-generated",
+        "weaken-spec-tests-without-triage",
+        "commit-or-force-push-main"
+      ],
+      "protectedPaths": [
+        "dist/**",
+        "dist-extension/**"
+      ]
+    },
+    "writingStyle": {
+      "plainEnglish": true,
+      "noEmDashes": true
+    }
+  },
+  "providers": {
+    "source": {
+      "id": "github",
+      "customName": null,
+      "notes": null
+    },
+    "issues": {
+      "id": "linear",
+      "customName": null,
+      "notes": null,
+      "projectHint": "CloudTracer",
+      "includeCliFallback": true
+    },
+    "ci": {
+      "id": "github-actions",
+      "customName": null,
+      "notes": null
+    },
+    "specs": {
+      "id": "in-repo",
+      "customName": null,
+      "notes": null,
+      "specsDir": "docs/superpowers/specs",
+      "plansDir": "docs/superpowers/plans"
+    }
+  },
+  "skills": {
+    "packs": [
+      {
+        "source": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers.git",
+        "kind": "spine",
+        "installedDirs": [
+          "brainstorming",
+          "diagnosing-superpowers",
+          "dispatching-parallel-agents",
+          "executing-plans",
+          "finishing-a-development-branch",
+          "receiving-code-review",
+          "requesting-code-review",
+          "subagent-driven-development",
+          "systematic-debugging",
+          "test-driven-development",
+          "using-git-worktrees",
+          "using-superpowers",
+          "verification-before-completion",
+          "writing-plans",
+          "writing-skills"
+        ],
+        "commitSha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "cloudflare/security-audit-skill",
+        "url": "https://github.com/cloudflare/security-audit-skill.git",
+        "kind": "verification",
+        "installedDirs": [
+          "security-audit"
+        ],
+        "commitSha": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "trailofbits/skills#appsec",
+        "url": "https://github.com/trailofbits/skills.git",
+        "kind": "verification",
+        "installedDirs": [
+          "codeql",
+          "differential-review",
+          "fp-check",
+          "property-based-testing",
+          "sarif-parsing",
+          "semgrep",
+          "sharp-edges",
+          "spec-to-code-compliance",
+          "supply-chain-risk-auditor"
+        ],
+        "commitSha": "149d7b21f4067765b82e67029730b42d228ef4b4",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "blader/humanizer",
+        "url": "https://github.com/blader/humanizer.git",
+        "kind": "craft",
+        "installedDirs": [
+          "humanizer"
+        ],
+        "commitSha": "b48c832f0f809c1b5658edbb838c2521b72f2413",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "pbakaus/impeccable",
+        "url": "https://github.com/pbakaus/impeccable.git",
+        "kind": "craft",
+        "installedDirs": [
+          "impeccable"
+        ],
+        "commitSha": "b49177d32788f2dc585c42831d845dacf1ebed2c",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "emilkowalski/skills",
+        "url": "https://github.com/emilkowalski/skills.git",
+        "kind": "craft",
+        "installedDirs": [
+          "animate",
+          "animate-expo",
+          "animation-performance",
+          "animation-vocabulary",
+          "apple-design",
+          "break-ui",
+          "choreograph",
+          "emil-design-eng",
+          "find-animation-opportunities",
+          "gestures",
+          "improve-animations",
+          "learn-taste",
+          "mobile-native",
+          "pick-ui-library",
+          "prototype",
+          "remove-animations",
+          "review-animations",
+          "write-swift"
+        ],
+        "commitSha": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "addyosmani/web-quality-skills",
+        "url": "https://github.com/addyosmani/web-quality-skills.git",
+        "kind": "verification",
+        "installedDirs": [
+          "accessibility",
+          "best-practices",
+          "core-web-vitals",
+          "performance",
+          "seo",
+          "web-quality-audit"
+        ],
+        "commitSha": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "timothyjordan/a14y",
+        "url": "https://github.com/timothyjordan/a14y.git",
+        "kind": "craft",
+        "installedDirs": [
+          "a14y"
+        ],
+        "commitSha": "5ef40ec923caa520d39c327a40b5ea871840470c",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "vercel-labs/agent-skills#writing-guidelines",
+        "url": "https://github.com/vercel-labs/agent-skills.git",
+        "kind": "craft",
+        "installedDirs": [
+          "writing-guidelines"
+        ],
+        "commitSha": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      },
+      {
+        "source": "currents-dev/playwright-best-practices-skill",
+        "url": "https://github.com/currents-dev/playwright-best-practices-skill.git",
+        "kind": "verification",
+        "installedDirs": [
+          "playwright-best-practices"
+        ],
+        "commitSha": "0b75b5835a87de1fdd202ba965f3bc5a27738fdf",
+        "installedAt": "2026-11-19T00:30:06.755Z"
+      }
+    ],
+    "spinePrecedence": null
+  }
+}

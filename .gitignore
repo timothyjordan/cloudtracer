@@ -13,3 +13,5 @@ coverage/
 
 # Chrome Web Store upload artifact, built by npm run package:ext
 cloudtracer-extension-*.zip
+.env*
+!.env.example
