@@ -143,6 +143,17 @@ const PLATFORM_BY_INFRA: {
   },
 ];
 
+function crossReferenceDns(result: ScanResult): void {
+  if (result.dns?.provider?.name !== "NS1") return;
+  const hasNetlifyCdn = result.cdn?.providers.some(
+    (p) => p.provider.name === "Netlify",
+  );
+  const hasNetlifyPlatform = result.hosting?.platform?.name === "Netlify";
+  if (hasNetlifyCdn || hasNetlifyPlatform) {
+    result.dns.provider = { name: "Netlify", confidence: "high" };
+  }
+}
+
 function crossReferencePlatform(result: ScanResult): void {
   // Check CDN header-detected platforms (Vercel, Netlify, etc.)
   if (result.cdn && result.hosting) {
@@ -152,6 +163,7 @@ function crossReferencePlatform(result: ScanResult): void {
           name: cdnProvider.provider.name,
           confidence: cdnProvider.provider.confidence,
         };
+        crossReferenceDns(result);
         return;
       }
     }
@@ -179,7 +191,10 @@ function crossReferencePlatform(result: ScanResult): void {
         name: rule.platform,
         confidence: ipMatch ? "high" : "medium",
       };
+      crossReferenceDns(result);
       return;
     }
   }
+
+  crossReferenceDns(result);
 }

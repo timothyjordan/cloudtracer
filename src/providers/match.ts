@@ -205,7 +205,6 @@ function formatProviderName(key: string): string {
     segment: "Segment",
     amplitude: "Amplitude",
     heap: "Heap",
-    heap_analytics: "Heap",
     plausible: "Plausible Analytics",
     fathom: "Fathom Analytics",
     cloudflare_insights: "Cloudflare Web Analytics",

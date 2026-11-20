@@ -29,6 +29,12 @@ describe("matchDnsProvider", () => {
     expect(result!.name).toBe("Google Cloud DNS");
   });
 
+  it("should detect NS1 by default for nsone.net nameservers", () => {
+    const result = matchDnsProvider(["dns1.p01.nsone.net", "dns2.p01.nsone.net"]);
+    expect(result).toBeDefined();
+    expect(result!.name).toBe("NS1");
+  });
+
   it("should return undefined for unknown nameservers", () => {
     const result = matchDnsProvider(["ns1.unknownprovider.xyz"]);
     expect(result).toBeUndefined();
@@ -158,6 +164,13 @@ describe("matchThirdPartyScripts", () => {
     ]);
     const gaMatches = result.filter((r) => r.name === "Google Analytics");
     expect(gaMatches).toHaveLength(1);
+  });
+
+  it("should detect Heap only once for cdn.heapanalytics.com", () => {
+    const result = matchThirdPartyScripts(["https://cdn.heapanalytics.com/js/heap-123.js"]);
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe("Heap");
+    expect(result[0].category).toBe("analytics");
   });
 
   it("should return empty for no matches", () => {
