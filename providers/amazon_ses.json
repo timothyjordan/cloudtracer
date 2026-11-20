@@ -1,6 +1,7 @@
 {
   "id": "amazon_ses",
   "name": "Amazon SES",
+  "priority": 87,
   "email": {
     "mx_patterns": [
       "*.amazonaws.com"

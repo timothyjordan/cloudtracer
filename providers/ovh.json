@@ -1,6 +1,7 @@
 {
   "id": "ovh",
   "name": "OVH",
+  "priority": 100,
   "dns": {
     "patterns": [
       "*.ovh.net"

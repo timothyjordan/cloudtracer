@@ -1,6 +1,7 @@
 {
   "id": "dyn",
   "name": "Dyn",
+  "priority": 96,
   "dns": {
     "patterns": [
       "*.dynect.net"

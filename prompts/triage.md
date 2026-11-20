@@ -19,8 +19,10 @@ Knowing the seams helps you judge scope and split along them:
 - `src/scanners/`: eight independent scanners (`domain`, `dns`, `cdn`, `hosting`,
   `ssl`, `performance`, `email`, `thirdparty`), run in parallel by `src/scanner.ts`.
   Each is a natural, independently shippable unit.
-- `src/providers/providers.json`: the detection data (`dns`, `cdn`, `hosting`,
-  `email`, `thirdparty`, `html_frameworks`).
+- `providers/<slug>.json` (validated by `providers/schema.json`, compiled into
+  `src/providers/generated.ts` via `npm run providers:build`): the detection
+  data (`dns`, `cdn`, `hosting`, `email`, `thirdparty`, `html_frameworks`,
+  `platform_rules`).
 - `src/output/`: four renderers (`tree`, `json`, `yaml`, `markdown`).
 - `src/platform/`: the Node/browser split behind a `Platform` interface.
 - `src/cli.ts`: the Commander CLI, including the `skill` installer.
@@ -32,8 +34,9 @@ Knowing the seams helps you judge scope and split along them:
 
 **Atomic** (leave it alone) usually looks like:
 
-- Adding or correcting detection patterns for one provider in `providers.json`,
-  with tests.
+- Adding or correcting detection patterns for one provider in
+  `providers/<slug>.json` (plus `npm run providers:build` and
+  `npm run providers:validate`), with tests.
 - A fix or improvement inside a single scanner, renderer, or platform adapter.
 - A new CLI flag with its help text, docs, and tests.
 - A docs-only change under `docs/` or `README.md`.

@@ -1,6 +1,7 @@
 {
   "id": "google_cloud_dns",
   "name": "Google Cloud DNS",
+  "priority": 30,
   "dns": {
     "patterns": [
       "ns-cloud-*.googledomains.com"

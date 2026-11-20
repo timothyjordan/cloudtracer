@@ -1,6 +1,7 @@
 {
   "id": "azure",
   "name": "Microsoft Azure",
+  "priority": 80,
   "dns": {
     "patterns": [
       "*.azure-dns.com",

@@ -1,6 +1,7 @@
 {
   "id": "ultradns",
   "name": "UltraDNS",
+  "priority": 97,
   "dns": {
     "patterns": [
       "*.ultradns.com",

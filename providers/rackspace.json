@@ -1,6 +1,7 @@
 {
   "id": "rackspace",
   "name": "Rackspace Email",
+  "priority": 90,
   "email": {
     "mx_patterns": [
       "*.emailsrvr.com"

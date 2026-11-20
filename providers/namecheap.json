@@ -1,6 +1,7 @@
 {
   "id": "namecheap",
   "name": "Namecheap",
+  "priority": 50,
   "dns": {
     "patterns": [
       "*.registrar-servers.com"

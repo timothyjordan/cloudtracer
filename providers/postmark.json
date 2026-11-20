@@ -1,6 +1,7 @@
 {
   "id": "postmark",
   "name": "Postmark",
+  "priority": 86,
   "email": {
     "mx_patterns": [
       "*.mtasv.net"

@@ -1,6 +1,7 @@
 {
   "id": "icloud",
   "name": "iCloud Mail",
+  "priority": 88,
   "email": {
     "mx_patterns": [
       "*.icloud.com",

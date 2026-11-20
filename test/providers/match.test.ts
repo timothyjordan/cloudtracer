@@ -35,6 +35,12 @@ describe("matchDnsProvider", () => {
     expect(result!.name).toBe("NS1");
   });
 
+  it("should preserve Route 53 precedence over NS1 for dual-provider DNS", () => {
+    const result = matchDnsProvider(["dns1.p01.nsone.net", "ns-1234.awsdns-01.org"]);
+    expect(result).toBeDefined();
+    expect(result!.name).toBe("Amazon Route 53");
+  });
+
   it("should return undefined for unknown nameservers", () => {
     const result = matchDnsProvider(["ns1.unknownprovider.xyz"]);
     expect(result).toBeUndefined();
@@ -143,6 +149,15 @@ describe("matchEmailProvider", () => {
     const result = matchEmailProvider(["mycompany-com.mail.protection.outlook.com"]);
     expect(result).toBeDefined();
     expect(result!.name).toBe("Microsoft 365");
+  });
+
+  it("should preserve Google Workspace precedence over Barracuda for mixed MX records", () => {
+    const result = matchEmailProvider([
+      "d1234.a.ess.barracudanetworks.com",
+      "aspmx.l.google.com",
+    ]);
+    expect(result).toBeDefined();
+    expect(result!.name).toBe("Google Workspace");
   });
 
   it("should return undefined for unknown MX", () => {

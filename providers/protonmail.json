@@ -1,6 +1,7 @@
 {
   "id": "protonmail",
   "name": "ProtonMail",
+  "priority": 30,
   "email": {
     "mx_patterns": [
       "*.protonmail.ch",

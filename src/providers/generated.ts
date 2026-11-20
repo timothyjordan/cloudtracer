@@ -65,10 +65,45 @@ export const DNS_PROVIDERS: readonly DnsProviderEntry[] = [
     ]
   },
   {
-    "id": "vercel",
-    "name": "Vercel",
+    "id": "route53",
+    "name": "Amazon Route 53",
     "patterns": [
-      "*.vercel-dns.com"
+      "*.awsdns-*"
+    ]
+  },
+  {
+    "id": "google_cloud_dns",
+    "name": "Google Cloud DNS",
+    "patterns": [
+      "ns-cloud-*.googledomains.com"
+    ]
+  },
+  {
+    "id": "digitalocean",
+    "name": "DigitalOcean",
+    "patterns": [
+      "ns*.digitalocean.com"
+    ]
+  },
+  {
+    "id": "namecheap",
+    "name": "Namecheap",
+    "patterns": [
+      "*.registrar-servers.com"
+    ]
+  },
+  {
+    "id": "godaddy",
+    "name": "GoDaddy",
+    "patterns": [
+      "*.domaincontrol.com"
+    ]
+  },
+  {
+    "id": "dnsimple",
+    "name": "DNSimple",
+    "patterns": [
+      "*.dnsimple.com"
     ]
   },
   {
@@ -82,17 +117,17 @@ export const DNS_PROVIDERS: readonly DnsProviderEntry[] = [
     ]
   },
   {
-    "id": "digitalocean",
-    "name": "DigitalOcean",
+    "id": "vercel",
+    "name": "Vercel",
     "patterns": [
-      "ns*.digitalocean.com"
+      "*.vercel-dns.com"
     ]
   },
   {
-    "id": "dnsimple",
-    "name": "DNSimple",
+    "id": "ns1",
+    "name": "NS1",
     "patterns": [
-      "*.dnsimple.com"
+      "dns*.p*.nsone.net"
     ]
   },
   {
@@ -103,17 +138,11 @@ export const DNS_PROVIDERS: readonly DnsProviderEntry[] = [
     ]
   },
   {
-    "id": "godaddy",
-    "name": "GoDaddy",
+    "id": "ultradns",
+    "name": "UltraDNS",
     "patterns": [
-      "*.domaincontrol.com"
-    ]
-  },
-  {
-    "id": "google_cloud_dns",
-    "name": "Google Cloud DNS",
-    "patterns": [
-      "ns-cloud-*.googledomains.com"
+      "*.ultradns.com",
+      "*.ultradns.net"
     ]
   },
   {
@@ -131,39 +160,10 @@ export const DNS_PROVIDERS: readonly DnsProviderEntry[] = [
     ]
   },
   {
-    "id": "namecheap",
-    "name": "Namecheap",
-    "patterns": [
-      "*.registrar-servers.com"
-    ]
-  },
-  {
-    "id": "ns1",
-    "name": "NS1",
-    "patterns": [
-      "dns*.p*.nsone.net"
-    ]
-  },
-  {
     "id": "ovh",
     "name": "OVH",
     "patterns": [
       "*.ovh.net"
-    ]
-  },
-  {
-    "id": "route53",
-    "name": "Amazon Route 53",
-    "patterns": [
-      "*.awsdns-*"
-    ]
-  },
-  {
-    "id": "ultradns",
-    "name": "UltraDNS",
-    "patterns": [
-      "*.ultradns.com",
-      "*.ultradns.net"
     ]
   }
 ];
@@ -332,6 +332,20 @@ export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
     ]
   },
   {
+    "id": "digitalocean",
+    "name": "DigitalOcean",
+    "asns": [
+      14061
+    ]
+  },
+  {
+    "id": "azure",
+    "name": "Microsoft Azure",
+    "asns": [
+      8075
+    ]
+  },
+  {
     "id": "vercel",
     "name": "Vercel",
     "asns": [
@@ -346,25 +360,25 @@ export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
     ]
   },
   {
+    "id": "hetzner",
+    "name": "Hetzner",
+    "asns": [
+      24940
+    ]
+  },
+  {
+    "id": "linode",
+    "name": "Linode",
+    "asns": [
+      63949
+    ]
+  },
+  {
     "id": "aws",
     "name": "Amazon Web Services",
     "asns": [
       16509,
       14618
-    ]
-  },
-  {
-    "id": "azure",
-    "name": "Microsoft Azure",
-    "asns": [
-      8075
-    ]
-  },
-  {
-    "id": "digitalocean",
-    "name": "DigitalOcean",
-    "asns": [
-      14061
     ]
   },
   {
@@ -383,24 +397,10 @@ export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
     ]
   },
   {
-    "id": "hetzner",
-    "name": "Hetzner",
-    "asns": [
-      24940
-    ]
-  },
-  {
     "id": "ibm_cloud",
     "name": "IBM Cloud",
     "asns": [
       36351
-    ]
-  },
-  {
-    "id": "linode",
-    "name": "Linode",
-    "asns": [
-      63949
     ]
   },
   {
@@ -442,48 +442,11 @@ export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
 
 export const EMAIL_PROVIDERS: readonly EmailProviderEntry[] = [
   {
-    "id": "amazon_ses",
-    "name": "Amazon SES",
-    "mx_patterns": [
-      "*.amazonaws.com"
-    ]
-  },
-  {
-    "id": "barracuda",
-    "name": "Barracuda",
-    "mx_patterns": [
-      "*.barracudanetworks.com"
-    ]
-  },
-  {
-    "id": "fastmail",
-    "name": "Fastmail",
-    "mx_patterns": [
-      "*.fastmail.com",
-      "*.messagingengine.com"
-    ]
-  },
-  {
     "id": "google_workspace",
     "name": "Google Workspace",
     "mx_patterns": [
       "*.google.com",
       "*.googlemail.com"
-    ]
-  },
-  {
-    "id": "icloud",
-    "name": "iCloud Mail",
-    "mx_patterns": [
-      "*.icloud.com",
-      "*.apple.com"
-    ]
-  },
-  {
-    "id": "mailgun",
-    "name": "Mailgun",
-    "mx_patterns": [
-      "*.mailgun.org"
     ]
   },
   {
@@ -495,20 +458,6 @@ export const EMAIL_PROVIDERS: readonly EmailProviderEntry[] = [
     ]
   },
   {
-    "id": "mimecast",
-    "name": "Mimecast",
-    "mx_patterns": [
-      "*.mimecast.com"
-    ]
-  },
-  {
-    "id": "postmark",
-    "name": "Postmark",
-    "mx_patterns": [
-      "*.mtasv.net"
-    ]
-  },
-  {
     "id": "protonmail",
     "name": "ProtonMail",
     "mx_patterns": [
@@ -517,10 +466,40 @@ export const EMAIL_PROVIDERS: readonly EmailProviderEntry[] = [
     ]
   },
   {
-    "id": "rackspace",
-    "name": "Rackspace Email",
+    "id": "zoho",
+    "name": "Zoho Mail",
     "mx_patterns": [
-      "*.emailsrvr.com"
+      "*.zoho.com",
+      "*.zoho.eu"
+    ]
+  },
+  {
+    "id": "fastmail",
+    "name": "Fastmail",
+    "mx_patterns": [
+      "*.fastmail.com",
+      "*.messagingengine.com"
+    ]
+  },
+  {
+    "id": "mimecast",
+    "name": "Mimecast",
+    "mx_patterns": [
+      "*.mimecast.com"
+    ]
+  },
+  {
+    "id": "barracuda",
+    "name": "Barracuda",
+    "mx_patterns": [
+      "*.barracudanetworks.com"
+    ]
+  },
+  {
+    "id": "mailgun",
+    "name": "Mailgun",
+    "mx_patterns": [
+      "*.mailgun.org"
     ]
   },
   {
@@ -531,6 +510,28 @@ export const EMAIL_PROVIDERS: readonly EmailProviderEntry[] = [
     ]
   },
   {
+    "id": "postmark",
+    "name": "Postmark",
+    "mx_patterns": [
+      "*.mtasv.net"
+    ]
+  },
+  {
+    "id": "amazon_ses",
+    "name": "Amazon SES",
+    "mx_patterns": [
+      "*.amazonaws.com"
+    ]
+  },
+  {
+    "id": "icloud",
+    "name": "iCloud Mail",
+    "mx_patterns": [
+      "*.icloud.com",
+      "*.apple.com"
+    ]
+  },
+  {
     "id": "yahoo",
     "name": "Yahoo Mail",
     "mx_patterns": [
@@ -538,11 +539,10 @@ export const EMAIL_PROVIDERS: readonly EmailProviderEntry[] = [
     ]
   },
   {
-    "id": "zoho",
-    "name": "Zoho Mail",
+    "id": "rackspace",
+    "name": "Rackspace Email",
     "mx_patterns": [
-      "*.zoho.com",
-      "*.zoho.eu"
+      "*.emailsrvr.com"
     ]
   }
 ];

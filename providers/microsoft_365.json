@@ -1,6 +1,7 @@
 {
   "id": "microsoft_365",
   "name": "Microsoft 365",
+  "priority": 20,
   "email": {
     "mx_patterns": [
       "*.outlook.com",

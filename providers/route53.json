@@ -1,6 +1,7 @@
 {
   "id": "route53",
   "name": "Amazon Route 53",
+  "priority": 20,
   "dns": {
     "patterns": [
       "*.awsdns-*"

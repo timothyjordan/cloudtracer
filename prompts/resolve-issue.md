@@ -43,9 +43,12 @@ Follow that convention or the build breaks.
 - `src/platform/`: the Node/browser split. `types.ts` defines the `Platform`
   interface (DNS resolution, certificate read, optional WHOIS and TLS timing);
   `node.ts` and `browser.ts` implement it.
-- `src/providers/providers.json`: the detection data, keyed by `dns`, `cdn`,
-  `hosting`, `email`, `thirdparty`, and `html_frameworks`. **Adding support for a
-  new provider is usually a data change here, not a code change.**
+- `providers/<slug>.json` (validated against `providers/schema.json`): the
+  per-provider detection data (`dns`, `cdn`, `hosting`, `email`, `thirdparty`,
+  `html_frameworks`, `platform_rules`). **Adding support for a new provider is
+  usually a single-file data change here, not a code change.** After editing,
+  run `npm run providers:build` to regenerate `src/providers/generated.ts` and
+  `npm run providers:validate` to check schema and pattern collisions.
   `src/providers/match.ts` does the glob-style pattern matching.
 - `src/output/`: the renderers `tree` (the default), `json`, `yaml`, `markdown`.
 - `src/skills/`: the agent-skill installer.

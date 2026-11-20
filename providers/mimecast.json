@@ -1,6 +1,7 @@
 {
   "id": "mimecast",
   "name": "Mimecast",
+  "priority": 60,
   "email": {
     "mx_patterns": [
       "*.mimecast.com"

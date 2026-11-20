@@ -1,6 +1,7 @@
 {
   "id": "ns1",
   "name": "NS1",
+  "priority": 95,
   "dns": {
     "patterns": [
       "dns*.p*.nsone.net"

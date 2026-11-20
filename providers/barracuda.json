@@ -1,6 +1,7 @@
 {
   "id": "barracuda",
   "name": "Barracuda",
+  "priority": 70,
   "email": {
     "mx_patterns": [
       "*.barracudanetworks.com"

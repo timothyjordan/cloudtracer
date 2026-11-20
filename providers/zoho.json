@@ -1,6 +1,7 @@
 {
   "id": "zoho",
   "name": "Zoho Mail",
+  "priority": 40,
   "email": {
     "mx_patterns": [
       "*.zoho.com",

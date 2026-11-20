@@ -1,6 +1,7 @@
 {
   "id": "hetzner",
   "name": "Hetzner",
+  "priority": 98,
   "dns": {
     "patterns": [
       "*.hetzner.com"

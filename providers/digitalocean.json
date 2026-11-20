@@ -1,6 +1,7 @@
 {
   "id": "digitalocean",
   "name": "DigitalOcean",
+  "priority": 40,
   "dns": {
     "patterns": [
       "ns*.digitalocean.com"

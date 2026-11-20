@@ -24,8 +24,10 @@ popup is in `extension/src/`; tests are in `test/`, mirroring `src/`.
 
 Keep scanner, provider-matching, and output code platform-agnostic: it takes a
 `Platform` at runtime and must not import `node:*`. Node-only behavior belongs in
-`src/platform/node.ts`. Detection rules for a new provider are usually a data
-change in `src/providers/providers.json`.
+`src/platform/node.ts`. Detection rules for a new provider are usually a
+single-file data change in `providers/<slug>.json` (matching
+`providers/schema.json`), followed by `npm run providers:build` to regenerate
+`src/providers/generated.ts` and `npm run providers:validate`.
 
 ## What to do
 

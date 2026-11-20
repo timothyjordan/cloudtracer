@@ -1,6 +1,7 @@
 {
   "id": "fastmail",
   "name": "Fastmail",
+  "priority": 50,
   "email": {
     "mx_patterns": [
       "*.fastmail.com",

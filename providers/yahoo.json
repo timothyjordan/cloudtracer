@@ -1,6 +1,7 @@
 {
   "id": "yahoo",
   "name": "Yahoo Mail",
+  "priority": 89,
   "email": {
     "mx_patterns": [
       "*.yahoodns.net"

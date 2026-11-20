@@ -1,6 +1,7 @@
 {
   "id": "google_workspace",
   "name": "Google Workspace",
+  "priority": 10,
   "email": {
     "mx_patterns": [
       "*.google.com",

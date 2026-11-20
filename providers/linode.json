@@ -1,6 +1,7 @@
 {
   "id": "linode",
   "name": "Linode",
+  "priority": 99,
   "dns": {
     "patterns": [
       "*.linode.com"

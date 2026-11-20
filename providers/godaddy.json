@@ -1,6 +1,7 @@
 {
   "id": "godaddy",
   "name": "GoDaddy",
+  "priority": 60,
   "dns": {
     "patterns": [
       "*.domaincontrol.com"
