@@ -101,4 +101,26 @@ describe("scanThirdParty", () => {
     expect(names).toContain("Google Analytics");
     expect(names).toContain("Next.js");
   });
+
+  it("should sort third-party services deterministically by category then name", async () => {
+    vi.mocked(fetchHtml).mockResolvedValue(`
+      <html>
+      <head>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="https://cdn.segment.com/analytics.js/v1/abc/analytics.min.js"></script>
+        <script src="https://www.googletagmanager.com/gtag/js"></script>
+        <script src="https://widget.intercom.io/widget/abc"></script>
+      </head>
+      <body></body>
+      </html>
+    `);
+
+    const result = await scanThirdParty("example.com");
+    expect(result.map((r) => `${r.category}:${r.name}`)).toEqual([
+      "analytics:Google Analytics",
+      "analytics:Segment",
+      "chat:Intercom",
+      "payments:Stripe",
+    ]);
+  });
 });

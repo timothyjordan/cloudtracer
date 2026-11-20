@@ -13,6 +13,7 @@ import {
   CDN_EDGE_PROVIDER_NAMES,
   DIRECT_PLATFORM_IPS,
   DNS_CROSS_REF_RULES,
+  HOSTING_PLATFORM_PROVIDER_NAMES,
   PLATFORM_INFRA_RULES,
   PLATFORM_PROVIDER_NAMES,
 } from "./providers/generated.js";
@@ -119,6 +120,7 @@ function assign(result: ScanResult, name: string, scanResult: unknown): void {
 }
 
 const PLATFORM_PROVIDERS = new Set<string>(PLATFORM_PROVIDER_NAMES);
+const HOSTING_PLATFORM_PROVIDERS = new Set<string>(HOSTING_PLATFORM_PROVIDER_NAMES);
 const CDN_EDGE_PROVIDERS = new Set<string>(CDN_EDGE_PROVIDER_NAMES);
 
 function normalizeIp(ip: string): string {
@@ -210,10 +212,10 @@ function detectHostingPlatform(result: ScanResult): void {
       }
     }
 
-    // Check hosting providers that are themselves platforms (e.g. Fly.io, Render, Railway)
+    // Check hosting providers whose ASN uniquely identifies a platform (e.g. Fly.io, Render, Railway)
     if (
       result.hosting.provider &&
-      PLATFORM_PROVIDERS.has(result.hosting.provider.name)
+      HOSTING_PLATFORM_PROVIDERS.has(result.hosting.provider.name)
     ) {
       result.hosting.platform = {
         name: result.hosting.provider.name,

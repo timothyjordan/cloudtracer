@@ -40,6 +40,7 @@ export function renderGeneratedModule(entries) {
   const thirdparty = [];
   const htmlFrameworks = [];
   const platformNames = [];
+  const hostingPlatformNames = [];
   const cdnEdgeNames = [];
   const directPlatformIps = [];
   const platformInfraRules = [];
@@ -73,8 +74,8 @@ export function renderGeneratedModule(entries) {
       if (data.hosting.ips?.length) {
         directPlatformIps.push({ platform: name, ips: data.hosting.ips });
       }
-      if (data.hosting.is_platform && !platformNames.includes(name)) {
-        platformNames.push(name);
+      if (data.hosting.is_platform && !hostingPlatformNames.includes(name)) {
+        hostingPlatformNames.push(name);
       }
       if (data.hosting.is_cdn_edge && !cdnEdgeNames.includes(name)) {
         cdnEdgeNames.push(name);
@@ -195,6 +196,8 @@ export function renderGeneratedModule(entries) {
     `export const HTML_FRAMEWORK_PROVIDERS: readonly HtmlFrameworkProviderEntry[] = ${JSON.stringify(htmlFrameworks, null, 2)};`,
     "",
     `export const PLATFORM_PROVIDER_NAMES: readonly string[] = ${JSON.stringify(platformNames, null, 2)};`,
+    "",
+    `export const HOSTING_PLATFORM_PROVIDER_NAMES: readonly string[] = ${JSON.stringify(hostingPlatformNames, null, 2)};`,
     "",
     `export const CDN_EDGE_PROVIDER_NAMES: readonly string[] = ${JSON.stringify(cdnEdgeNames, null, 2)};`,
     "",

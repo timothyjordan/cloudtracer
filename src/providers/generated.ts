@@ -1896,7 +1896,11 @@ export const HTML_FRAMEWORK_PROVIDERS: readonly HtmlFrameworkProviderEntry[] = [
 export const PLATFORM_PROVIDER_NAMES: readonly string[] = [
   "Vercel",
   "Netlify",
-  "GitHub Pages",
+  "GitHub Pages"
+];
+
+export const HOSTING_PLATFORM_PROVIDER_NAMES: readonly string[] = [
+  "Vercel",
   "Firebase Hosting",
   "Fly.io",
   "Railway",

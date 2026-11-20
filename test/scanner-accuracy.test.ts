@@ -248,4 +248,26 @@ describe("detection accuracy cross-referencing", () => {
       confidence: "high",
     });
   });
+
+  it("does not report GitHub Pages platform for non-apex AS36459 GitHub IPs", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({});
+
+    const platform = mockPlatform({
+      dns: {
+        resolveA: vi.fn().mockResolvedValue(["140.82.121.4"]),
+        resolveTxt: vi.fn().mockImplementation(async (name: string) => {
+          if (name.endsWith(".origin.asn.cymru.com")) {
+            return ["36459 | 140.82.121.4 | 140.82.121.0/24 | US | arin"];
+          }
+          if (name === "AS36459.asn.cymru.com") {
+            return ["36459 | US | arin | 2012-01-01 | GITHUB, US"];
+          }
+          return [];
+        }),
+      },
+    });
+
+    const result = await runScan("github.com", platform);
+    expect(result.hosting?.platform).toBeUndefined();
+  });
 });

@@ -39,5 +39,12 @@ export async function scanThirdParty(domain: string): Promise<ThirdPartyInfo[]> 
     }
   }
 
+  results.sort((a, b) => {
+    if (a.category !== b.category) {
+      return a.category < b.category ? -1 : 1;
+    }
+    return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+  });
+
   return results;
 }
