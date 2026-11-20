@@ -179,21 +179,23 @@ describe("detection accuracy cross-referencing", () => {
     expect(result.hosting?.behindCdn).toBe("Amazon CloudFront");
   });
 
-  it("does not set behindCdn when a platform is matched behind a CDN", async () => {
+  it("sets behindCdn alongside platform when a platform sits behind a CDN edge", async () => {
     vi.mocked(fetchHeaders).mockResolvedValue({
-      server: "GitHub.com",
-      "x-served-by": "cache-sjc1000129-SJC",
+      server: "cloudflare",
+      "cf-ray": "a5d98c92dd5633fc-SJC",
+      "x-github-request-id": "0C2C:329D7C",
+      "x-github-edge-region": "westus3",
     });
 
     const platform = mockPlatform({
       dns: {
-        resolveA: vi.fn().mockResolvedValue(["185.199.108.153"]),
+        resolveA: vi.fn().mockResolvedValue(["104.21.54.121"]),
         resolveTxt: vi.fn().mockImplementation(async (name: string) => {
           if (name.endsWith(".origin.asn.cymru.com")) {
-            return ["54113 | 185.199.108.153 | 185.199.108.0/22 | US | arin"];
+            return ["13335 | 104.21.54.121 | 104.21.0.0/16 | US | arin"];
           }
-          if (name === "AS54113.asn.cymru.com") {
-            return ["54113 | US | arin | 2011-04-12 | FASTLY - Fastly, Inc., US"];
+          if (name === "AS13335.asn.cymru.com") {
+            return ["13335 | US | arin | 2010-07-14 | CLOUDFLARENET, US"];
           }
           return [];
         }),
@@ -202,6 +204,6 @@ describe("detection accuracy cross-referencing", () => {
 
     const result = await runScan("cloudtracer.dev", platform);
     expect(result.hosting?.platform?.name).toBe("GitHub Pages");
-    expect(result.hosting?.behindCdn).toBeUndefined();
+    expect(result.hosting?.behindCdn).toBe("Cloudflare");
   });
 });

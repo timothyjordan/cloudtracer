@@ -101,6 +101,24 @@ describe("formatTree", () => {
     expect(output).not.toContain("Provider : Fastly");
   });
 
+  it("should show platform behind CDN when both platform and behindCdn are set", () => {
+    const result: ScanResult = {
+      domain: "cloudtracer.dev",
+      scannedAt: new Date().toISOString(),
+      hosting: {
+        ipAddresses: { v4: ["104.21.54.121"], v6: [] },
+        asn: { number: 13335, name: "CLOUDFLARENET" },
+        provider: { name: "Cloudflare", confidence: "high" },
+        platform: { name: "GitHub Pages", confidence: "high" },
+        behindCdn: "Cloudflare",
+      },
+    };
+
+    const output = formatTree(result);
+    expect(output).toContain("Platform : GitHub Pages (behind Cloudflare)");
+    expect(output).not.toContain("(on Cloudflare)");
+  });
+
   it("should show performance metrics with timing labels", () => {
     const result: ScanResult = {
       domain: "example.com",

@@ -47,7 +47,9 @@ export function formatMarkdown(result: ScanResult): string {
     const h = result.hosting;
     lines.push("## Hosting & Compute");
     lines.push("");
-    if (h.platform && h.provider) {
+    if (h.platform && h.behindCdn) {
+      lines.push(`- **Platform**: ${h.platform.name} (behind ${h.behindCdn})`);
+    } else if (h.platform && h.provider) {
       lines.push(`- **Platform**: ${h.platform.name} (on ${h.provider.name})`);
     } else if (h.platform) {
       lines.push(`- **Platform**: ${h.platform.name}`);

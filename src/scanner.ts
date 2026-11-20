@@ -185,11 +185,6 @@ const CDN_EDGE_PROVIDERS = new Set([
 function applyBehindCdn(result: ScanResult): void {
   if (!result.hosting) return;
 
-  if (result.hosting.platform) {
-    delete result.hosting.behindCdn;
-    return;
-  }
-
   const hostProvider = result.hosting.provider?.name;
   if (hostProvider && CDN_EDGE_PROVIDERS.has(hostProvider)) {
     result.hosting.behindCdn = hostProvider;

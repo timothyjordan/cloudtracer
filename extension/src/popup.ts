@@ -255,7 +255,10 @@ function hostingCard(r: ScanResult, done: boolean): HTMLElement {
   const { body } = card("Hosting");
   if (r.hosting) {
     const h = r.hosting;
-    if (h.platform && h.provider) {
+    if (h.platform && h.behindCdn) {
+      body.appendChild(primary(h.platform.name));
+      body.appendChild(row("Behind", h.behindCdn));
+    } else if (h.platform && h.provider) {
       body.appendChild(primary(h.platform.name));
       body.appendChild(row("Infra", h.provider.name));
     } else if (h.platform) {

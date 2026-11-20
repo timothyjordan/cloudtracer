@@ -63,4 +63,22 @@ describe("formatMarkdown", () => {
     expect(output).not.toContain("- **Provider**: Cloudflare");
     expect(output).toContain("Host[Origin: unknown (behind Cloudflare)");
   });
+
+  it("should render platform behind CDN when both platform and behindCdn are set", () => {
+    const result: ScanResult = {
+      domain: "cloudtracer.dev",
+      scannedAt: new Date().toISOString(),
+      hosting: {
+        ipAddresses: { v4: ["104.21.54.121"], v6: [] },
+        asn: { number: 13335, name: "CLOUDFLARENET" },
+        provider: { name: "Cloudflare", confidence: "high" },
+        platform: { name: "GitHub Pages", confidence: "high" },
+        behindCdn: "Cloudflare",
+      },
+    };
+
+    const output = formatMarkdown(result);
+    expect(output).toContain("- **Platform**: GitHub Pages (behind Cloudflare)");
+    expect(output).not.toContain("(on Cloudflare)");
+  });
 });
