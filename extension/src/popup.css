@@ -350,6 +350,24 @@ body {
   color: var(--fg-dim);
 }
 
+.rate-link {
+  font-size: 11px;
+  color: var(--fg-dim);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.rate-link:hover {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rate-link:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
 /* ---- telemetry notice + toggle ------------------------------------------- */
 
 /* Shown once, above the results rather than over them: the popup is only 380px

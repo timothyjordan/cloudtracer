@@ -5,6 +5,12 @@ import {
 } from "../../src/browser-entry.js";
 import { durationBucket, resolvedScanners } from "../../src/telemetry/derive.js";
 import { createExtensionTelemetry } from "./telemetry.js";
+import {
+  getCompletedScanCount,
+  getReviewUrl,
+  incrementCompletedScanCount,
+  shouldShowReviewLink,
+} from "./review.js";
 import type { UiControl } from "../../src/telemetry/types.js";
 
 const content = document.getElementById("content") as HTMLElement;
@@ -15,6 +21,7 @@ const noticeEl = document.getElementById("notice") as HTMLElement;
 const noticeOkBtn = document.getElementById("notice-ok") as HTMLButtonElement;
 const noticeOffBtn = document.getElementById("notice-off") as HTMLButtonElement;
 const telToggle = document.getElementById("tel") as HTMLInputElement;
+const rateLink = document.getElementById("rate-link") as HTMLAnchorElement | null;
 
 const { telemetry, provider } = createExtensionTelemetry();
 
@@ -28,10 +35,19 @@ function trackClick(control: UiControl): void {
   void telemetry.track({ name: "ui_clicked", props: { surface: "extension", control } });
 }
 
+function updateReviewLink(completedScans: number): void {
+  if (!rateLink || !shouldShowReviewLink(completedScans)) return;
+  const extensionId = typeof chrome !== "undefined" ? chrome.runtime?.id : undefined;
+  const url = getReviewUrl(extensionId);
+  if (!url) return;
+  rateLink.href = url;
+  rateLink.hidden = false;
+}
+
 async function main(): Promise<void> {
-  // Telemetry setup runs before the scan but never blocks it: a failure here
-  // must leave a fully working popup.
+  // Telemetry and review link setup run before the scan but never block it.
   void setupTelemetryUi();
+  void getCompletedScanCount().then(updateReviewLink);
 
   const tab = await getActiveTab();
   const domain = tab?.url ? domainFromUrl(tab.url) : null;
@@ -117,6 +133,10 @@ async function scan(domain: string): Promise<void> {
   render(latest, true);
   scanning = false;
   setControls();
+
+  if (latest.scannedAt) {
+    void incrementCompletedScanCount().then(updateReviewLink);
+  }
 
   void telemetry.track({
     name: "scan_completed",
