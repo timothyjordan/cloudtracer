@@ -46,6 +46,8 @@ export interface HostingInfo {
   asn?: { number: number; name: string };
   provider?: ProviderMatch;
   platform?: ProviderMatch;
+  /** Set when resolved IP/ASN only reflects a CDN edge and no origin platform was matched. */
+  behindCdn?: string;
 }
 
 export interface SslInfo {

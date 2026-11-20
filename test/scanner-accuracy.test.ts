@@ -124,5 +124,84 @@ describe("detection accuracy cross-referencing", () => {
       name: "GitHub Pages",
       confidence: "high",
     });
+    expect(result.hosting?.behindCdn).toBeUndefined();
+  });
+
+  it("marks hosting as behindCdn when only a CDN ASN is matched (Cloudflare)", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({
+      "cf-ray": "abc123-SJC",
+      server: "cloudflare",
+    });
+
+    const platform = mockPlatform({
+      dns: {
+        resolveA: vi.fn().mockResolvedValue(["104.21.1.2"]),
+        resolveTxt: vi.fn().mockImplementation(async (name: string) => {
+          if (name.endsWith(".origin.asn.cymru.com")) {
+            return ["13335 | 104.21.1.2 | 104.21.0.0/16 | US | arin"];
+          }
+          if (name === "AS13335.asn.cymru.com") {
+            return ["13335 | US | arin | 2010-07-14 | CLOUDFLARENET, US"];
+          }
+          return [];
+        }),
+      },
+    });
+
+    const result = await runScan("behind-cf.example.com", platform);
+    expect(result.hosting?.platform).toBeUndefined();
+    expect(result.hosting?.behindCdn).toBe("Cloudflare");
+  });
+
+  it("marks hosting as behindCdn when CloudFront sits on AWS ASN with no platform", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({
+      "x-amz-cf-id": "abc123",
+      via: "1.1 abc.cloudfront.net (CloudFront)",
+    });
+
+    const platform = mockPlatform({
+      dns: {
+        resolveA: vi.fn().mockResolvedValue(["13.225.1.2"]),
+        resolveTxt: vi.fn().mockImplementation(async (name: string) => {
+          if (name.endsWith(".origin.asn.cymru.com")) {
+            return ["16509 | 13.225.1.2 | 13.225.0.0/16 | US | arin"];
+          }
+          if (name === "AS16509.asn.cymru.com") {
+            return ["16509 | US | arin | 2000-05-04 | AMAZON-02, US"];
+          }
+          return [];
+        }),
+      },
+    });
+
+    const result = await runScan("behind-cf-aws.example.com", platform);
+    expect(result.hosting?.platform).toBeUndefined();
+    expect(result.hosting?.behindCdn).toBe("Amazon CloudFront");
+  });
+
+  it("does not set behindCdn when a platform is matched behind a CDN", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({
+      server: "GitHub.com",
+      "x-served-by": "cache-sjc1000129-SJC",
+    });
+
+    const platform = mockPlatform({
+      dns: {
+        resolveA: vi.fn().mockResolvedValue(["185.199.108.153"]),
+        resolveTxt: vi.fn().mockImplementation(async (name: string) => {
+          if (name.endsWith(".origin.asn.cymru.com")) {
+            return ["54113 | 185.199.108.153 | 185.199.108.0/22 | US | arin"];
+          }
+          if (name === "AS54113.asn.cymru.com") {
+            return ["54113 | US | arin | 2011-04-12 | FASTLY - Fastly, Inc., US"];
+          }
+          return [];
+        }),
+      },
+    });
+
+    const result = await runScan("cloudtracer.dev", platform);
+    expect(result.hosting?.platform?.name).toBe("GitHub Pages");
+    expect(result.hosting?.behindCdn).toBeUndefined();
   });
 });

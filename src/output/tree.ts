@@ -47,6 +47,8 @@ export function formatTree(result: ScanResult): string {
       items.push(`Platform : ${h.platform.name} (on ${h.provider.name})`);
     } else if (h.platform) {
       items.push(`Platform : ${h.platform.name}`);
+    } else if (h.behindCdn) {
+      items.push(`Origin   : unknown (behind ${h.behindCdn})`);
     } else if (h.provider) {
       items.push(`Provider : ${h.provider.name}`);
     }

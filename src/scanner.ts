@@ -170,6 +170,50 @@ const PLATFORM_BY_INFRA: {
   },
 ];
 
+const CDN_EDGE_PROVIDERS = new Set([
+  "Cloudflare",
+  "Fastly",
+  "Akamai",
+  "Amazon CloudFront",
+  "BunnyCDN",
+  "KeyCDN",
+  "StackPath",
+  "Sucuri",
+  "Imperva Incapsula",
+]);
+
+function applyBehindCdn(result: ScanResult): void {
+  if (!result.hosting) return;
+
+  if (result.hosting.platform) {
+    delete result.hosting.behindCdn;
+    return;
+  }
+
+  const hostProvider = result.hosting.provider?.name;
+  if (hostProvider && CDN_EDGE_PROVIDERS.has(hostProvider)) {
+    result.hosting.behindCdn = hostProvider;
+    return;
+  }
+
+  const pureCdn = result.cdn?.providers.find(
+    (p) =>
+      !PLATFORM_PROVIDERS.has(p.provider.name) &&
+      CDN_EDGE_PROVIDERS.has(p.provider.name),
+  );
+  if (
+    pureCdn &&
+    (!hostProvider ||
+      (pureCdn.provider.name === "Amazon CloudFront" &&
+        hostProvider === "Amazon Web Services"))
+  ) {
+    result.hosting.behindCdn = pureCdn.provider.name;
+    return;
+  }
+
+  delete result.hosting.behindCdn;
+}
+
 function crossReferenceDns(result: ScanResult): void {
   if (result.dns?.provider?.name !== "NS1") return;
   const hasNetlifyCdn = result.cdn?.providers.some(
@@ -181,7 +225,7 @@ function crossReferenceDns(result: ScanResult): void {
   }
 }
 
-function crossReferencePlatform(result: ScanResult): void {
+function detectHostingPlatform(result: ScanResult): void {
   // Check CDN header/CNAME-detected platforms (Vercel, Netlify, GitHub Pages, etc.)
   if (result.cdn && result.hosting) {
     for (const cdnProvider of result.cdn.providers) {
@@ -190,7 +234,6 @@ function crossReferencePlatform(result: ScanResult): void {
           name: cdnProvider.provider.name,
           confidence: cdnProvider.provider.confidence,
         };
-        crossReferenceDns(result);
         return;
       }
     }
@@ -209,7 +252,6 @@ function crossReferencePlatform(result: ScanResult): void {
           name: entry.platform,
           confidence: "high",
         };
-        crossReferenceDns(result);
         return;
       }
     }
@@ -237,10 +279,13 @@ function crossReferencePlatform(result: ScanResult): void {
         name: rule.platform,
         confidence: ipMatch ? "high" : "medium",
       };
-      crossReferenceDns(result);
       return;
     }
   }
+}
 
+function crossReferencePlatform(result: ScanResult): void {
+  detectHostingPlatform(result);
+  applyBehindCdn(result);
   crossReferenceDns(result);
 }

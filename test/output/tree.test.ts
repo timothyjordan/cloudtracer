@@ -84,6 +84,23 @@ describe("formatTree", () => {
     expect(output).not.toContain("Provider : Amazon Web Services");
   });
 
+  it("should show unknown origin behind CDN when behindCdn is set without platform", () => {
+    const result: ScanResult = {
+      domain: "example.com",
+      scannedAt: new Date().toISOString(),
+      hosting: {
+        ipAddresses: { v4: ["151.101.1.69"], v6: [] },
+        asn: { number: 54113, name: "FASTLY" },
+        provider: { name: "Fastly", confidence: "high" },
+        behindCdn: "Fastly",
+      },
+    };
+
+    const output = formatTree(result);
+    expect(output).toContain("Origin   : unknown (behind Fastly)");
+    expect(output).not.toContain("Provider : Fastly");
+  });
+
   it("should show performance metrics with timing labels", () => {
     const result: ScanResult = {
       domain: "example.com",

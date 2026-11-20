@@ -45,4 +45,22 @@ describe("formatMarkdown", () => {
     const output = formatMarkdown(result);
     expect(output).toContain("| Stripe | payments |");
   });
+
+  it("should render unknown origin behind CDN in hosting section and diagram", () => {
+    const result: ScanResult = {
+      domain: "example.com",
+      scannedAt: new Date().toISOString(),
+      hosting: {
+        ipAddresses: { v4: ["104.21.1.2"], v6: [] },
+        asn: { number: 13335, name: "CLOUDFLARENET" },
+        provider: { name: "Cloudflare", confidence: "high" },
+        behindCdn: "Cloudflare",
+      },
+    };
+
+    const output = formatMarkdown(result);
+    expect(output).toContain("- **Origin**: unknown (behind Cloudflare)");
+    expect(output).not.toContain("- **Provider**: Cloudflare");
+    expect(output).toContain("Host[Origin: unknown (behind Cloudflare)");
+  });
 });

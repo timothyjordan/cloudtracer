@@ -234,12 +234,20 @@ function cdnCard(r: ScanResult, done: boolean): HTMLElement {
 function hostingCard(r: ScanResult, done: boolean): HTMLElement {
   const { body } = card("Hosting");
   if (r.hosting) {
-    body.appendChild(primary(r.hosting.provider?.name ?? "Unknown provider", !r.hosting.provider));
-    if (r.hosting.platform)
-      body.appendChild(row("Platform", r.hosting.platform.name));
-    if (r.hosting.asn)
-      body.appendChild(row("ASN", `${r.hosting.asn.number} · ${r.hosting.asn.name}`));
-    const ips = [...r.hosting.ipAddresses.v4, ...r.hosting.ipAddresses.v6].slice(0, 4);
+    const h = r.hosting;
+    if (h.platform && h.provider) {
+      body.appendChild(primary(h.platform.name));
+      body.appendChild(row("Infra", h.provider.name));
+    } else if (h.platform) {
+      body.appendChild(primary(h.platform.name));
+    } else if (h.behindCdn) {
+      body.appendChild(primary(`Origin: unknown (behind ${h.behindCdn})`, true));
+    } else {
+      body.appendChild(primary(h.provider?.name ?? "Unknown provider", !h.provider));
+    }
+    if (h.asn)
+      body.appendChild(row("ASN", `${h.asn.number} · ${h.asn.name}`));
+    const ips = [...h.ipAddresses.v4, ...h.ipAddresses.v6].slice(0, 4);
     if (ips.length) body.appendChild(row("IP", ips.join(", ")));
   } else {
     fillPending(body, r.hosting, done);
