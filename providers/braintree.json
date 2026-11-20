@@ -1,0 +1,10 @@
+{
+  "id": "braintree",
+  "name": "Braintree",
+  "thirdparty": {
+    "scripts": [
+      "js.braintreegateway.com"
+    ],
+    "category": "payments"
+  }
+}

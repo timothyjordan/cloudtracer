@@ -1,0 +1,9 @@
+{
+  "id": "godaddy",
+  "name": "GoDaddy",
+  "dns": {
+    "patterns": [
+      "*.domaincontrol.com"
+    ]
+  }
+}

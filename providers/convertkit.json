@@ -1,0 +1,10 @@
+{
+  "id": "convertkit",
+  "name": "ConvertKit",
+  "thirdparty": {
+    "scripts": [
+      "f.convertkit.com"
+    ],
+    "category": "marketing"
+  }
+}

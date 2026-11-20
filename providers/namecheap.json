@@ -1,0 +1,9 @@
+{
+  "id": "namecheap",
+  "name": "Namecheap",
+  "dns": {
+    "patterns": [
+      "*.registrar-servers.com"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "google_workspace",
+  "name": "Google Workspace",
+  "email": {
+    "mx_patterns": [
+      "*.google.com",
+      "*.googlemail.com"
+    ]
+  }
+}

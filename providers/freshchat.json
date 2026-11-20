@@ -1,0 +1,10 @@
+{
+  "id": "freshchat",
+  "name": "Freshchat",
+  "thirdparty": {
+    "scripts": [
+      "wchat.freshchat.com"
+    ],
+    "category": "chat"
+  }
+}

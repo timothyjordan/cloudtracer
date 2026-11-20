@@ -1,0 +1,9 @@
+{
+  "id": "dnsimple",
+  "name": "DNSimple",
+  "dns": {
+    "patterns": [
+      "*.dnsimple.com"
+    ]
+  }
+}

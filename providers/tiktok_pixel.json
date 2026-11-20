@@ -1,0 +1,11 @@
+{
+  "id": "tiktok_pixel",
+  "name": "TikTok Pixel",
+  "thirdparty": {
+    "scripts": [
+      "analytics.tiktok.com",
+      "tiktok.com/i18n/pixel"
+    ],
+    "category": "advertising"
+  }
+}

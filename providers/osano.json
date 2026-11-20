@@ -1,0 +1,10 @@
+{
+  "id": "osano",
+  "name": "Osano",
+  "thirdparty": {
+    "scripts": [
+      "cmp.osano.com"
+    ],
+    "category": "consent"
+  }
+}

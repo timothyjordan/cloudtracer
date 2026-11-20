@@ -1,0 +1,15 @@
+{
+  "id": "bunnycdn",
+  "name": "BunnyCDN",
+  "cdn": {
+    "headers": {
+      "Server": "BunnyCDN*",
+      "CDN-PullZone": "*",
+      "CDN-Uid": "*"
+    },
+    "cnames": [
+      "*.b-cdn.net"
+    ],
+    "is_cdn_edge": true
+  }
+}

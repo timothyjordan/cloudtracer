@@ -1,0 +1,11 @@
+{
+  "id": "criteo",
+  "name": "Criteo",
+  "thirdparty": {
+    "scripts": [
+      "static.criteo.net",
+      "dynamic.criteo.com"
+    ],
+    "category": "advertising"
+  }
+}

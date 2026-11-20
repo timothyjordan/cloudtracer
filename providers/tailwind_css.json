@@ -1,0 +1,17 @@
+{
+  "id": "tailwind_css",
+  "name": "Tailwind CSS",
+  "thirdparty": {
+    "scripts": [
+      "cdn.tailwindcss.com"
+    ],
+    "category": "framework"
+  },
+  "html_frameworks": {
+    "html_patterns": [
+      "tailwindcss",
+      "tailwind.config"
+    ],
+    "category": "framework"
+  }
+}

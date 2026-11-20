@@ -1,0 +1,11 @@
+{
+  "id": "fullstory",
+  "name": "FullStory",
+  "thirdparty": {
+    "scripts": [
+      "fullstory.com/s/fs.js",
+      "edge.fullstory.com"
+    ],
+    "category": "analytics"
+  }
+}

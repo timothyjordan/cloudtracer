@@ -1,0 +1,11 @@
+{
+  "id": "lemon_squeezy",
+  "name": "Lemon Squeezy",
+  "thirdparty": {
+    "scripts": [
+      "assets.lemonsqueezy.com",
+      "lmsqueezy.com"
+    ],
+    "category": "payments"
+  }
+}

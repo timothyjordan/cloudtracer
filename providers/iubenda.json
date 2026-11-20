@@ -1,0 +1,10 @@
+{
+  "id": "iubenda",
+  "name": "Iubenda",
+  "thirdparty": {
+    "scripts": [
+      "cdn.iubenda.com"
+    ],
+    "category": "consent"
+  }
+}

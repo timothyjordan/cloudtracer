@@ -1,0 +1,21 @@
+{
+  "id": "vue",
+  "name": "Vue.js",
+  "thirdparty": {
+    "scripts": [
+      "unpkg.com/vue",
+      "cdn.jsdelivr.net/npm/vue",
+      "cdnjs.cloudflare.com/ajax/libs/vue"
+    ],
+    "category": "framework"
+  },
+  "html_frameworks": {
+    "html_patterns": [
+      "data-v-",
+      "data-vue-ssr",
+      "__vue__",
+      "Vue.js"
+    ],
+    "category": "framework"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "onetrust",
+  "name": "OneTrust",
+  "thirdparty": {
+    "scripts": [
+      "cdn.cookielaw.org",
+      "optanon.blob.core.windows.net"
+    ],
+    "category": "consent"
+  }
+}

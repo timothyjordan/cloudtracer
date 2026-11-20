@@ -1,0 +1,14 @@
+{
+  "id": "hetzner",
+  "name": "Hetzner",
+  "dns": {
+    "patterns": [
+      "*.hetzner.com"
+    ]
+  },
+  "hosting": {
+    "asns": [
+      24940
+    ]
+  }
+}

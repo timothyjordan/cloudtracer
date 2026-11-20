@@ -1,0 +1,10 @@
+{
+  "id": "help_scout",
+  "name": "Help Scout",
+  "thirdparty": {
+    "scripts": [
+      "beacon-v2.helpscout.net"
+    ],
+    "category": "support"
+  }
+}

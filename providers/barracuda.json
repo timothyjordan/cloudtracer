@@ -1,0 +1,9 @@
+{
+  "id": "barracuda",
+  "name": "Barracuda",
+  "email": {
+    "mx_patterns": [
+      "*.barracudanetworks.com"
+    ]
+  }
+}

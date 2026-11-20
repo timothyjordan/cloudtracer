@@ -1,0 +1,10 @@
+{
+  "id": "chatwoot",
+  "name": "Chatwoot",
+  "thirdparty": {
+    "scripts": [
+      "app.chatwoot.com"
+    ],
+    "category": "chat"
+  }
+}

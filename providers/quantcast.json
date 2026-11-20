@@ -1,0 +1,11 @@
+{
+  "id": "quantcast",
+  "name": "Quantcast",
+  "thirdparty": {
+    "scripts": [
+      "quantcast.mgr.consensu.org",
+      "secure.quantserve.com"
+    ],
+    "category": "consent"
+  }
+}

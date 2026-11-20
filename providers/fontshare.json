@@ -1,0 +1,10 @@
+{
+  "id": "fontshare",
+  "name": "Fontshare",
+  "thirdparty": {
+    "scripts": [
+      "api.fontshare.com"
+    ],
+    "category": "fonts"
+  }
+}

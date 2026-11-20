@@ -1,0 +1,10 @@
+{
+  "id": "pirsch",
+  "name": "Pirsch Analytics",
+  "thirdparty": {
+    "scripts": [
+      "api.pirsch.io"
+    ],
+    "category": "analytics"
+  }
+}

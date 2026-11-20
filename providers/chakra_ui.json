@@ -1,0 +1,11 @@
+{
+  "id": "chakra_ui",
+  "name": "Chakra UI",
+  "html_frameworks": {
+    "html_patterns": [
+      "chakra-ui",
+      "css-"
+    ],
+    "category": "framework"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "ns1",
+  "name": "NS1",
+  "dns": {
+    "patterns": [
+      "dns*.p*.nsone.net"
+    ]
+  }
+}

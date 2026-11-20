@@ -1,0 +1,11 @@
+{
+  "id": "loom",
+  "name": "Loom",
+  "thirdparty": {
+    "scripts": [
+      "cdn.loom.com",
+      "loom.com/embed"
+    ],
+    "category": "video"
+  }
+}

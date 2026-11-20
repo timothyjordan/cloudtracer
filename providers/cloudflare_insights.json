@@ -1,0 +1,10 @@
+{
+  "id": "cloudflare_insights",
+  "name": "Cloudflare Web Analytics",
+  "thirdparty": {
+    "scripts": [
+      "static.cloudflareinsights.com"
+    ],
+    "category": "analytics"
+  }
+}

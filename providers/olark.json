@@ -1,0 +1,10 @@
+{
+  "id": "olark",
+  "name": "Olark",
+  "thirdparty": {
+    "scripts": [
+      "static.olark.com"
+    ],
+    "category": "chat"
+  }
+}

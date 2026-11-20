@@ -1,0 +1,11 @@
+{
+  "id": "gravatar",
+  "name": "Gravatar",
+  "thirdparty": {
+    "scripts": [
+      "gravatar.com",
+      "secure.gravatar.com"
+    ],
+    "category": "social"
+  }
+}

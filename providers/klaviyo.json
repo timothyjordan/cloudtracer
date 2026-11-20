@@ -1,0 +1,11 @@
+{
+  "id": "klaviyo",
+  "name": "Klaviyo",
+  "thirdparty": {
+    "scripts": [
+      "static.klaviyo.com",
+      "a.klaviyo.com"
+    ],
+    "category": "marketing"
+  }
+}

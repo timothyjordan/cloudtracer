@@ -1,0 +1,11 @@
+{
+  "id": "webflow",
+  "name": "Webflow",
+  "thirdparty": {
+    "scripts": [
+      "assets.website-files.com",
+      "webflow.com"
+    ],
+    "category": "cms"
+  }
+}

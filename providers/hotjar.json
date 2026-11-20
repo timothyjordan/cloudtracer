@@ -1,0 +1,10 @@
+{
+  "id": "hotjar",
+  "name": "Hotjar",
+  "thirdparty": {
+    "scripts": [
+      "static.hotjar.com"
+    ],
+    "category": "analytics"
+  }
+}

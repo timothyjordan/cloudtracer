@@ -1,0 +1,11 @@
+{
+  "id": "datadog",
+  "name": "Datadog",
+  "thirdparty": {
+    "scripts": [
+      "datadoghq.com",
+      "datadog-rum"
+    ],
+    "category": "monitoring"
+  }
+}

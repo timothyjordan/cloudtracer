@@ -1,0 +1,10 @@
+{
+  "id": "trustarc",
+  "name": "TrustArc",
+  "thirdparty": {
+    "scripts": [
+      "consent.trustarc.com"
+    ],
+    "category": "consent"
+  }
+}

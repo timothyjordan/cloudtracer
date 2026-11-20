@@ -1,0 +1,10 @@
+{
+  "id": "bing_ads",
+  "name": "Microsoft Advertising",
+  "thirdparty": {
+    "scripts": [
+      "bat.bing.com"
+    ],
+    "category": "advertising"
+  }
+}

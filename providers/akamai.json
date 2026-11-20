@@ -1,0 +1,17 @@
+{
+  "id": "akamai",
+  "name": "Akamai",
+  "cdn": {
+    "headers": {
+      "X-Akamai-Transformed": "*",
+      "Server": "AkamaiGHost"
+    },
+    "cnames": [
+      "*.akamaiedge.net",
+      "*.akamai.net",
+      "*.akamaitechnologies.com",
+      "*.edgekey.net"
+    ],
+    "is_cdn_edge": true
+  }
+}

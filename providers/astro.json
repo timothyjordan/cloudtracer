@@ -1,0 +1,11 @@
+{
+  "id": "astro",
+  "name": "Astro",
+  "html_frameworks": {
+    "html_patterns": [
+      "astro-island",
+      "astro-slot"
+    ],
+    "category": "framework"
+  }
+}

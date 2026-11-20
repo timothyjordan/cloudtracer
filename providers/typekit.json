@@ -1,0 +1,10 @@
+{
+  "id": "typekit",
+  "name": "Adobe Fonts",
+  "thirdparty": {
+    "scripts": [
+      "use.typekit.net"
+    ],
+    "category": "fonts"
+  }
+}

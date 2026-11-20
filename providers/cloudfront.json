@@ -1,0 +1,15 @@
+{
+  "id": "cloudfront",
+  "name": "Amazon CloudFront",
+  "cdn": {
+    "headers": {
+      "X-Amz-Cf-Id": "*",
+      "X-Amz-Cf-Pop": "*",
+      "Via": "*CloudFront*"
+    },
+    "cnames": [
+      "*.cloudfront.net"
+    ],
+    "is_cdn_edge": true
+  }
+}

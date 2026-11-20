@@ -1,0 +1,11 @@
+{
+  "id": "mapbox",
+  "name": "Mapbox",
+  "thirdparty": {
+    "scripts": [
+      "api.mapbox.com",
+      "api.tiles.mapbox.com"
+    ],
+    "category": "maps"
+  }
+}

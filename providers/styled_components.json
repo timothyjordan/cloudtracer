@@ -1,0 +1,12 @@
+{
+  "id": "styled_components",
+  "name": "Styled Components",
+  "html_frameworks": {
+    "html_patterns": [
+      "__sc-",
+      "sc-bdvvtL",
+      "data-styled"
+    ],
+    "category": "framework"
+  }
+}

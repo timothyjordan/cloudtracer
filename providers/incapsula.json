@@ -1,0 +1,14 @@
+{
+  "id": "incapsula",
+  "name": "Imperva Incapsula",
+  "cdn": {
+    "headers": {
+      "X-CDN": "Imperva",
+      "X-Iinfo": "*"
+    },
+    "cnames": [
+      "*.incapdns.net"
+    ],
+    "is_cdn_edge": true
+  }
+}

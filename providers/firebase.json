@@ -1,0 +1,11 @@
+{
+  "id": "firebase",
+  "name": "Firebase",
+  "thirdparty": {
+    "scripts": [
+      "www.gstatic.com/firebasejs",
+      "firebase.googleapis.com"
+    ],
+    "category": "auth"
+  }
+}

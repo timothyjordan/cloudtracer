@@ -1,0 +1,11 @@
+{
+  "id": "react_router",
+  "name": "React Router",
+  "html_frameworks": {
+    "html_patterns": [
+      "react-router",
+      "data-reactroot"
+    ],
+    "category": "framework"
+  }
+}

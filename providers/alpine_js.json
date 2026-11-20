@@ -1,0 +1,11 @@
+{
+  "id": "alpine_js",
+  "name": "Alpine.js",
+  "thirdparty": {
+    "scripts": [
+      "unpkg.com/alpinejs",
+      "cdn.jsdelivr.net/npm/alpinejs"
+    ],
+    "category": "framework"
+  }
+}

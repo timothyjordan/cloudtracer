@@ -1,0 +1,12 @@
+{
+  "id": "algolia",
+  "name": "Algolia",
+  "thirdparty": {
+    "scripts": [
+      "cdn.jsdelivr.net/npm/algoliasearch",
+      "algoliasearch-lite",
+      "instantsearch"
+    ],
+    "category": "search"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "leaflet",
+  "name": "Leaflet",
+  "thirdparty": {
+    "scripts": [
+      "unpkg.com/leaflet",
+      "cdnjs.cloudflare.com/ajax/libs/leaflet",
+      "cdn.jsdelivr.net/npm/leaflet"
+    ],
+    "category": "maps"
+  }
+}

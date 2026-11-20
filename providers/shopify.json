@@ -1,0 +1,11 @@
+{
+  "id": "shopify",
+  "name": "Shopify",
+  "thirdparty": {
+    "scripts": [
+      "cdn.shopify.com",
+      "shopifycdn.com"
+    ],
+    "category": "cms"
+  }
+}

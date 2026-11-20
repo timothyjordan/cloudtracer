@@ -1,0 +1,10 @@
+{
+  "id": "cookiebot",
+  "name": "Cookiebot",
+  "thirdparty": {
+    "scripts": [
+      "consent.cookiebot.com"
+    ],
+    "category": "consent"
+  }
+}

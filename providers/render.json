@@ -1,0 +1,10 @@
+{
+  "id": "render",
+  "name": "Render",
+  "hosting": {
+    "asns": [
+      397086
+    ],
+    "is_platform": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "nuxtjs",
+  "name": "Nuxt",
+  "html_frameworks": {
+    "html_patterns": [
+      "__NUXT__",
+      "/_nuxt/",
+      "__nuxt"
+    ],
+    "category": "framework"
+  }
+}

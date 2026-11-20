@@ -1,0 +1,11 @@
+{
+  "id": "optimizely",
+  "name": "Optimizely",
+  "thirdparty": {
+    "scripts": [
+      "cdn.optimizely.com",
+      "optimizely.com/js"
+    ],
+    "category": "ab_testing"
+  }
+}

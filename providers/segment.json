@@ -1,0 +1,11 @@
+{
+  "id": "segment",
+  "name": "Segment",
+  "thirdparty": {
+    "scripts": [
+      "cdn.segment.com",
+      "analytics.min.js"
+    ],
+    "category": "analytics"
+  }
+}

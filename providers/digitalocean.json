@@ -1,0 +1,14 @@
+{
+  "id": "digitalocean",
+  "name": "DigitalOcean",
+  "dns": {
+    "patterns": [
+      "ns*.digitalocean.com"
+    ]
+  },
+  "hosting": {
+    "asns": [
+      14061
+    ]
+  }
+}

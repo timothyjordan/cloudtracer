@@ -1,0 +1,27 @@
+{
+  "id": "vercel",
+  "name": "Vercel",
+  "dns": {
+    "patterns": [
+      "*.vercel-dns.com"
+    ]
+  },
+  "cdn": {
+    "headers": {
+      "Server": "Vercel",
+      "X-Vercel-Id": "*",
+      "X-Vercel-Cache": "*"
+    },
+    "cnames": [
+      "*.vercel-dns.com",
+      "cname.vercel-dns.com"
+    ],
+    "is_platform": true
+  },
+  "hosting": {
+    "asns": [
+      209242
+    ],
+    "is_platform": true
+  }
+}

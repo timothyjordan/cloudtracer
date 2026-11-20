@@ -1,0 +1,10 @@
+{
+  "id": "vwo",
+  "name": "VWO",
+  "thirdparty": {
+    "scripts": [
+      "dev.visualwebsiteoptimizer.com"
+    ],
+    "category": "ab_testing"
+  }
+}

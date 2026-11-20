@@ -1,0 +1,11 @@
+{
+  "id": "vite",
+  "name": "Vite",
+  "html_frameworks": {
+    "html_patterns": [
+      "/@vite/client",
+      "vite/modulepreload-polyfill"
+    ],
+    "category": "build_tool"
+  }
+}

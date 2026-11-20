@@ -1,0 +1,10 @@
+{
+  "id": "bunny_fonts",
+  "name": "Bunny Fonts",
+  "thirdparty": {
+    "scripts": [
+      "fonts.bunny.net"
+    ],
+    "category": "fonts"
+  }
+}

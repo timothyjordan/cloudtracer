@@ -1,0 +1,10 @@
+{
+  "id": "microsoft_365",
+  "name": "Microsoft 365",
+  "email": {
+    "mx_patterns": [
+      "*.outlook.com",
+      "*.protection.outlook.com"
+    ]
+  }
+}

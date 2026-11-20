@@ -1,0 +1,9 @@
+{
+  "id": "postmark",
+  "name": "Postmark",
+  "email": {
+    "mx_patterns": [
+      "*.mtasv.net"
+    ]
+  }
+}

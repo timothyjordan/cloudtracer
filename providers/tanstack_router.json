@@ -1,0 +1,12 @@
+{
+  "id": "tanstack_router",
+  "name": "TanStack Router",
+  "html_frameworks": {
+    "html_patterns": [
+      "@tanstack/react-router",
+      "@tanstack/router",
+      "TanStackRouterDevtools"
+    ],
+    "category": "framework"
+  }
+}

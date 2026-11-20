@@ -1,0 +1,11 @@
+{
+  "id": "pendo",
+  "name": "Pendo",
+  "thirdparty": {
+    "scripts": [
+      "cdn.pendo.io",
+      "pendo-io-static.storage.googleapis.com"
+    ],
+    "category": "analytics"
+  }
+}

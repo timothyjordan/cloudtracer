@@ -1,0 +1,11 @@
+{
+  "id": "remix",
+  "name": "Remix",
+  "html_frameworks": {
+    "html_patterns": [
+      "__remix",
+      "remix-run"
+    ],
+    "category": "framework"
+  }
+}

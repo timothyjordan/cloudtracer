@@ -1,0 +1,17 @@
+{
+  "id": "azure",
+  "name": "Microsoft Azure",
+  "dns": {
+    "patterns": [
+      "*.azure-dns.com",
+      "*.azure-dns.net",
+      "*.azure-dns.org",
+      "*.azure-dns.info"
+    ]
+  },
+  "hosting": {
+    "asns": [
+      8075
+    ]
+  }
+}

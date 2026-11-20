@@ -1,0 +1,11 @@
+{
+  "id": "clerk",
+  "name": "Clerk",
+  "thirdparty": {
+    "scripts": [
+      "clerk.com",
+      "clerk.dev"
+    ],
+    "category": "auth"
+  }
+}

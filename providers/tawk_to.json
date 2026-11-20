@@ -1,0 +1,10 @@
+{
+  "id": "tawk_to",
+  "name": "Tawk.to",
+  "thirdparty": {
+    "scripts": [
+      "embed.tawk.to"
+    ],
+    "category": "chat"
+  }
+}

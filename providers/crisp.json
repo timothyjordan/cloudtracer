@@ -1,0 +1,10 @@
+{
+  "id": "crisp",
+  "name": "Crisp",
+  "thirdparty": {
+    "scripts": [
+      "client.crisp.chat"
+    ],
+    "category": "chat"
+  }
+}

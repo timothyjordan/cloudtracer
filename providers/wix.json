@@ -1,0 +1,11 @@
+{
+  "id": "wix",
+  "name": "Wix",
+  "thirdparty": {
+    "scripts": [
+      "static.parastorage.com",
+      "static.wixstatic.com"
+    ],
+    "category": "cms"
+  }
+}

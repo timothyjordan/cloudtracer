@@ -1,0 +1,10 @@
+{
+  "id": "icloud",
+  "name": "iCloud Mail",
+  "email": {
+    "mx_patterns": [
+      "*.icloud.com",
+      "*.apple.com"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "typesense",
+  "name": "Typesense",
+  "thirdparty": {
+    "scripts": [
+      "cdn.jsdelivr.net/npm/typesense"
+    ],
+    "category": "search"
+  }
+}

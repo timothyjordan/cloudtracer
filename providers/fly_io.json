@@ -1,0 +1,10 @@
+{
+  "id": "fly_io",
+  "name": "Fly.io",
+  "hosting": {
+    "asns": [
+      40509
+    ],
+    "is_platform": true
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "svelte",
+  "name": "Svelte",
+  "html_frameworks": {
+    "html_patterns": [
+      "svelte-",
+      "__svelte"
+    ],
+    "category": "framework"
+  }
+}

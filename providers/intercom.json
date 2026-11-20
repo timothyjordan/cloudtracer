@@ -1,0 +1,11 @@
+{
+  "id": "intercom",
+  "name": "Intercom",
+  "thirdparty": {
+    "scripts": [
+      "widget.intercom.io",
+      "intercomcdn.com"
+    ],
+    "category": "chat"
+  }
+}

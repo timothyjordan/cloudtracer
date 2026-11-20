@@ -1,0 +1,10 @@
+{
+  "id": "stripe",
+  "name": "Stripe",
+  "thirdparty": {
+    "scripts": [
+      "js.stripe.com"
+    ],
+    "category": "payments"
+  }
+}

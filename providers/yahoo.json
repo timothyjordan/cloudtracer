@@ -1,0 +1,9 @@
+{
+  "id": "yahoo",
+  "name": "Yahoo Mail",
+  "email": {
+    "mx_patterns": [
+      "*.yahoodns.net"
+    ]
+  }
+}

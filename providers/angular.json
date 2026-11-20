@@ -1,0 +1,20 @@
+{
+  "id": "angular",
+  "name": "Angular",
+  "thirdparty": {
+    "scripts": [
+      "ajax.googleapis.com/ajax/libs/angularjs",
+      "cdnjs.cloudflare.com/ajax/libs/angular"
+    ],
+    "category": "framework"
+  },
+  "html_frameworks": {
+    "html_patterns": [
+      "ng-version",
+      "ng-app",
+      "_ngcontent",
+      "_nghost"
+    ],
+    "category": "framework"
+  }
+}

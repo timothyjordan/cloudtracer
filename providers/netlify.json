@@ -1,0 +1,20 @@
+{
+  "id": "netlify",
+  "name": "Netlify",
+  "cdn": {
+    "headers": {
+      "Server": "Netlify",
+      "X-NF-Request-ID": "*"
+    },
+    "cnames": [
+      "*.netlify.app",
+      "*.netlify.com"
+    ],
+    "is_platform": true
+  },
+  "platform_rules": [
+    {
+      "dns_from": "NS1"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "vimeo",
+  "name": "Vimeo",
+  "thirdparty": {
+    "scripts": [
+      "player.vimeo.com",
+      "vimeo.com/api"
+    ],
+    "category": "video"
+  }
+}

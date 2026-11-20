@@ -1,0 +1,14 @@
+{
+  "id": "linode",
+  "name": "Linode",
+  "dns": {
+    "patterns": [
+      "*.linode.com"
+    ]
+  },
+  "hosting": {
+    "asns": [
+      63949
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "google_maps",
+  "name": "Google Maps",
+  "thirdparty": {
+    "scripts": [
+      "maps.googleapis.com",
+      "maps.google.com"
+    ],
+    "category": "maps"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "zoho",
+  "name": "Zoho Mail",
+  "email": {
+    "mx_patterns": [
+      "*.zoho.com",
+      "*.zoho.eu"
+    ]
+  }
+}

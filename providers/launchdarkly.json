@@ -1,0 +1,11 @@
+{
+  "id": "launchdarkly",
+  "name": "LaunchDarkly",
+  "thirdparty": {
+    "scripts": [
+      "app.launchdarkly.com",
+      "clientsdk.launchdarkly.com"
+    ],
+    "category": "ab_testing"
+  }
+}

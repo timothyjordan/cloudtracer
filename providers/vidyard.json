@@ -1,0 +1,10 @@
+{
+  "id": "vidyard",
+  "name": "Vidyard",
+  "thirdparty": {
+    "scripts": [
+      "play.vidyard.com"
+    ],
+    "category": "video"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "mimecast",
+  "name": "Mimecast",
+  "email": {
+    "mx_patterns": [
+      "*.mimecast.com"
+    ]
+  }
+}

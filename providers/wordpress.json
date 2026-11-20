@@ -1,0 +1,12 @@
+{
+  "id": "wordpress",
+  "name": "WordPress",
+  "thirdparty": {
+    "scripts": [
+      "wp-content/",
+      "wp-includes/",
+      "wp-json/"
+    ],
+    "category": "cms"
+  }
+}

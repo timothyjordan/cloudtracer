@@ -1,0 +1,10 @@
+{
+  "id": "amplitude",
+  "name": "Amplitude",
+  "thirdparty": {
+    "scripts": [
+      "cdn.amplitude.com"
+    ],
+    "category": "analytics"
+  }
+}

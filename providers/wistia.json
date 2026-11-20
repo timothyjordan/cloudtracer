@@ -1,0 +1,11 @@
+{
+  "id": "wistia",
+  "name": "Wistia",
+  "thirdparty": {
+    "scripts": [
+      "fast.wistia.com",
+      "fast.wistia.net"
+    ],
+    "category": "video"
+  }
+}

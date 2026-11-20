@@ -1,0 +1,10 @@
+{
+  "id": "cal_com",
+  "name": "Cal.com",
+  "thirdparty": {
+    "scripts": [
+      "cal.com/embed"
+    ],
+    "category": "scheduling"
+  }
+}

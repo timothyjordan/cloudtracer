@@ -1,0 +1,10 @@
+{
+  "id": "calendly",
+  "name": "Calendly",
+  "thirdparty": {
+    "scripts": [
+      "assets.calendly.com"
+    ],
+    "category": "scheduling"
+  }
+}

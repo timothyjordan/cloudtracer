@@ -1,0 +1,10 @@
+{
+  "id": "drip",
+  "name": "Drip",
+  "thirdparty": {
+    "scripts": [
+      "tag.getdrip.com"
+    ],
+    "category": "marketing"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "react",
+  "name": "React",
+  "thirdparty": {
+    "scripts": [
+      "unpkg.com/react",
+      "cdnjs.cloudflare.com/ajax/libs/react"
+    ],
+    "category": "framework"
+  }
+}

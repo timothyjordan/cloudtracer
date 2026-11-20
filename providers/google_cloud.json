@@ -1,0 +1,10 @@
+{
+  "id": "google_cloud",
+  "name": "Google Cloud Platform",
+  "hosting": {
+    "asns": [
+      15169,
+      396982
+    ]
+  }
+}

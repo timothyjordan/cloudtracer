@@ -1,0 +1,10 @@
+{
+  "id": "tidio",
+  "name": "Tidio",
+  "thirdparty": {
+    "scripts": [
+      "code.tidio.co"
+    ],
+    "category": "chat"
+  }
+}

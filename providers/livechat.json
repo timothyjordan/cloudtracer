@@ -1,0 +1,10 @@
+{
+  "id": "livechat",
+  "name": "LiveChat",
+  "thirdparty": {
+    "scripts": [
+      "cdn.livechatinc.com"
+    ],
+    "category": "chat"
+  }
+}

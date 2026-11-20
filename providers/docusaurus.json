@@ -1,0 +1,11 @@
+{
+  "id": "docusaurus",
+  "name": "Docusaurus",
+  "html_frameworks": {
+    "html_patterns": [
+      "docusaurus",
+      "__docusaurus"
+    ],
+    "category": "framework"
+  }
+}

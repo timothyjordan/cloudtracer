@@ -1,0 +1,27 @@
+{
+  "id": "cloudflare",
+  "name": "Cloudflare",
+  "dns": {
+    "patterns": [
+      "*.ns.cloudflare.com"
+    ]
+  },
+  "cdn": {
+    "headers": {
+      "CF-Ray": "*",
+      "Server": "cloudflare",
+      "CF-Cache-Status": "*"
+    },
+    "cnames": [
+      "*.cloudflare.net",
+      "*.cloudflaressl.com"
+    ],
+    "is_cdn_edge": true
+  },
+  "hosting": {
+    "asns": [
+      13335
+    ],
+    "is_cdn_edge": true
+  }
+}

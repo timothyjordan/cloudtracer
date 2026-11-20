@@ -1,0 +1,10 @@
+{
+  "id": "cloudflare_turnstile",
+  "name": "Cloudflare Turnstile",
+  "thirdparty": {
+    "scripts": [
+      "challenges.cloudflare.com/turnstile"
+    ],
+    "category": "security"
+  }
+}

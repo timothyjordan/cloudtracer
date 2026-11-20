@@ -1,0 +1,9 @@
+{
+  "id": "amazon_ses",
+  "name": "Amazon SES",
+  "email": {
+    "mx_patterns": [
+      "*.amazonaws.com"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "logrocket",
+  "name": "LogRocket",
+  "thirdparty": {
+    "scripts": [
+      "cdn.logrocket.io",
+      "cdn.lr-ingest.io"
+    ],
+    "category": "analytics"
+  }
+}

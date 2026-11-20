@@ -1,0 +1,11 @@
+{
+  "id": "new_relic",
+  "name": "New Relic",
+  "thirdparty": {
+    "scripts": [
+      "js-agent.newrelic.com",
+      "bam.nr-data.net"
+    ],
+    "category": "monitoring"
+  }
+}

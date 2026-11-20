@@ -1,0 +1,11 @@
+{
+  "id": "google_fonts",
+  "name": "Google Fonts",
+  "thirdparty": {
+    "scripts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ],
+    "category": "fonts"
+  }
+}

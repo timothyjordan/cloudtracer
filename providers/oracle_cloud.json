@@ -1,0 +1,9 @@
+{
+  "id": "oracle_cloud",
+  "name": "Oracle Cloud",
+  "hosting": {
+    "asns": [
+      31898
+    ]
+  }
+}

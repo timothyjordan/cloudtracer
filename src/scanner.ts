@@ -9,6 +9,13 @@ import { scanCdn } from "./scanners/cdn.js";
 import { scanEmail } from "./scanners/email.js";
 import { scanThirdParty } from "./scanners/thirdparty.js";
 import { scanPerformance } from "./scanners/performance.js";
+import {
+  CDN_EDGE_PROVIDER_NAMES,
+  DIRECT_PLATFORM_IPS,
+  DNS_CROSS_REF_RULES,
+  PLATFORM_INFRA_RULES,
+  PLATFORM_PROVIDER_NAMES,
+} from "./providers/generated.js";
 
 export interface ScanOptions {
   timeout?: number;
@@ -111,41 +118,8 @@ function assign(result: ScanResult, name: string, scanResult: unknown): void {
   }
 }
 
-const PLATFORM_PROVIDERS = new Set([
-  "Vercel",
-  "Netlify",
-  "Render",
-  "Railway",
-  "Fly.io",
-  "GitHub Pages",
-]);
-
-// Known IP addresses used by hosting platforms that sit behind CDNs
-const PLATFORM_IPS: Record<string, string[]> = {
-  "Firebase Hosting": [
-    "199.36.158.100",
-    "151.101.1.195",
-    "151.101.65.195",
-  ],
-  "GitHub Pages": [
-    "185.199.108.153",
-    "185.199.109.153",
-    "185.199.110.153",
-    "185.199.111.153",
-    "2606:50c0:8000::153",
-    "2606:50c0:8001::153",
-    "2606:50c0:8002::153",
-    "2606:50c0:8003::153",
-  ],
-};
-
-// Platforms whose documented apex IPs uniquely identify them even without headers
-const DIRECT_PLATFORM_IP_SETS: { platform: string; ips: Set<string> }[] = [
-  {
-    platform: "GitHub Pages",
-    ips: new Set(PLATFORM_IPS["GitHub Pages"].map(normalizeIp)),
-  },
-];
+const PLATFORM_PROVIDERS = new Set<string>(PLATFORM_PROVIDER_NAMES);
+const CDN_EDGE_PROVIDERS = new Set<string>(CDN_EDGE_PROVIDER_NAMES);
 
 function normalizeIp(ip: string): string {
   try {
@@ -155,32 +129,10 @@ function normalizeIp(ip: string): string {
   }
 }
 
-// Platforms identifiable by CDN + SSL issuer combination
-const PLATFORM_BY_INFRA: {
-  cdn: string;
-  sslIssuer: string;
-  ips?: string[];
-  platform: string;
-}[] = [
-  {
-    cdn: "Fastly",
-    sslIssuer: "Google Trust Services",
-    ips: PLATFORM_IPS["Firebase Hosting"],
-    platform: "Firebase Hosting",
-  },
-];
-
-const CDN_EDGE_PROVIDERS = new Set([
-  "Cloudflare",
-  "Fastly",
-  "Akamai",
-  "Amazon CloudFront",
-  "BunnyCDN",
-  "KeyCDN",
-  "StackPath",
-  "Sucuri",
-  "Imperva Incapsula",
-]);
+const DIRECT_PLATFORM_IP_SETS = DIRECT_PLATFORM_IPS.map((entry) => ({
+  platform: entry.platform,
+  ips: new Set(entry.ips.map(normalizeIp)),
+}));
 
 function applyBehindCdn(result: ScanResult): void {
   if (!result.hosting) return;
@@ -210,13 +162,20 @@ function applyBehindCdn(result: ScanResult): void {
 }
 
 function crossReferenceDns(result: ScanResult): void {
-  if (result.dns?.provider?.name !== "NS1") return;
-  const hasNetlifyCdn = result.cdn?.providers.some(
-    (p) => p.provider.name === "Netlify",
-  );
-  const hasNetlifyPlatform = result.hosting?.platform?.name === "Netlify";
-  if (hasNetlifyCdn || hasNetlifyPlatform) {
-    result.dns.provider = { name: "Netlify", confidence: "high" };
+  const dns = result.dns;
+  const dnsName = dns?.provider?.name;
+  if (!dns || !dnsName) return;
+
+  for (const rule of DNS_CROSS_REF_RULES) {
+    if (dnsName !== rule.dnsFrom) continue;
+    const hasPlatformCdn = result.cdn?.providers.some(
+      (p) => p.provider.name === rule.platform,
+    );
+    const hasPlatformHost = result.hosting?.platform?.name === rule.platform;
+    if (hasPlatformCdn || hasPlatformHost) {
+      dns.provider = { name: rule.platform, confidence: "high" };
+      return;
+    }
   }
 }
 
@@ -261,9 +220,9 @@ function detectHostingPlatform(result: ScanResult): void {
     const cdnNames = result.cdn.providers.map((p) => p.provider.name);
     const sslIssuer = result.ssl?.issuer;
 
-    for (const rule of PLATFORM_BY_INFRA) {
+    for (const rule of PLATFORM_INFRA_RULES) {
       if (!cdnNames.includes(rule.cdn)) continue;
-      if (sslIssuer && !sslIssuer.includes(rule.sslIssuer)) continue;
+      if (rule.sslIssuer && sslIssuer && !sslIssuer.includes(rule.sslIssuer)) continue;
 
       const ruleIps = rule.ips;
       // If IPs are specified, check at least one matches

@@ -1,0 +1,13 @@
+{
+  "id": "tanstack_query",
+  "name": "TanStack Query",
+  "html_frameworks": {
+    "html_patterns": [
+      "@tanstack/react-query",
+      "tanstack/query",
+      "ReactQueryDevtools",
+      "TanStackQueryDevtools"
+    ],
+    "category": "framework"
+  }
+}

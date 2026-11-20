@@ -1,0 +1,10 @@
+{
+  "id": "addthis",
+  "name": "AddThis",
+  "thirdparty": {
+    "scripts": [
+      "s7.addthis.com"
+    ],
+    "category": "social"
+  }
+}

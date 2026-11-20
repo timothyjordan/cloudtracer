@@ -1,0 +1,10 @@
+{
+  "id": "google_optimize",
+  "name": "Google Optimize",
+  "thirdparty": {
+    "scripts": [
+      "www.googleoptimize.com"
+    ],
+    "category": "ab_testing"
+  }
+}

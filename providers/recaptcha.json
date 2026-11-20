@@ -1,0 +1,11 @@
+{
+  "id": "recaptcha",
+  "name": "reCAPTCHA",
+  "thirdparty": {
+    "scripts": [
+      "www.google.com/recaptcha",
+      "www.gstatic.com/recaptcha"
+    ],
+    "category": "security"
+  }
+}

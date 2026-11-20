@@ -1,0 +1,9 @@
+{
+  "id": "vultr",
+  "name": "Vultr",
+  "hosting": {
+    "asns": [
+      20473
+    ]
+  }
+}

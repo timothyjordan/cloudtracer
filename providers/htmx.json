@@ -1,0 +1,11 @@
+{
+  "id": "htmx",
+  "name": "HTMX",
+  "thirdparty": {
+    "scripts": [
+      "unpkg.com/htmx.org",
+      "cdn.jsdelivr.net/npm/htmx.org"
+    ],
+    "category": "framework"
+  }
+}

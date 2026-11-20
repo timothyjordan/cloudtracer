@@ -1,0 +1,11 @@
+{
+  "id": "supabase",
+  "name": "Supabase",
+  "thirdparty": {
+    "scripts": [
+      "supabase.co",
+      "supabase.com"
+    ],
+    "category": "auth"
+  }
+}

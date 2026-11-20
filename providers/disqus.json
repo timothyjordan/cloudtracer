@@ -1,0 +1,10 @@
+{
+  "id": "disqus",
+  "name": "Disqus",
+  "thirdparty": {
+    "scripts": [
+      "disqus.com/embed.js"
+    ],
+    "category": "social"
+  }
+}

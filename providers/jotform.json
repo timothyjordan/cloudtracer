@@ -1,0 +1,11 @@
+{
+  "id": "jotform",
+  "name": "Jotform",
+  "thirdparty": {
+    "scripts": [
+      "cdn.jotfor.ms",
+      "form.jotform.com"
+    ],
+    "category": "forms"
+  }
+}

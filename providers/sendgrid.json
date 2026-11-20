@@ -1,0 +1,9 @@
+{
+  "id": "sendgrid",
+  "name": "SendGrid",
+  "email": {
+    "mx_patterns": [
+      "*.sendgrid.net"
+    ]
+  }
+}

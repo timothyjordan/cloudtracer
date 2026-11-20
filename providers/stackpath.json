@@ -1,0 +1,14 @@
+{
+  "id": "stackpath",
+  "name": "StackPath",
+  "cdn": {
+    "headers": {
+      "X-HW": "*"
+    },
+    "cnames": [
+      "*.stackpathdns.com",
+      "*.hwcdn.net"
+    ],
+    "is_cdn_edge": true
+  }
+}

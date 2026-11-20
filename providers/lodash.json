@@ -1,0 +1,11 @@
+{
+  "id": "lodash",
+  "name": "Lodash",
+  "thirdparty": {
+    "scripts": [
+      "cdn.jsdelivr.net/npm/lodash",
+      "cdnjs.cloudflare.com/ajax/libs/lodash"
+    ],
+    "category": "framework"
+  }
+}

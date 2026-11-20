@@ -1,0 +1,10 @@
+{
+  "id": "turbopack",
+  "name": "Turbopack",
+  "html_frameworks": {
+    "html_patterns": [
+      "__turbopack_"
+    ],
+    "category": "build_tool"
+  }
+}

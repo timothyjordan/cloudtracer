@@ -1,0 +1,10 @@
+{
+  "id": "mouseflow",
+  "name": "Mouseflow",
+  "thirdparty": {
+    "scripts": [
+      "cdn.mouseflow.com"
+    ],
+    "category": "analytics"
+  }
+}

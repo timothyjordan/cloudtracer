@@ -1,0 +1,10 @@
+{
+  "id": "hcaptcha",
+  "name": "hCaptcha",
+  "thirdparty": {
+    "scripts": [
+      "hcaptcha.com"
+    ],
+    "category": "security"
+  }
+}

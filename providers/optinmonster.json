@@ -1,0 +1,11 @@
+{
+  "id": "optinmonster",
+  "name": "OptinMonster",
+  "thirdparty": {
+    "scripts": [
+      "a.optinmonster.com",
+      "api.opmnstr.com"
+    ],
+    "category": "marketing"
+  }
+}

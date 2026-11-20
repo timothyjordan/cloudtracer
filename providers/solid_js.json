@@ -1,0 +1,11 @@
+{
+  "id": "solid_js",
+  "name": "SolidJS",
+  "html_frameworks": {
+    "html_patterns": [
+      "_$HY",
+      "solid-js"
+    ],
+    "category": "framework"
+  }
+}

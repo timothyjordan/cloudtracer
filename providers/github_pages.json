@@ -1,0 +1,31 @@
+{
+  "id": "github_pages",
+  "name": "GitHub Pages",
+  "cdn": {
+    "headers": {
+      "Server": "GitHub.com",
+      "X-GitHub-Request-Id": "*",
+      "X-GitHub-Edge-Region": "*"
+    },
+    "cnames": [
+      "*.github.io"
+    ],
+    "is_platform": true
+  },
+  "hosting": {
+    "asns": [
+      36459
+    ],
+    "is_platform": true,
+    "ips": [
+      "185.199.108.153",
+      "185.199.109.153",
+      "185.199.110.153",
+      "185.199.111.153",
+      "2606:50c0:8000::153",
+      "2606:50c0:8001::153",
+      "2606:50c0:8002::153",
+      "2606:50c0:8003::153"
+    ]
+  }
+}

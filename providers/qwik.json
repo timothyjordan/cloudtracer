@@ -1,0 +1,12 @@
+{
+  "id": "qwik",
+  "name": "Qwik",
+  "html_frameworks": {
+    "html_patterns": [
+      "q:container",
+      "qwik/",
+      "q:"
+    ],
+    "category": "framework"
+  }
+}

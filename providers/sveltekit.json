@@ -1,0 +1,11 @@
+{
+  "id": "sveltekit",
+  "name": "SvelteKit",
+  "html_frameworks": {
+    "html_patterns": [
+      "__sveltekit",
+      "sveltekit:"
+    ],
+    "category": "framework"
+  }
+}

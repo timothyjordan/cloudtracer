@@ -1,0 +1,12 @@
+{
+  "id": "nextjs",
+  "name": "Next.js",
+  "html_frameworks": {
+    "html_patterns": [
+      "__NEXT_DATA__",
+      "/_next/",
+      "__next"
+    ],
+    "category": "framework"
+  }
+}

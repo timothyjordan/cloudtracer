@@ -1,0 +1,10 @@
+{
+  "id": "fathom",
+  "name": "Fathom Analytics",
+  "thirdparty": {
+    "scripts": [
+      "cdn.usefathom.com"
+    ],
+    "category": "analytics"
+  }
+}

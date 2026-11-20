@@ -1,0 +1,10 @@
+{
+  "id": "privy",
+  "name": "Privy",
+  "thirdparty": {
+    "scripts": [
+      "widget.privy.com"
+    ],
+    "category": "marketing"
+  }
+}

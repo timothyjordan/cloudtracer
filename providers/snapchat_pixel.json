@@ -1,0 +1,10 @@
+{
+  "id": "snapchat_pixel",
+  "name": "Snapchat Pixel",
+  "thirdparty": {
+    "scripts": [
+      "sc-static.net/scevent.min.js"
+    ],
+    "category": "advertising"
+  }
+}

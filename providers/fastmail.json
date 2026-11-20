@@ -1,0 +1,10 @@
+{
+  "id": "fastmail",
+  "name": "Fastmail",
+  "email": {
+    "mx_patterns": [
+      "*.fastmail.com",
+      "*.messagingengine.com"
+    ]
+  }
+}

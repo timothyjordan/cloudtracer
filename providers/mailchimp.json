@@ -1,0 +1,11 @@
+{
+  "id": "mailchimp",
+  "name": "Mailchimp",
+  "thirdparty": {
+    "scripts": [
+      "chimpstatic.com",
+      "list-manage.com"
+    ],
+    "category": "marketing"
+  }
+}

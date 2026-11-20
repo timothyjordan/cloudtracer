@@ -1,0 +1,12 @@
+{
+  "id": "twitter_pixel",
+  "name": "X (Twitter) Pixel",
+  "thirdparty": {
+    "scripts": [
+      "static.ads-twitter.com",
+      "analytics.twitter.com",
+      "t.co/i/adsct"
+    ],
+    "category": "advertising"
+  }
+}

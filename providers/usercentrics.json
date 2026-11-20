@@ -1,0 +1,10 @@
+{
+  "id": "usercentrics",
+  "name": "Usercentrics",
+  "thirdparty": {
+    "scripts": [
+      "app.usercentrics.eu"
+    ],
+    "category": "consent"
+  }
+}

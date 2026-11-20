@@ -1,0 +1,10 @@
+{
+  "id": "openstreetmap",
+  "name": "OpenStreetMap",
+  "thirdparty": {
+    "scripts": [
+      "tile.openstreetmap.org"
+    ],
+    "category": "maps"
+  }
+}

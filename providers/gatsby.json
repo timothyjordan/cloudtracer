@@ -1,0 +1,12 @@
+{
+  "id": "gatsby",
+  "name": "Gatsby",
+  "html_frameworks": {
+    "html_patterns": [
+      "___gatsby",
+      "gatsby-focus-wrapper",
+      "/static/d/"
+    ],
+    "category": "framework"
+  }
+}

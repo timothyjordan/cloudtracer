@@ -1,0 +1,11 @@
+{
+  "id": "freshdesk",
+  "name": "Freshdesk",
+  "thirdparty": {
+    "scripts": [
+      "assets.freshdesk.com",
+      "widget.freshworks.com"
+    ],
+    "category": "support"
+  }
+}

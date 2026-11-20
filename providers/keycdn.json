@@ -1,0 +1,14 @@
+{
+  "id": "keycdn",
+  "name": "KeyCDN",
+  "cdn": {
+    "headers": {
+      "Server": "keycdn*",
+      "X-Edge-Location": "*"
+    },
+    "cnames": [
+      "*.kxcdn.com"
+    ],
+    "is_cdn_edge": true
+  }
+}

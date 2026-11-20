@@ -1,0 +1,10 @@
+{
+  "id": "drift",
+  "name": "Drift",
+  "thirdparty": {
+    "scripts": [
+      "js.driftt.com"
+    ],
+    "category": "chat"
+  }
+}

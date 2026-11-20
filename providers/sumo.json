@@ -1,0 +1,11 @@
+{
+  "id": "sumo",
+  "name": "Sumo",
+  "thirdparty": {
+    "scripts": [
+      "load.sumo.com",
+      "load.sumome.com"
+    ],
+    "category": "marketing"
+  }
+}

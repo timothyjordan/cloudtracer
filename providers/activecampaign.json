@@ -1,0 +1,11 @@
+{
+  "id": "activecampaign",
+  "name": "ActiveCampaign",
+  "thirdparty": {
+    "scripts": [
+      "trackcmp.net",
+      "activehosted.com"
+    ],
+    "category": "marketing"
+  }
+}

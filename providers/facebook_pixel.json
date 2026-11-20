@@ -1,0 +1,11 @@
+{
+  "id": "facebook_pixel",
+  "name": "Facebook Pixel",
+  "thirdparty": {
+    "scripts": [
+      "connect.facebook.net",
+      "fbevents.js"
+    ],
+    "category": "analytics"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "pinterest_tag",
+  "name": "Pinterest Tag",
+  "thirdparty": {
+    "scripts": [
+      "s.pinimg.com/ct/core.js",
+      "ct.pinterest.com"
+    ],
+    "category": "advertising"
+  }
+}

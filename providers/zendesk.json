@@ -1,0 +1,11 @@
+{
+  "id": "zendesk",
+  "name": "Zendesk",
+  "thirdparty": {
+    "scripts": [
+      "static.zdassets.com",
+      "zendesk.com"
+    ],
+    "category": "support"
+  }
+}

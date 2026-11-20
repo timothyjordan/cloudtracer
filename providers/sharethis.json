@@ -1,0 +1,10 @@
+{
+  "id": "sharethis",
+  "name": "ShareThis",
+  "thirdparty": {
+    "scripts": [
+      "platform-api.sharethis.com"
+    ],
+    "category": "social"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "simple_analytics",
+  "name": "Simple Analytics",
+  "thirdparty": {
+    "scripts": [
+      "scripts.simpleanalyticscdn.com",
+      "simpleanalytics.com"
+    ],
+    "category": "analytics"
+  }
+}

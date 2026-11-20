@@ -1,0 +1,11 @@
+{
+  "id": "contentful",
+  "name": "Contentful",
+  "thirdparty": {
+    "scripts": [
+      "cdn.contentful.com",
+      "contentful.com"
+    ],
+    "category": "cms"
+  }
+}

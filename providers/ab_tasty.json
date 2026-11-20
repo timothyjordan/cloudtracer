@@ -1,0 +1,10 @@
+{
+  "id": "ab_tasty",
+  "name": "AB Tasty",
+  "thirdparty": {
+    "scripts": [
+      "try.abtasty.com"
+    ],
+    "category": "ab_testing"
+  }
+}

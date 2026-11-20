@@ -1,0 +1,12 @@
+{
+  "id": "youtube",
+  "name": "YouTube",
+  "thirdparty": {
+    "scripts": [
+      "www.youtube.com/embed",
+      "www.youtube.com/iframe_api",
+      "youtube-nocookie.com"
+    ],
+    "category": "video"
+  }
+}

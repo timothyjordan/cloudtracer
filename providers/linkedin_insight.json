@@ -1,0 +1,11 @@
+{
+  "id": "linkedin_insight",
+  "name": "LinkedIn Insight Tag",
+  "thirdparty": {
+    "scripts": [
+      "snap.licdn.com",
+      "px.ads.linkedin.com"
+    ],
+    "category": "advertising"
+  }
+}

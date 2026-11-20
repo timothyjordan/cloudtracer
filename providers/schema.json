@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cloudtracer.dev/schemas/provider.schema.json",
+  "title": "CloudTracer Provider Definition",
+  "description": "Single-file provider fingerprint definition for CloudTracer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "Unique lowercase slug matching the filename <id>.json."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable display name shown in CLI and extension output."
+    },
+    "website": {
+      "type": "string",
+      "pattern": "^https://.+",
+      "description": "Official provider homepage URL."
+    },
+    "verification_domains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      },
+      "uniqueItems": true,
+      "description": "Public domains known to use this provider, used for verification."
+    },
+    "shared_patterns": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "description": "Optional allowlist of patterns intentionally shared with another provider."
+    },
+    "dns": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["patterns"],
+      "properties": {
+        "patterns": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "cdn": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "cnames": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "is_cdn_edge": {
+          "type": "boolean",
+          "description": "True when this provider's IPs/ASNs represent a CDN edge rather than an origin host."
+        },
+        "is_platform": {
+          "type": "boolean",
+          "description": "True when CDN headers/CNAMEs identify a hosting platform (for example Vercel, Netlify, or GitHub Pages)."
+        }
+      }
+    },
+    "hosting": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asns": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "integer", "minimum": 1 }
+        },
+        "ips": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Documented apex IPv4/IPv6 addresses that uniquely identify this platform."
+        },
+        "is_cdn_edge": {
+          "type": "boolean"
+        },
+        "is_platform": {
+          "type": "boolean"
+        }
+      }
+    },
+    "email": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mx_patterns"],
+      "properties": {
+        "mx_patterns": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "thirdparty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scripts", "category"],
+      "properties": {
+        "scripts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "analytics",
+            "advertising",
+            "chat",
+            "support",
+            "marketing",
+            "payments",
+            "monitoring",
+            "fonts",
+            "framework",
+            "security",
+            "ab_testing",
+            "cms",
+            "video",
+            "maps",
+            "auth",
+            "search",
+            "consent",
+            "social",
+            "forms",
+            "scheduling",
+            "build_tool"
+          ]
+        }
+      }
+    },
+    "html_frameworks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["html_patterns", "category"],
+      "properties": {
+        "html_patterns": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "category": {
+          "type": "string",
+          "enum": ["framework", "build_tool"]
+        }
+      }
+    },
+    "platform_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cdn": { "type": "string", "minLength": 1 },
+          "ssl_issuer": { "type": "string", "minLength": 1 },
+          "ips": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "dns_from": {
+            "type": "string",
+            "minLength": 1,
+            "description": "When DNS matched this provider name and this platform is detected, attribute DNS to this platform."
+          }
+        }
+      }
+    }
+  },
+  "anyOf": [
+    { "required": ["dns"] },
+    { "required": ["cdn"] },
+    { "required": ["hosting"] },
+    { "required": ["email"] },
+    { "required": ["thirdparty"] },
+    { "required": ["html_frameworks"] },
+    { "required": ["platform_rules"] }
+  ]
+}

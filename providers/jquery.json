@@ -1,0 +1,11 @@
+{
+  "id": "jquery",
+  "name": "jQuery",
+  "thirdparty": {
+    "scripts": [
+      "code.jquery.com",
+      "ajax.googleapis.com/ajax/libs/jquery"
+    ],
+    "category": "framework"
+  }
+}

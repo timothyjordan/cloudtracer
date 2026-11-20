@@ -1,0 +1,10 @@
+{
+  "id": "aws",
+  "name": "Amazon Web Services",
+  "hosting": {
+    "asns": [
+      16509,
+      14618
+    ]
+  }
+}

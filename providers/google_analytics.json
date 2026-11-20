@@ -1,0 +1,12 @@
+{
+  "id": "google_analytics",
+  "name": "Google Analytics",
+  "thirdparty": {
+    "scripts": [
+      "googletagmanager.com",
+      "google-analytics.com",
+      "gtag/js"
+    ],
+    "category": "analytics"
+  }
+}

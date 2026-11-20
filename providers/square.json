@@ -1,0 +1,11 @@
+{
+  "id": "square",
+  "name": "Square",
+  "thirdparty": {
+    "scripts": [
+      "web.squarecdn.com",
+      "js.squareup.com"
+    ],
+    "category": "payments"
+  }
+}

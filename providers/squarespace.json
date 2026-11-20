@@ -1,0 +1,11 @@
+{
+  "id": "squarespace",
+  "name": "Squarespace",
+  "thirdparty": {
+    "scripts": [
+      "static1.squarespace.com",
+      "squarespace-cdn.com"
+    ],
+    "category": "cms"
+  }
+}

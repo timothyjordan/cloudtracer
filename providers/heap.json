@@ -1,0 +1,10 @@
+{
+  "id": "heap",
+  "name": "Heap",
+  "thirdparty": {
+    "scripts": [
+      "cdn.heapanalytics.com"
+    ],
+    "category": "analytics"
+  }
+}

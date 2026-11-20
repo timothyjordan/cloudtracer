@@ -1,0 +1,11 @@
+{
+  "id": "google_ads",
+  "name": "Google Ads",
+  "thirdparty": {
+    "scripts": [
+      "pagead2.googlesyndication.com",
+      "googleads.g.doubleclick.net"
+    ],
+    "category": "advertising"
+  }
+}

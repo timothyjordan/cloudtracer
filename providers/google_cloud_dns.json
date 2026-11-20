@@ -1,0 +1,9 @@
+{
+  "id": "google_cloud_dns",
+  "name": "Google Cloud DNS",
+  "dns": {
+    "patterns": [
+      "ns-cloud-*.googledomains.com"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "jekyll",
+  "name": "Jekyll",
+  "html_frameworks": {
+    "html_patterns": [
+      "generator\" content=\"Jekyll"
+    ],
+    "category": "framework"
+  }
+}

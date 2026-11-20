@@ -1,0 +1,11 @@
+{
+  "id": "prismic",
+  "name": "Prismic",
+  "thirdparty": {
+    "scripts": [
+      "prismic.io",
+      "cdn.prismic.io"
+    ],
+    "category": "cms"
+  }
+}

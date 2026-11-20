@@ -1,0 +1,11 @@
+{
+  "id": "paypal",
+  "name": "PayPal",
+  "thirdparty": {
+    "scripts": [
+      "www.paypal.com/sdk/js",
+      "www.paypalobjects.com"
+    ],
+    "category": "payments"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "posthog",
+  "name": "PostHog",
+  "thirdparty": {
+    "scripts": [
+      "us.posthog.com",
+      "eu.posthog.com",
+      "app.posthog.com",
+      "us.i.posthog.com"
+    ],
+    "category": "analytics"
+  }
+}

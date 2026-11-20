@@ -1,0 +1,10 @@
+{
+  "id": "rollbar",
+  "name": "Rollbar",
+  "thirdparty": {
+    "scripts": [
+      "cdn.rollbar.com"
+    ],
+    "category": "monitoring"
+  }
+}

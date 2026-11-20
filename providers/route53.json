@@ -1,0 +1,9 @@
+{
+  "id": "route53",
+  "name": "Amazon Route 53",
+  "dns": {
+    "patterns": [
+      "*.awsdns-*"
+    ]
+  }
+}

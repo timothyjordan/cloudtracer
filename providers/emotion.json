@@ -1,0 +1,11 @@
+{
+  "id": "emotion",
+  "name": "Emotion",
+  "html_frameworks": {
+    "html_patterns": [
+      "data-emotion",
+      "__EMOTION_"
+    ],
+    "category": "framework"
+  }
+}

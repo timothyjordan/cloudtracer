@@ -1,0 +1,13 @@
+{
+  "id": "material_ui",
+  "name": "Material UI",
+  "html_frameworks": {
+    "html_patterns": [
+      "MuiBox-root",
+      "MuiTypography",
+      "MuiButton",
+      "mui-"
+    ],
+    "category": "framework"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "dyn",
+  "name": "Dyn",
+  "dns": {
+    "patterns": [
+      "*.dynect.net"
+    ]
+  }
+}

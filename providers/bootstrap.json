@@ -1,0 +1,11 @@
+{
+  "id": "bootstrap",
+  "name": "Bootstrap",
+  "thirdparty": {
+    "scripts": [
+      "stackpath.bootstrapcdn.com",
+      "cdn.jsdelivr.net/npm/bootstrap"
+    ],
+    "category": "framework"
+  }
+}

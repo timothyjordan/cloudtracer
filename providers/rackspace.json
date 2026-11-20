@@ -1,0 +1,9 @@
+{
+  "id": "rackspace",
+  "name": "Rackspace Email",
+  "email": {
+    "mx_patterns": [
+      "*.emailsrvr.com"
+    ]
+  }
+}

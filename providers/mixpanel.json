@@ -1,0 +1,11 @@
+{
+  "id": "mixpanel",
+  "name": "Mixpanel",
+  "thirdparty": {
+    "scripts": [
+      "cdn.mxpnl.com",
+      "mixpanel.com/track"
+    ],
+    "category": "analytics"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "hubspot",
+  "name": "HubSpot",
+  "thirdparty": {
+    "scripts": [
+      "js.hs-scripts.com",
+      "js.hsforms.net",
+      "hubspot.com"
+    ],
+    "category": "marketing"
+  }
+}

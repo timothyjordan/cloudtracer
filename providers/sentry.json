@@ -1,0 +1,11 @@
+{
+  "id": "sentry",
+  "name": "Sentry",
+  "thirdparty": {
+    "scripts": [
+      "browser.sentry-cdn.com",
+      "sentry.io"
+    ],
+    "category": "monitoring"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "marketo",
+  "name": "Marketo",
+  "thirdparty": {
+    "scripts": [
+      "munchkin.marketo.net",
+      "marketo.com/js"
+    ],
+    "category": "marketing"
+  }
+}

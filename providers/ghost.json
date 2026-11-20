@@ -1,0 +1,11 @@
+{
+  "id": "ghost",
+  "name": "Ghost",
+  "thirdparty": {
+    "scripts": [
+      "ghost.org",
+      "ghost.io"
+    ],
+    "category": "cms"
+  }
+}

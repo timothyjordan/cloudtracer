@@ -1,0 +1,11 @@
+{
+  "id": "sanity",
+  "name": "Sanity",
+  "thirdparty": {
+    "scripts": [
+      "cdn.sanity.io",
+      "apicdn.sanity.io"
+    ],
+    "category": "cms"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "storybook",
+  "name": "Storybook",
+  "html_frameworks": {
+    "html_patterns": [
+      "storybook-root",
+      "sb-show-main"
+    ],
+    "category": "framework"
+  }
+}

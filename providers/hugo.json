@@ -1,0 +1,10 @@
+{
+  "id": "hugo",
+  "name": "Hugo",
+  "html_frameworks": {
+    "html_patterns": [
+      "generator\" content=\"Hugo"
+    ],
+    "category": "framework"
+  }
+}

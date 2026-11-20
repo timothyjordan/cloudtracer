@@ -1,0 +1,10 @@
+{
+  "id": "typeform",
+  "name": "Typeform",
+  "thirdparty": {
+    "scripts": [
+      "embed.typeform.com"
+    ],
+    "category": "forms"
+  }
+}

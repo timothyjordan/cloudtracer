@@ -1,0 +1,12 @@
+{
+  "id": "font_awesome",
+  "name": "Font Awesome",
+  "thirdparty": {
+    "scripts": [
+      "kit.fontawesome.com",
+      "use.fontawesome.com",
+      "cdnjs.cloudflare.com/ajax/libs/font-awesome"
+    ],
+    "category": "fonts"
+  }
+}

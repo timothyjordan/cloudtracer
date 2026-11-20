@@ -1,0 +1,11 @@
+{
+  "id": "webpack",
+  "name": "Webpack",
+  "html_frameworks": {
+    "html_patterns": [
+      "webpackJsonp",
+      "webpackChunk"
+    ],
+    "category": "build_tool"
+  }
+}

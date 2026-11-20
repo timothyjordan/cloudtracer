@@ -1,0 +1,11 @@
+{
+  "id": "tanstack_table",
+  "name": "TanStack Table",
+  "html_frameworks": {
+    "html_patterns": [
+      "@tanstack/react-table",
+      "@tanstack/table"
+    ],
+    "category": "framework"
+  }
+}

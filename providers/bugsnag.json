@@ -1,0 +1,11 @@
+{
+  "id": "bugsnag",
+  "name": "Bugsnag",
+  "thirdparty": {
+    "scripts": [
+      "d2wy8f7a9ursnm.cloudfront.net/bugsnag",
+      "bugsnag.com"
+    ],
+    "category": "monitoring"
+  }
+}

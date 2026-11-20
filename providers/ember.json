@@ -1,0 +1,12 @@
+{
+  "id": "ember",
+  "name": "Ember.js",
+  "html_frameworks": {
+    "html_patterns": [
+      "ember-view",
+      "ember-application",
+      "data-ember"
+    ],
+    "category": "framework"
+  }
+}

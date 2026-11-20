@@ -1,0 +1,11 @@
+{
+  "id": "reddit_pixel",
+  "name": "Reddit Pixel",
+  "thirdparty": {
+    "scripts": [
+      "alb.reddit.com",
+      "www.redditstatic.com/ads"
+    ],
+    "category": "advertising"
+  }
+}

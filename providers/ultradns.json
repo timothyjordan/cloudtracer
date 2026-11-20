@@ -1,0 +1,10 @@
+{
+  "id": "ultradns",
+  "name": "UltraDNS",
+  "dns": {
+    "patterns": [
+      "*.ultradns.com",
+      "*.ultradns.net"
+    ]
+  }
+}

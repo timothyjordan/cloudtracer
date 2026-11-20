@@ -1,0 +1,12 @@
+{
+  "id": "matomo",
+  "name": "Matomo",
+  "thirdparty": {
+    "scripts": [
+      "matomo.js",
+      "matomo.cloud",
+      "piwik.js"
+    ],
+    "category": "analytics"
+  }
+}

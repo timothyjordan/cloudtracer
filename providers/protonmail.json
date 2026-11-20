@@ -1,0 +1,10 @@
+{
+  "id": "protonmail",
+  "name": "ProtonMail",
+  "email": {
+    "mx_patterns": [
+      "*.protonmail.ch",
+      "*.proton.me"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "d3",
+  "name": "D3.js",
+  "thirdparty": {
+    "scripts": [
+      "d3js.org",
+      "cdnjs.cloudflare.com/ajax/libs/d3"
+    ],
+    "category": "framework"
+  }
+}

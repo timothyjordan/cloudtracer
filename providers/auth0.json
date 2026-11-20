@@ -1,0 +1,10 @@
+{
+  "id": "auth0",
+  "name": "Auth0",
+  "thirdparty": {
+    "scripts": [
+      "cdn.auth0.com"
+    ],
+    "category": "auth"
+  }
+}

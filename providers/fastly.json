@@ -1,0 +1,22 @@
+{
+  "id": "fastly",
+  "name": "Fastly",
+  "cdn": {
+    "headers": {
+      "X-Served-By": "cache-*",
+      "Via": "*Fastly*",
+      "X-Fastly-Request-ID": "*"
+    },
+    "cnames": [
+      "*.fastly.net",
+      "*.fastlylb.net"
+    ],
+    "is_cdn_edge": true
+  },
+  "hosting": {
+    "asns": [
+      54113
+    ],
+    "is_cdn_edge": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "microsoft_clarity",
+  "name": "Microsoft Clarity",
+  "thirdparty": {
+    "scripts": [
+      "clarity.ms"
+    ],
+    "category": "analytics"
+  }
+}
