@@ -209,6 +209,18 @@ function detectHostingPlatform(result: ScanResult): void {
         return;
       }
     }
+
+    // Check hosting providers that are themselves platforms (e.g. Fly.io, Render, Railway)
+    if (
+      result.hosting.provider &&
+      PLATFORM_PROVIDERS.has(result.hosting.provider.name)
+    ) {
+      result.hosting.platform = {
+        name: result.hosting.provider.name,
+        confidence: result.hosting.provider.confidence,
+      };
+      return;
+    }
   }
 
   // Check platforms identifiable by IP + CDN + SSL combination

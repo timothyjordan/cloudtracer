@@ -49,7 +49,7 @@ export function formatMarkdown(result: ScanResult): string {
     lines.push("");
     if (h.platform && h.behindCdn) {
       lines.push(`- **Platform**: ${h.platform.name} (behind ${h.behindCdn})`);
-    } else if (h.platform && h.provider) {
+    } else if (h.platform && h.provider && h.platform.name !== h.provider.name) {
       lines.push(`- **Platform**: ${h.platform.name} (on ${h.provider.name})`);
     } else if (h.platform) {
       lines.push(`- **Platform**: ${h.platform.name}`);

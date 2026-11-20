@@ -119,6 +119,23 @@ describe("formatTree", () => {
     expect(output).not.toContain("(on Cloudflare)");
   });
 
+  it("should omit redundant (on <provider>) when platform and provider are the same", () => {
+    const result: ScanResult = {
+      domain: "app.fly.dev",
+      scannedAt: new Date().toISOString(),
+      hosting: {
+        ipAddresses: { v4: ["66.241.124.1"], v6: [] },
+        asn: { number: 40509, name: "FLYIO" },
+        provider: { name: "Fly.io", confidence: "high" },
+        platform: { name: "Fly.io", confidence: "high" },
+      },
+    };
+
+    const output = formatTree(result);
+    expect(output).toContain("Platform : Fly.io");
+    expect(output).not.toContain("(on Fly.io)");
+  });
+
   it("should show performance metrics with timing labels", () => {
     const result: ScanResult = {
       domain: "example.com",
