@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/timothyjordan/cloudtracer/compare/extension-v0.1.2...extension-v0.1.3) (2026-11-20)
+
+
+### Features
+
+* pre-launch Chrome extension and detection accuracy release (TJ-1983) ([#26](https://github.com/timothyjordan/cloudtracer/issues/26)) ([35154a7](https://github.com/timothyjordan/cloudtracer/commit/35154a72b0bed324eb35fc74b7a8f641068cf62c))
+
 ## [0.1.2](https://github.com/timothyjordan/cloudtracer/compare/extension-v0.1.1...extension-v0.1.2) (2026-11-07)
 
 
