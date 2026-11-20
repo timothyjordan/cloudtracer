@@ -116,6 +116,8 @@ jobs:
          contains(fromJSON(needs.release-please.outputs.paths_released), 'extension'))
       )
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ext_version.outputs.value }}
     permissions:
       # `gh release upload` writes to the release release-please just made.
       contents: write
@@ -144,6 +146,14 @@ jobs:
         id: ext_version
         run: echo "value=$(node -p "require('./extension/package.json').version")" >> "$GITHUB_OUTPUT"
 
+      # Hand the exact zip off to publish-cws so it never rebuilds.
+      - name: Upload extension zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-zip
+          path: cloudtracer-extension-${{ steps.ext_version.outputs.value }}.zip
+          retention-days: 1
+
       # --clobber overwrites if an earlier run uploaded the same asset name,
       # e.g. a manual dispatch republish. The release and its tag were made
       # by release-please upstream; this job never creates them.
@@ -155,3 +165,143 @@ jobs:
             "extension-v${{ steps.ext_version.outputs.value }}" \
             "cloudtracer-extension-${{ steps.ext_version.outputs.value }}.zip" \
             --clobber
+
+  # Submit the packaged extension to the Chrome Web Store via API v2 using plain
+  # curl and jq (no third-party marketplace action handling store credentials).
+  publish-cws:
+    needs: [release-please, publish-extension]
+    if: |
+      always() &&
+      needs.publish-extension.result == 'success' && (
+        (github.event_name == 'workflow_dispatch' && inputs.path == 'extension') ||
+        (github.event_name == 'push' &&
+         needs.release-please.result == 'success' &&
+         needs.release-please.outputs.releases_created == 'true' &&
+         contains(fromJSON(needs.release-please.outputs.paths_released), 'extension'))
+      )
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Download extension zip artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: extension-zip
+
+      - name: Upload and submit to Chrome Web Store
+        env:
+          CWS_PUBLISHER_ID: ${{ vars.CWS_PUBLISHER_ID }}
+          CWS_EXTENSION_ID: ${{ vars.CWS_EXTENSION_ID }}
+          CWS_CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+          CWS_CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+          CWS_REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+          EXT_VERSION: ${{ needs.publish-extension.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          ZIP_PATH="cloudtracer-extension-${EXT_VERSION}.zip"
+          if [[ ! -f "$ZIP_PATH" ]]; then
+            echo "::error::Expected extension zip not found: $ZIP_PATH"
+            exit 1
+          fi
+
+          for var in CWS_PUBLISHER_ID CWS_EXTENSION_ID CWS_CLIENT_ID CWS_CLIENT_SECRET CWS_REFRESH_TOKEN; do
+            if [[ -z "${!var}" ]]; then
+              echo "::error::Missing required configuration variable or secret: $var"
+              exit 1
+            fi
+          done
+
+          # 1. Exchange refresh token for an OAuth access token.
+          TOKEN_HTTP=$(curl -sS -o token.json -w '%{http_code}' \
+            -X POST "https://oauth2.googleapis.com/token" \
+            --data-urlencode "client_id=${CWS_CLIENT_ID}" \
+            --data-urlencode "client_secret=${CWS_CLIENT_SECRET}" \
+            --data-urlencode "refresh_token=${CWS_REFRESH_TOKEN}" \
+            --data-urlencode "grant_type=refresh_token")
+
+          if [[ "$TOKEN_HTTP" -lt 200 || "$TOKEN_HTTP" -ge 300 ]]; then
+            ERR=$(jq -r '.error // "unknown_error"' token.json 2>/dev/null || echo "unknown_error")
+            echo "::error::OAuth token exchange failed (HTTP $TOKEN_HTTP, error=$ERR). If invalid_grant, verify the OAuth consent screen is In production and not Testing."
+            exit 1
+          fi
+
+          ACCESS_TOKEN=$(jq -r '.access_token // empty' token.json)
+          if [[ -z "$ACCESS_TOKEN" ]]; then
+            echo "::error::OAuth token response did not include access_token"
+            exit 1
+          fi
+          echo "::add-mask::$ACCESS_TOKEN"
+
+          # 2. Upload the extension zip via Chrome Web Store API v2.
+          UPLOAD_URL="https://chromewebstore.googleapis.com/upload/v2/publishers/${CWS_PUBLISHER_ID}/items/${CWS_EXTENSION_ID}:upload"
+          UPLOAD_HTTP=$(curl -sS -o upload.json -w '%{http_code}' \
+            -X POST "$UPLOAD_URL" \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "Content-Type: application/zip" \
+            --data-binary "@${ZIP_PATH}")
+
+          if [[ "$UPLOAD_HTTP" -lt 200 || "$UPLOAD_HTTP" -ge 300 ]]; then
+            echo "::error::CWS upload failed (HTTP $UPLOAD_HTTP)"
+            cat upload.json
+            exit 1
+          fi
+
+          UPLOAD_STATE=$(jq -r '.uploadState // empty' upload.json)
+          echo "CWS uploadState: ${UPLOAD_STATE}"
+
+          if [[ "$UPLOAD_STATE" == "IN_PROGRESS" ]]; then
+            STATUS_URL="https://chromewebstore.googleapis.com/v2/publishers/${CWS_PUBLISHER_ID}/items/${CWS_EXTENSION_ID}:fetchStatus"
+            for _ in $(seq 1 12); do
+              sleep 5
+              STATUS_HTTP=$(curl -sS -o status.json -w '%{http_code}' \
+                -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+                "$STATUS_URL")
+              if [[ "$STATUS_HTTP" -lt 200 || "$STATUS_HTTP" -ge 300 ]]; then
+                echo "::error::CWS fetchStatus failed while polling upload (HTTP $STATUS_HTTP)"
+                cat status.json
+                exit 1
+              fi
+              UPLOAD_STATE=$(jq -r '.lastAsyncUploadState // empty' status.json)
+              echo "Polled lastAsyncUploadState: ${UPLOAD_STATE}"
+              if [[ "$UPLOAD_STATE" == "SUCCEEDED" ]]; then
+                break
+              fi
+              if [[ "$UPLOAD_STATE" == "FAILED" ]]; then
+                echo "::error::CWS async upload failed"
+                cat status.json
+                exit 1
+              fi
+            done
+          fi
+
+          if [[ "$UPLOAD_STATE" != "SUCCEEDED" ]]; then
+            echo "::error::CWS upload did not succeed (state=${UPLOAD_STATE:-missing})"
+            cat upload.json
+            exit 1
+          fi
+
+          # 3. Submit for review and publish automatically once approved.
+          PUBLISH_URL="https://chromewebstore.googleapis.com/v2/publishers/${CWS_PUBLISHER_ID}/items/${CWS_EXTENSION_ID}:publish"
+          PUBLISH_HTTP=$(curl -sS -o publish.json -w '%{http_code}' \
+            -X POST "$PUBLISH_URL" \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"publishType":"DEFAULT_PUBLISH"}')
+
+          if [[ "$PUBLISH_HTTP" -lt 200 || "$PUBLISH_HTTP" -ge 300 ]]; then
+            echo "::error::CWS publish failed (HTTP $PUBLISH_HTTP)"
+            cat publish.json
+            exit 1
+          fi
+
+          PUBLISH_STATE=$(jq -r '.state // empty' publish.json)
+          echo "CWS publish state: ${PUBLISH_STATE}"
+          case "$PUBLISH_STATE" in
+            PENDING_REVIEW|PUBLISHED|PUBLISHED_TO_TESTERS|STAGED)
+              ;;
+            *)
+              echo "::error::Unexpected CWS publish state: ${PUBLISH_STATE:-missing}"
+              cat publish.json
+              exit 1
+              ;;
+          esac
