@@ -1,3 +1,4 @@
+import ipaddr from "ipaddr.js";
 import type { ScanResult } from "./types.js";
 import type { Platform } from "./platform/types.js";
 import { scanDns } from "./scanners/dns.js";
@@ -126,7 +127,33 @@ const PLATFORM_IPS: Record<string, string[]> = {
     "151.101.1.195",
     "151.101.65.195",
   ],
+  "GitHub Pages": [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
+    "2606:50c0:8000::153",
+    "2606:50c0:8001::153",
+    "2606:50c0:8002::153",
+    "2606:50c0:8003::153",
+  ],
 };
+
+// Platforms whose documented apex IPs uniquely identify them even without headers
+const DIRECT_PLATFORM_IP_SETS: { platform: string; ips: Set<string> }[] = [
+  {
+    platform: "GitHub Pages",
+    ips: new Set(PLATFORM_IPS["GitHub Pages"].map(normalizeIp)),
+  },
+];
+
+function normalizeIp(ip: string): string {
+  try {
+    return ipaddr.parse(ip).toString();
+  } catch {
+    return ip.toLowerCase();
+  }
+}
 
 // Platforms identifiable by CDN + SSL issuer combination
 const PLATFORM_BY_INFRA: {
@@ -155,13 +182,32 @@ function crossReferenceDns(result: ScanResult): void {
 }
 
 function crossReferencePlatform(result: ScanResult): void {
-  // Check CDN header-detected platforms (Vercel, Netlify, etc.)
+  // Check CDN header/CNAME-detected platforms (Vercel, Netlify, GitHub Pages, etc.)
   if (result.cdn && result.hosting) {
     for (const cdnProvider of result.cdn.providers) {
       if (PLATFORM_PROVIDERS.has(cdnProvider.provider.name)) {
         result.hosting.platform = {
           name: cdnProvider.provider.name,
           confidence: cdnProvider.provider.confidence,
+        };
+        crossReferenceDns(result);
+        return;
+      }
+    }
+  }
+
+  // Check platforms uniquely identified by documented apex IPs
+  if (result.hosting) {
+    const normalizedIps = [
+      ...result.hosting.ipAddresses.v4,
+      ...result.hosting.ipAddresses.v6,
+    ].map(normalizeIp);
+
+    for (const entry of DIRECT_PLATFORM_IP_SETS) {
+      if (normalizedIps.some((ip) => entry.ips.has(ip))) {
+        result.hosting.platform = {
+          name: entry.platform,
+          confidence: "high",
         };
         crossReferenceDns(result);
         return;

@@ -60,6 +60,10 @@
     "netlify": {
       "headers": { "Server": "Netlify", "X-NF-Request-ID": "*" },
       "cnames": ["*.netlify.app", "*.netlify.com"]
+    },
+    "github_pages": {
+      "headers": { "Server": "GitHub.com", "X-GitHub-Request-Id": "*", "X-GitHub-Edge-Region": "*" },
+      "cnames": ["*.github.io"]
     }
   },
   "hosting": {

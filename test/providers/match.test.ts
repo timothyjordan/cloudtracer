@@ -70,6 +70,17 @@ describe("matchCdnByHeaders", () => {
     expect(result.length).toBeGreaterThanOrEqual(2);
   });
 
+  it("should detect GitHub Pages by headers", () => {
+    const result = matchCdnByHeaders({
+      server: "GitHub.com",
+      "x-github-request-id": "ABCD:1234",
+      "x-github-edge-region": "iad",
+    });
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe("GitHub Pages");
+    expect(result[0].evidence).toHaveLength(3);
+  });
+
   it("should return empty for no matches", () => {
     const result = matchCdnByHeaders({ "content-type": "text/html" });
     expect(result).toHaveLength(0);
@@ -87,6 +98,12 @@ describe("matchCdnByCname", () => {
     const result = matchCdnByCname(["mysite.netlify.app"]);
     expect(result).toHaveLength(1);
     expect(result[0].name).toBe("Netlify");
+  });
+
+  it("should detect GitHub Pages by CNAME", () => {
+    const result = matchCdnByCname(["timothyjordan.github.io"]);
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe("GitHub Pages");
   });
 });
 

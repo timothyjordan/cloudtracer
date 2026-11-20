@@ -6,6 +6,15 @@ vi.mock("../src/utils/http.js", () => ({
   fetchHeaders: vi.fn(),
   fetchHtml: vi.fn().mockResolvedValue(""),
 }));
+vi.mock("../src/scanners/domain.js", () => ({
+  scanDomain: vi.fn().mockResolvedValue(undefined),
+}));
+vi.mock("../src/scanners/performance.js", () => ({
+  scanPerformance: vi.fn().mockResolvedValue(undefined),
+}));
+vi.mock("../src/scanners/thirdparty.js", () => ({
+  scanThirdParty: vi.fn().mockResolvedValue([]),
+}));
 
 import { fetchHeaders } from "../src/utils/http.js";
 
@@ -47,5 +56,73 @@ describe("detection accuracy cross-referencing", () => {
     const result = await runScan("example.com", platform);
     expect(result.hosting?.platform?.name).toBe("Netlify");
     expect(result.dns?.provider?.name).toBe("Netlify");
+  });
+
+  it("detects GitHub Pages on Fastly for cloudtracer.dev fixture", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({
+      server: "GitHub.com",
+      via: "1.1 varnish",
+      "x-served-by": "cache-sjc1000129-SJC",
+      "x-github-request-id": "1A2B:3C4D",
+    });
+
+    const platform = mockPlatform({
+      dns: {
+        resolveA: vi.fn().mockResolvedValue([
+          "185.199.108.153",
+          "185.199.109.153",
+          "185.199.110.153",
+          "185.199.111.153",
+        ]),
+        resolveTxt: vi.fn().mockImplementation(async (name: string) => {
+          if (name.endsWith(".origin.asn.cymru.com")) {
+            return ["54113 | 185.199.108.153 | 185.199.108.0/22 | US | arin"];
+          }
+          if (name === "AS54113.asn.cymru.com") {
+            return ["54113 | US | arin | 2011-04-12 | FASTLY - Fastly, Inc., US"];
+          }
+          return [];
+        }),
+      },
+    });
+
+    const result = await runScan("cloudtracer.dev", platform);
+    expect(result.hosting?.provider?.name).toBe("Fastly");
+    expect(result.hosting?.platform).toEqual({
+      name: "GitHub Pages",
+      confidence: "high",
+    });
+  });
+
+  it("detects GitHub Pages from *.github.io CNAME", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({
+      "x-served-by": "cache-iad-kiad7000123-IAD",
+    });
+
+    const platform = mockPlatform({
+      dns: {
+        resolveCname: vi.fn().mockResolvedValue(["timothyjordan.github.io"]),
+        resolveA: vi.fn().mockResolvedValue(["185.199.108.153"]),
+      },
+    });
+
+    const result = await runScan("docs.example.com", platform);
+    expect(result.hosting?.platform?.name).toBe("GitHub Pages");
+  });
+
+  it("detects GitHub Pages from documented IPv6 apex IP even without headers", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({});
+
+    const platform = mockPlatform({
+      dns: {
+        resolveAaaa: vi.fn().mockResolvedValue(["2606:50c0:8000:0:0:0:0:153"]),
+      },
+    });
+
+    const result = await runScan("ipv6-pages.example.com", platform);
+    expect(result.hosting?.platform).toEqual({
+      name: "GitHub Pages",
+      confidence: "high",
+    });
   });
 });
