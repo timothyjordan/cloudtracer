@@ -1900,7 +1900,6 @@ export const PLATFORM_PROVIDER_NAMES: readonly string[] = [
 ];
 
 export const HOSTING_PLATFORM_PROVIDER_NAMES: readonly string[] = [
-  "Vercel",
   "Firebase Hosting",
   "Fly.io",
   "Railway",
