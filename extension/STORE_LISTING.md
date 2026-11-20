@@ -34,9 +34,9 @@ CloudTracer shows you the infrastructure behind any website. Click the toolbar i
 What you get:
 
 Registration: the domain registrar, registration date, and expiration.
-DNS: the authoritative nameservers and the provider behind them, such as Cloudflare, Route 53, or NS1.
+DNS: the authoritative nameservers and the provider behind them, such as Cloudflare or Route 53.
 CDN: the content delivery network and WAF, inferred from response headers.
-Hosting: IPv4 and IPv6 addresses, the ASN, and the hosting platform, such as Vercel, Netlify, or Fly.io.
+Hosting: IPv4 and IPv6 addresses, the ASN, and the hosting platform, such as Vercel or Netlify.
 SSL/TLS: the certificate issuer, Subject Alternative Names, and days until expiration.
 Performance: DNS resolution, TLS handshake, time to first byte, and total response time.
 Email: the MX provider, plus whether SPF and DMARC are present.
@@ -118,7 +118,7 @@ CloudTracer needs the hostname of the tab the user is viewing in order to scan i
 #### `storage`
 
 ```
-Used only to remember two local preferences: whether the user has opted out of anonymous usage analytics, and whether the first-run notice has already been shown. It also holds a randomly generated identifier for those analytics, which is not derived from the user, the machine, or anything scanned. Nothing about the sites visited or scanned is stored. All of it is local to the browser via chrome.storage.local and none of it is readable by any website.
+Used only for local state: whether the user has opted out of anonymous usage analytics, whether the first-run notice has already been shown, a local count of completed scans (used only to show a non-blocking review link after five scans), and a randomly generated identifier for those analytics, which is not derived from the user, the machine, or anything scanned. Nothing about the sites visited or scanned is stored, and the scan count is never sent anywhere. All of it stays local to the browser via chrome.storage.local and none of it is readable by any website.
 ```
 
 #### `host_permissions` (`<all_urls>`)
