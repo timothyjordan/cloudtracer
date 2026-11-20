@@ -58,6 +58,20 @@ export interface DnsCrossRefRuleEntry {
 
 export const DNS_PROVIDERS: readonly DnsProviderEntry[] = [
   {
+    "id": "cloudflare",
+    "name": "Cloudflare",
+    "patterns": [
+      "*.ns.cloudflare.com"
+    ]
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "patterns": [
+      "*.vercel-dns.com"
+    ]
+  },
+  {
     "id": "azure",
     "name": "Microsoft Azure",
     "patterns": [
@@ -65,13 +79,6 @@ export const DNS_PROVIDERS: readonly DnsProviderEntry[] = [
       "*.azure-dns.net",
       "*.azure-dns.org",
       "*.azure-dns.info"
-    ]
-  },
-  {
-    "id": "cloudflare",
-    "name": "Cloudflare",
-    "patterns": [
-      "*.ns.cloudflare.com"
     ]
   },
   {
@@ -158,43 +165,10 @@ export const DNS_PROVIDERS: readonly DnsProviderEntry[] = [
       "*.ultradns.com",
       "*.ultradns.net"
     ]
-  },
-  {
-    "id": "vercel",
-    "name": "Vercel",
-    "patterns": [
-      "*.vercel-dns.com"
-    ]
   }
 ];
 
 export const CDN_PROVIDERS: readonly CdnProviderEntry[] = [
-  {
-    "id": "akamai",
-    "name": "Akamai",
-    "headers": {
-      "X-Akamai-Transformed": "*",
-      "Server": "AkamaiGHost"
-    },
-    "cnames": [
-      "*.akamaiedge.net",
-      "*.akamai.net",
-      "*.akamaitechnologies.com",
-      "*.edgekey.net"
-    ]
-  },
-  {
-    "id": "bunnycdn",
-    "name": "BunnyCDN",
-    "headers": {
-      "Server": "BunnyCDN*",
-      "CDN-PullZone": "*",
-      "CDN-Uid": "*"
-    },
-    "cnames": [
-      "*.b-cdn.net"
-    ]
-  },
   {
     "id": "cloudflare",
     "name": "Cloudflare",
@@ -206,18 +180,6 @@ export const CDN_PROVIDERS: readonly CdnProviderEntry[] = [
     "cnames": [
       "*.cloudflare.net",
       "*.cloudflaressl.com"
-    ]
-  },
-  {
-    "id": "cloudfront",
-    "name": "Amazon CloudFront",
-    "headers": {
-      "X-Amz-Cf-Id": "*",
-      "X-Amz-Cf-Pop": "*",
-      "Via": "*CloudFront*"
-    },
-    "cnames": [
-      "*.cloudfront.net"
     ]
   },
   {
@@ -234,26 +196,41 @@ export const CDN_PROVIDERS: readonly CdnProviderEntry[] = [
     ]
   },
   {
-    "id": "github_pages",
-    "name": "GitHub Pages",
+    "id": "akamai",
+    "name": "Akamai",
     "headers": {
-      "Server": "GitHub.com",
-      "X-GitHub-Request-Id": "*",
-      "X-GitHub-Edge-Region": "*"
+      "X-Akamai-Transformed": "*",
+      "Server": "AkamaiGHost"
     },
     "cnames": [
-      "*.github.io"
+      "*.akamaiedge.net",
+      "*.akamai.net",
+      "*.akamaitechnologies.com",
+      "*.edgekey.net"
     ]
   },
   {
-    "id": "incapsula",
-    "name": "Imperva Incapsula",
+    "id": "cloudfront",
+    "name": "Amazon CloudFront",
     "headers": {
-      "X-CDN": "Imperva",
-      "X-Iinfo": "*"
+      "X-Amz-Cf-Id": "*",
+      "X-Amz-Cf-Pop": "*",
+      "Via": "*CloudFront*"
     },
     "cnames": [
-      "*.incapdns.net"
+      "*.cloudfront.net"
+    ]
+  },
+  {
+    "id": "bunnycdn",
+    "name": "BunnyCDN",
+    "headers": {
+      "Server": "BunnyCDN*",
+      "CDN-PullZone": "*",
+      "CDN-Uid": "*"
+    },
+    "cnames": [
+      "*.b-cdn.net"
     ]
   },
   {
@@ -265,18 +242,6 @@ export const CDN_PROVIDERS: readonly CdnProviderEntry[] = [
     },
     "cnames": [
       "*.kxcdn.com"
-    ]
-  },
-  {
-    "id": "netlify",
-    "name": "Netlify",
-    "headers": {
-      "Server": "Netlify",
-      "X-NF-Request-ID": "*"
-    },
-    "cnames": [
-      "*.netlify.app",
-      "*.netlify.com"
     ]
   },
   {
@@ -302,6 +267,17 @@ export const CDN_PROVIDERS: readonly CdnProviderEntry[] = [
     ]
   },
   {
+    "id": "incapsula",
+    "name": "Imperva Incapsula",
+    "headers": {
+      "X-CDN": "Imperva",
+      "X-Iinfo": "*"
+    },
+    "cnames": [
+      "*.incapdns.net"
+    ]
+  },
+  {
     "id": "vercel",
     "name": "Vercel",
     "headers": {
@@ -313,10 +289,62 @@ export const CDN_PROVIDERS: readonly CdnProviderEntry[] = [
       "*.vercel-dns.com",
       "cname.vercel-dns.com"
     ]
+  },
+  {
+    "id": "netlify",
+    "name": "Netlify",
+    "headers": {
+      "Server": "Netlify",
+      "X-NF-Request-ID": "*"
+    },
+    "cnames": [
+      "*.netlify.app",
+      "*.netlify.com"
+    ]
+  },
+  {
+    "id": "github_pages",
+    "name": "GitHub Pages",
+    "headers": {
+      "Server": "GitHub.com",
+      "X-GitHub-Request-Id": "*",
+      "X-GitHub-Edge-Region": "*"
+    },
+    "cnames": [
+      "*.github.io"
+    ]
   }
 ];
 
 export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
+  {
+    "id": "cloudflare",
+    "name": "Cloudflare",
+    "asns": [
+      13335
+    ]
+  },
+  {
+    "id": "fastly",
+    "name": "Fastly",
+    "asns": [
+      54113
+    ]
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "asns": [
+      209242
+    ]
+  },
+  {
+    "id": "github_pages",
+    "name": "GitHub Pages",
+    "asns": [
+      36459
+    ]
+  },
   {
     "id": "aws",
     "name": "Amazon Web Services",
@@ -333,13 +361,6 @@ export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
     ]
   },
   {
-    "id": "cloudflare",
-    "name": "Cloudflare",
-    "asns": [
-      13335
-    ]
-  },
-  {
     "id": "digitalocean",
     "name": "DigitalOcean",
     "asns": [
@@ -347,24 +368,10 @@ export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
     ]
   },
   {
-    "id": "fastly",
-    "name": "Fastly",
-    "asns": [
-      54113
-    ]
-  },
-  {
     "id": "fly_io",
     "name": "Fly.io",
     "asns": [
       40509
-    ]
-  },
-  {
-    "id": "github_pages",
-    "name": "GitHub Pages",
-    "asns": [
-      36459
     ]
   },
   {
@@ -422,13 +429,6 @@ export const HOSTING_PROVIDERS: readonly HostingProviderEntry[] = [
     "name": "Render",
     "asns": [
       397086
-    ]
-  },
-  {
-    "id": "vercel",
-    "name": "Vercel",
-    "asns": [
-      209242
     ]
   },
   {
@@ -1894,25 +1894,25 @@ export const HTML_FRAMEWORK_PROVIDERS: readonly HtmlFrameworkProviderEntry[] = [
 ];
 
 export const PLATFORM_PROVIDER_NAMES: readonly string[] = [
+  "Vercel",
+  "Netlify",
+  "GitHub Pages",
   "Firebase Hosting",
   "Fly.io",
-  "GitHub Pages",
-  "Netlify",
   "Railway",
-  "Render",
-  "Vercel"
+  "Render"
 ];
 
 export const CDN_EDGE_PROVIDER_NAMES: readonly string[] = [
-  "Akamai",
-  "BunnyCDN",
   "Cloudflare",
-  "Amazon CloudFront",
   "Fastly",
-  "Imperva Incapsula",
+  "Akamai",
+  "Amazon CloudFront",
+  "BunnyCDN",
   "KeyCDN",
   "StackPath",
-  "Sucuri"
+  "Sucuri",
+  "Imperva Incapsula"
 ];
 
 export const DIRECT_PLATFORM_IPS: readonly DirectPlatformIpEntry[] = [

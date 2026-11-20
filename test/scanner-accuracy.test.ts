@@ -206,4 +206,20 @@ describe("detection accuracy cross-referencing", () => {
     expect(result.hosting?.platform?.name).toBe("GitHub Pages");
     expect(result.hosting?.behindCdn).toBe("Cloudflare");
   });
+
+  it("preserves explicit CDN precedence when Cloudflare fronts BunnyCDN", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({
+      "cf-ray": "abc123-SJC",
+      "cdn-pullzone": "12345",
+    });
+
+    const platform = mockPlatform({
+      dns: {
+        resolveA: vi.fn().mockResolvedValue(["104.21.1.2"]),
+      },
+    });
+
+    const result = await runScan("cf-bunny.example.com", platform);
+    expect(result.hosting?.behindCdn).toBe("Cloudflare");
+  });
 });

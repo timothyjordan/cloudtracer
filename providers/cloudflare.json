@@ -1,6 +1,7 @@
 {
   "id": "cloudflare",
   "name": "Cloudflare",
+  "priority": 10,
   "dns": {
     "patterns": [
       "*.ns.cloudflare.com"

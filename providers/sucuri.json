@@ -1,6 +1,7 @@
 {
   "id": "sucuri",
   "name": "Sucuri",
+  "priority": 80,
   "cdn": {
     "headers": {
       "Server": "Sucuri*",

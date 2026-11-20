@@ -1,6 +1,7 @@
 {
   "id": "github_pages",
   "name": "GitHub Pages",
+  "priority": 93,
   "cdn": {
     "headers": {
       "Server": "GitHub.com",

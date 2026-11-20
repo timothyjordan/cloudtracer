@@ -37,6 +37,11 @@
       "uniqueItems": true,
       "description": "Optional allowlist of patterns intentionally shared with another provider."
     },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Optional matching precedence (lower numbers match first; defaults to 100)."
+    },
     "dns": {
       "type": "object",
       "additionalProperties": false,
@@ -185,7 +190,11 @@
             "minLength": 1,
             "description": "When DNS matched this provider name and this platform is detected, attribute DNS to this platform."
           }
-        }
+        },
+        "anyOf": [
+          { "required": ["cdn"] },
+          { "required": ["dns_from"] }
+        ]
       }
     }
   },

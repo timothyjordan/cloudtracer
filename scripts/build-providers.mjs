@@ -7,16 +7,29 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 export const DEFAULT_PROVIDERS_DIR = resolve(root, "providers");
 export const DEFAULT_OUTPUT_PATH = resolve(root, "src/providers/generated.ts");
 
+function compareAscii(a, b) {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
 export function loadProviderDefinitions(providersDir = DEFAULT_PROVIDERS_DIR) {
   const files = readdirSync(providersDir)
     .filter((f) => f.endsWith(".json") && f !== "schema.json")
-    .sort((a, b) => a.localeCompare(b));
+    .sort(compareAscii);
 
-  return files.map((file) => {
+  const entries = files.map((file) => {
     const fullPath = resolve(providersDir, file);
     const data = JSON.parse(readFileSync(fullPath, "utf8"));
     return { file, data };
   });
+
+  entries.sort((a, b) => {
+    const pa = typeof a.data.priority === "number" ? a.data.priority : 100;
+    const pb = typeof b.data.priority === "number" ? b.data.priority : 100;
+    if (pa !== pb) return pa - pb;
+    return compareAscii(a.file, b.file);
+  });
+
+  return entries;
 }
 
 export function renderGeneratedModule(entries) {

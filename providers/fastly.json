@@ -1,6 +1,7 @@
 {
   "id": "fastly",
   "name": "Fastly",
+  "priority": 20,
   "cdn": {
     "headers": {
       "X-Served-By": "cache-*",

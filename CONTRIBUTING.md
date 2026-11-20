@@ -33,6 +33,7 @@ Example (`providers/porkbun.json`):
 | `website` | No | Official `https://` homepage |
 | `verification_domains` | No | Public domains known to use this provider |
 | `shared_patterns` | No | Explicit allowlist when a pattern is intentionally shared with another provider |
+| `priority` | No | Optional matching precedence (lower matches first; defaults to `100`) |
 | `dns` | Layer | `{ "patterns": ["*.ns.example.com"] }` |
 | `cdn` | Layer | `{ "headers": { "Server": "Example*" }, "cnames": ["*.cdn.example.net"], "is_cdn_edge": true, "is_platform": false }` |
 | `hosting` | Layer | `{ "asns": [12345], "ips": ["203.0.113.10"], "is_cdn_edge": false, "is_platform": false }` |
@@ -56,7 +57,7 @@ npm run test:unit
 
 `npm run providers:build` compiles `providers/*.json` into `src/providers/generated.ts` so the CLI and Chrome extension bundle all providers with zero runtime file IO. Commit both your `providers/<slug>.json` file and the updated `src/providers/generated.ts`.
 
-`npm run providers:validate` checks schema conformance, filename and `id` consistency, duplicate provider names, and overlapping patterns across providers.
+`npm run providers:validate` checks schema conformance, filename and `id` consistency, duplicate provider names, `platform_rules` references, and identical pattern collisions across providers.
 
 ### 4. Open a pull request
 

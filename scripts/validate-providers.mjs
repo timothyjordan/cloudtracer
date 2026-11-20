@@ -9,59 +9,23 @@ import {
 } from "./build-providers.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const SLUG_RE = /^[a-z0-9][a-z0-9_-]*$/;
-const DOMAIN_RE = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const SCHEMA_PATH = resolve(root, "providers/schema.json");
+const schema = JSON.parse(readFileSync(SCHEMA_PATH, "utf8"));
 
-const ALLOWED_TOP_KEYS = new Set([
-  "id",
-  "name",
-  "website",
-  "verification_domains",
-  "shared_patterns",
-  "dns",
-  "cdn",
-  "hosting",
-  "email",
-  "thirdparty",
-  "html_frameworks",
-  "platform_rules",
-]);
+const SLUG_RE = new RegExp(schema.properties.id.pattern);
+const DOMAIN_RE = new RegExp(schema.properties.verification_domains.items.pattern);
+const ALLOWED_TOP_KEYS = new Set(Object.keys(schema.properties));
+const LAYER_KEYS = schema.anyOf.flatMap((entry) => entry.required ?? []);
+const THIRDPARTY_CATEGORIES = new Set(
+  schema.properties.thirdparty.properties.category.enum,
+);
+const HTML_FRAMEWORK_CATEGORIES = new Set(
+  schema.properties.html_frameworks.properties.category.enum,
+);
 
-const LAYER_KEYS = [
-  "dns",
-  "cdn",
-  "hosting",
-  "email",
-  "thirdparty",
-  "html_frameworks",
-  "platform_rules",
-];
-
-const THIRDPARTY_CATEGORIES = new Set([
-  "analytics",
-  "advertising",
-  "chat",
-  "support",
-  "marketing",
-  "payments",
-  "monitoring",
-  "fonts",
-  "framework",
-  "security",
-  "ab_testing",
-  "cms",
-  "video",
-  "maps",
-  "auth",
-  "search",
-  "consent",
-  "social",
-  "forms",
-  "scheduling",
-  "build_tool",
-]);
-
-const HTML_FRAMEWORK_CATEGORIES = new Set(["framework", "build_tool"]);
+function compareAscii(a, b) {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
 
 function isPlainObject(v) {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -132,6 +96,12 @@ function validateProviderObject(file, data, errors) {
 
   if (data.shared_patterns !== undefined) {
     checkStringArray(data.shared_patterns, `${file}.shared_patterns`, errors);
+  }
+
+  if (data.priority !== undefined) {
+    if (!Number.isInteger(data.priority) || data.priority < 0) {
+      errors.push(`${file}: "priority" must be a non-negative integer`);
+    }
   }
 
   if (!LAYER_KEYS.some((k) => data[k] !== undefined)) {
@@ -288,6 +258,9 @@ function validateProviderObject(file, data, errors) {
           return;
         }
         checkUnknownKeys(rule, new Set(["cdn", "ssl_issuer", "ips", "dns_from"]), p, errors);
+        if (rule.cdn === undefined && rule.dns_from === undefined) {
+          errors.push(`${p}: must specify at least "cdn" or "dns_from"`);
+        }
         if (rule.cdn !== undefined && (typeof rule.cdn !== "string" || !rule.cdn)) {
           errors.push(`${p}.cdn: must be a non-empty string`);
         }
@@ -318,10 +291,13 @@ export function validateProvidersDir(
   const errors = [];
   const files = readdirSync(providersDir)
     .filter((f) => f.endsWith(".json") && f !== "schema.json")
-    .sort((a, b) => a.localeCompare(b));
+    .sort(compareAscii);
 
   const seenIds = new Map();
   const seenNames = new Map();
+  const cdnProviderNames = new Set();
+  const dnsProviderNames = new Set();
+  const parsedEntries = [];
   const layerMaps = {
     dns: new Map(),
     cdn_header: new Map(),
@@ -358,6 +334,7 @@ export function validateProvidersDir(
 
     validateProviderObject(file, data, errors);
     if (!isPlainObject(data)) continue;
+    parsedEntries.push({ file, data });
 
     if (typeof data.id === "string") {
       if (seenIds.has(data.id)) {
@@ -376,6 +353,8 @@ export function validateProvidersDir(
       } else {
         seenNames.set(normName, file);
       }
+      if (data.cdn) cdnProviderNames.add(data.name);
+      if (data.dns) dnsProviderNames.add(data.name);
     }
 
     const sharedSet = new Set(
@@ -412,6 +391,21 @@ export function validateProvidersDir(
         claim("html_pattern", h, file, sharedSet);
       }
     }
+  }
+
+  // Cross-file referential integrity for platform_rules
+  for (const { file, data } of parsedEntries) {
+    if (!Array.isArray(data.platform_rules)) continue;
+    data.platform_rules.forEach((rule, idx) => {
+      if (!isPlainObject(rule)) return;
+      const p = `${file}.platform_rules[${idx}]`;
+      if (typeof rule.cdn === "string" && !cdnProviderNames.has(rule.cdn)) {
+        errors.push(`${p}.cdn: "${rule.cdn}" does not match any provider with a cdn block`);
+      }
+      if (typeof rule.dns_from === "string" && !dnsProviderNames.has(rule.dns_from)) {
+        errors.push(`${p}.dns_from: "${rule.dns_from}" does not match any provider with a dns block`);
+      }
+    });
   }
 
   if (checkGenerated && errors.length === 0) {

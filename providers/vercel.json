@@ -1,6 +1,7 @@
 {
   "id": "vercel",
   "name": "Vercel",
+  "priority": 91,
   "dns": {
     "patterns": [
       "*.vercel-dns.com"

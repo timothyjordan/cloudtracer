@@ -1,6 +1,7 @@
 {
   "id": "netlify",
   "name": "Netlify",
+  "priority": 92,
   "cdn": {
     "headers": {
       "Server": "Netlify",

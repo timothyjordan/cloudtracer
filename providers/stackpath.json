@@ -1,6 +1,7 @@
 {
   "id": "stackpath",
   "name": "StackPath",
+  "priority": 70,
   "cdn": {
     "headers": {
       "X-HW": "*"

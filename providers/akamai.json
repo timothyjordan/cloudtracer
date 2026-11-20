@@ -1,6 +1,7 @@
 {
   "id": "akamai",
   "name": "Akamai",
+  "priority": 30,
   "cdn": {
     "headers": {
       "X-Akamai-Transformed": "*",

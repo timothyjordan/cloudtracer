@@ -1,6 +1,7 @@
 {
   "id": "keycdn",
   "name": "KeyCDN",
+  "priority": 60,
   "cdn": {
     "headers": {
       "Server": "keycdn*",

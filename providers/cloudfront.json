@@ -1,6 +1,7 @@
 {
   "id": "cloudfront",
   "name": "Amazon CloudFront",
+  "priority": 40,
   "cdn": {
     "headers": {
       "X-Amz-Cf-Id": "*",

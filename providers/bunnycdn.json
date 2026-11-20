@@ -1,6 +1,7 @@
 {
   "id": "bunnycdn",
   "name": "BunnyCDN",
+  "priority": 50,
   "cdn": {
     "headers": {
       "Server": "BunnyCDN*",

@@ -109,4 +109,22 @@ describe("provider registry validation", () => {
     expect(result.errors).toEqual([]);
     expect(result.ok).toBe(true);
   });
+
+  it("rejects platform_rules entries without cdn or dns_from and dangling provider references", () => {
+    const dir = createFixtureDir({
+      "my_platform.json": {
+        id: "my_platform",
+        name: "My Platform",
+        platform_rules: [
+          { ips: ["203.0.113.10"] },
+          { cdn: "NonexistentCDN", dns_from: "NonexistentDNS" },
+        ],
+      },
+    });
+    const result = validateProvidersDir(dir);
+    expect(result.ok).toBe(false);
+    expect(result.errors.some((e: string) => e.includes('must specify at least "cdn" or "dns_from"'))).toBe(true);
+    expect(result.errors.some((e: string) => e.includes('"NonexistentCDN"'))).toBe(true);
+    expect(result.errors.some((e: string) => e.includes('"NonexistentDNS"'))).toBe(true);
+  });
 });
