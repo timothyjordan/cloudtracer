@@ -2,6 +2,9 @@
   "id": "google_workspace",
   "name": "Google Workspace",
   "priority": 10,
+  "verification_domains": [
+    "google.com"
+  ],
   "email": {
     "mx_patterns": [
       "*.google.com",

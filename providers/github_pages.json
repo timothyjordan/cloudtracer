@@ -2,6 +2,9 @@
   "id": "github_pages",
   "name": "GitHub Pages",
   "priority": 93,
+  "verification_domains": [
+    "cloudtracer.dev"
+  ],
   "cdn": {
     "headers": {
       "Server": "GitHub.com",

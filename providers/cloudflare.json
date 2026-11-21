@@ -2,6 +2,9 @@
   "id": "cloudflare",
   "name": "Cloudflare",
   "priority": 10,
+  "verification_domains": [
+    "cloudflare.com"
+  ],
   "dns": {
     "patterns": [
       "*.ns.cloudflare.com"
