@@ -207,6 +207,34 @@ describe("detection accuracy cross-referencing", () => {
     expect(result.hosting?.behindCdn).toBe("Cloudflare");
   });
 
+  it("classifies Shopify as the platform behind Cloudflare", async () => {
+    vi.mocked(fetchHeaders).mockResolvedValue({
+      server: "cloudflare",
+      "cf-ray": "a5d98c92dd5633fc-SJC",
+      "powered-by": "Shopify",
+      "x-shopid": "123",
+    });
+
+    const platform = mockPlatform({
+      dns: {
+        resolveA: vi.fn().mockResolvedValue(["104.21.54.121"]),
+        resolveTxt: vi.fn().mockImplementation(async (name: string) => {
+          if (name.endsWith(".origin.asn.cymru.com")) {
+            return ["13335 | 104.21.54.121 | 104.21.0.0/16 | US | arin"];
+          }
+          if (name === "AS13335.asn.cymru.com") {
+            return ["13335 | US | arin | 2010-07-14 | CLOUDFLARENET, US"];
+          }
+          return [];
+        }),
+      },
+    });
+
+    const result = await runScan("allbirds.com", platform);
+    expect(result.hosting?.platform?.name).toBe("Shopify");
+    expect(result.hosting?.behindCdn).toBe("Cloudflare");
+  });
+
   it("preserves explicit CDN precedence when Cloudflare fronts BunnyCDN", async () => {
     vi.mocked(fetchHeaders).mockResolvedValue({
       "cf-ray": "abc123-SJC",

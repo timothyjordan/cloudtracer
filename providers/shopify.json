@@ -1,6 +1,21 @@
 {
   "id": "shopify",
   "name": "Shopify",
+  "website": "https://www.shopify.com",
+  "verification_domains": [
+    "allbirds.com"
+  ],
+  "cdn": {
+    "headers": {
+      "X-ShopId": "*",
+      "X-Shopify-Stage": "*",
+      "Powered-By": "Shopify"
+    },
+    "cnames": [
+      "shops.myshopify.com"
+    ],
+    "is_platform": true
+  },
   "thirdparty": {
     "scripts": [
       "cdn.shopify.com",
