@@ -3,6 +3,7 @@ import {
   branchFor,
   formatDriftIssueBody,
   markerFor,
+  parseArgs,
   planDriftActions,
   // @ts-expect-error report-provider-drift.mjs is an ESM Node script without d.ts
 } from "../../scripts/report-provider-drift.mjs";
@@ -72,5 +73,19 @@ describe("report-provider-drift planner", () => {
     expect(body).toContain("providers/fastly.json");
     expect(body).toContain("AS99999");
     expect(body).toContain("provider-drift/fastly");
+  });
+
+  it("parses --max-items 0 as 0 and caps all newly created issues", () => {
+    const opts = parseArgs(["--report", "drift.json", "--max-items", "0"]);
+    expect(opts.maxItems).toBe(0);
+
+    const actions = planDriftActions({
+      report: {
+        generatedAt: "2026-11-22T09:00:00Z",
+        providers: [makeProvider("route53", "Amazon Route 53", "failing")],
+      },
+      maxItems: opts.maxItems,
+    });
+    expect(actions).toEqual([{ type: "skip_capped", id: "route53" }]);
   });
 });

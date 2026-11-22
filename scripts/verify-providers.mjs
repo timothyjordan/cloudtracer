@@ -213,9 +213,15 @@ export function formatDriftMarkdown(report) {
 
 async function scanWithTimeout(scanFn, domain, timeoutMs) {
   let timer;
+  let latest = null;
   try {
     const result = await Promise.race([
-      scanFn(domain, { timeout: timeoutMs }),
+      scanFn(domain, {
+        timeout: timeoutMs,
+        onResult: (partial) => {
+          latest = partial;
+        },
+      }),
       new Promise((_, reject) => {
         timer = setTimeout(
           () => reject(new Error(`timed out after ${timeoutMs}ms`)),
@@ -225,6 +231,13 @@ async function scanWithTimeout(scanFn, domain, timeoutMs) {
     ]);
     return { domain, result };
   } catch (err) {
+    if (latest) {
+      return {
+        domain,
+        result: latest,
+        timedOut: true,
+      };
+    }
     return {
       domain,
       result: null,

@@ -3,7 +3,7 @@
   "name": "Cloudflare",
   "priority": 10,
   "verification_domains": [
-    "cloudflare.com"
+    "cloudtracer.dev"
   ],
   "dns": {
     "patterns": [

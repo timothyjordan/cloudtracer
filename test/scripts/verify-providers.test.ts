@@ -1,7 +1,11 @@
 import { describe, it, expect } from "vitest";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   evaluateProviderResult,
   formatDriftMarkdown,
+  runVerification,
   summarizeReport,
   // @ts-expect-error verify-providers.mjs is an ESM Node script without d.ts
 } from "../../scripts/verify-providers.mjs";
@@ -151,5 +155,42 @@ describe("verify-providers harness", () => {
     expect(md).toContain("**Failing:** 1");
     expect(md).toContain("`acme` (Acme)");
     expect(md).not.toContain("`vercel`");
+  });
+
+  it("preserves partial results emitted via onResult when a scan times out", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "cloudtracer-verify-"));
+    try {
+      writeFileSync(
+        join(dir, "route53.json"),
+        JSON.stringify({
+          id: "route53",
+          name: "Amazon Route 53",
+          verification_domains: ["slack.com"],
+          dns: { patterns: ["*.awsdns-*"] },
+        }),
+      );
+
+      const report = await runVerification({
+        providersDir: dir,
+        timeoutMs: 30,
+        scanFn: (domain: string, opts: { onResult?: (partial: unknown) => void }) =>
+          new Promise(() => {
+            opts.onResult?.({
+              domain,
+              scannedAt: "2026-11-22T00:00:00Z",
+              dns: {
+                nameservers: ["ns-166.awsdns-20.com"],
+                provider: { name: "Amazon Route 53", confidence: "high" },
+              },
+            });
+          }),
+      });
+
+      expect(report.counts).toEqual({ passing: 1, degraded: 0, failing: 0 });
+      expect(report.providers[0].status).toBe("passing");
+      expect(report.providers[0].matchedLayers).toEqual(["dns"]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

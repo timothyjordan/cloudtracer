@@ -32,7 +32,7 @@ Keep CloudTracer's per-provider definitions (`providers/*.json`) accurate over t
   - Looks up open GitHub Issues carrying the `provider-drift` label and embedded marker `<!-- provider-drift:<slug> -->`, plus open PRs on branch `provider-drift/<slug>`.
   - If an open issue or draft PR already exists for `<slug>`, skips opening a duplicate (optionally posting a brief status comment on an existing issue when `--comment-existing` is passed).
   - Caps newly opened items per run (`--max-items`, default `5`) so transient network outages never flood the issue tracker.
-  - Supports `--dry-run` (prints planned actions without calling GitHub mutations) and `--create-draft-pr` for verified additive changes on `provider-drift/<slug>` branches (always running `npm run providers:build && npm run providers:validate` before pushing).
+  - Supports `--dry-run` (prints planned actions without calling GitHub mutations). Draft PR creation for verified additive changes on `provider-drift/<slug>` branches is handled via `prompts/provider-review.md`.
 - Exports pure planning/formatting functions (`planDriftActions`, `formatDriftIssueBody`) tested offline in `test/scripts/report-provider-drift.test.ts`.
 
 ### 3. Scheduled GitHub Action and review prompt (TJ-1996)

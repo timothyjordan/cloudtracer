@@ -133,7 +133,7 @@ export function planDriftActions({
   return actions;
 }
 
-function parseArgs(argv) {
+export function parseArgs(argv) {
   const opts = {
     reportPath: null,
     maxItems: 5,
@@ -146,7 +146,8 @@ function parseArgs(argv) {
     if (arg === "--report" && argv[i + 1]) {
       opts.reportPath = argv[++i];
     } else if (arg === "--max-items" && argv[i + 1]) {
-      opts.maxItems = Math.max(0, parseInt(argv[++i], 10) || 5);
+      const parsed = parseInt(argv[++i], 10);
+      opts.maxItems = Number.isNaN(parsed) ? 5 : Math.max(0, parsed);
     } else if (arg === "--dry-run") {
       opts.dryRun = true;
     } else if (arg === "--comment-existing") {

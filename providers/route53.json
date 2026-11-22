@@ -3,7 +3,7 @@
   "name": "Amazon Route 53",
   "priority": 20,
   "verification_domains": [
-    "aws.amazon.com"
+    "slack.com"
   ],
   "dns": {
     "patterns": [
