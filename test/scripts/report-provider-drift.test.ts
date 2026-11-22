@@ -56,6 +56,7 @@ describe("report-provider-drift planner", () => {
     const body = formatDriftIssueBody(
       {
         ...makeProvider("fastly", "Fastly", "degraded"),
+        timedOutLayers: ["thirdparty"],
         newSignals: [
           {
             key: "asn:99999",
@@ -71,6 +72,7 @@ describe("report-provider-drift planner", () => {
 
     expect(body).toContain("<!-- provider-drift:fastly -->");
     expect(body).toContain("providers/fastly.json");
+    expect(body).toContain("**Timed out (inconclusive) layers:** thirdparty");
     expect(body).toContain("AS99999");
     expect(body).toContain("provider-drift/fastly");
   });

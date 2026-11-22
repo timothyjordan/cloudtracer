@@ -35,6 +35,10 @@ export function formatDriftIssueBody(provider, generatedAt) {
     `- **Missed layers:** ${provider.missedLayers.join(", ") || "none"}`,
   ];
 
+  if (provider.timedOutLayers?.length) {
+    lines.push(`- **Timed out (inconclusive) layers:** ${provider.timedOutLayers.join(", ")}`);
+  }
+
   if (provider.newSignals.length > 0) {
     lines.push("", "### New observable signals", "");
     for (const sig of provider.newSignals) {
