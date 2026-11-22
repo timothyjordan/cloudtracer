@@ -91,7 +91,7 @@ export function evaluateProviderResult(provider, domainScans) {
       ) {
         matchedLayers.add("hosting");
         domainMatched.push("hosting");
-      } else if (isTimedOut && r.hosting === undefined) {
+      } else if (isTimedOut && (r.hosting === undefined || r.cdn === undefined)) {
         timedOutLayers.add("hosting");
       }
     }
@@ -296,8 +296,19 @@ export async function runVerification({
   timeoutMs = 10000,
   scanFn,
 } = {}) {
-  const entries = loadProviderDefinitions(providersDir)
-    .map((e) => e.data)
+  const allProviders = loadProviderDefinitions(providersDir).map((e) => e.data);
+
+  if (providerFilter) {
+    const target = allProviders.find((p) => p.id === providerFilter);
+    if (!target) {
+      throw new Error(`Unknown provider slug "${providerFilter}"`);
+    }
+    if (!Array.isArray(target.verification_domains) || target.verification_domains.length === 0) {
+      throw new Error(`Provider "${providerFilter}" has no verification_domains configured`);
+    }
+  }
+
+  const entries = allProviders
     .filter((p) => Array.isArray(p.verification_domains) && p.verification_domains.length > 0)
     .filter((p) => !providerFilter || p.id === providerFilter);
 

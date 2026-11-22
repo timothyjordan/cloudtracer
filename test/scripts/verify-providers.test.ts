@@ -197,4 +197,41 @@ describe("verify-providers harness", () => {
       rmSync(dir, { recursive: true, force: true });
     }
   });
+
+  it("treats hosting as timed out rather than missed when cdn has not finished on a timed-out partial", () => {
+    const ghPages = {
+      id: "github_pages",
+      name: "GitHub Pages",
+      cdn: { headers: { Server: "GitHub.com" }, is_platform: true },
+      hosting: { asns: [36459], ips: ["185.199.108.153"] },
+    };
+
+    const res = evaluateProviderResult(ghPages, [
+      {
+        domain: "cloudtracer.dev",
+        timedOut: true,
+        result: {
+          domain: "cloudtracer.dev",
+          scannedAt: "2026-11-22T00:00:00Z",
+          hosting: {
+            ipAddresses: { v4: ["104.21.54.121"], v6: [] },
+            provider: { name: "Cloudflare", confidence: "high" },
+          },
+        },
+      },
+    ]);
+
+    expect(res.missedLayers).toEqual([]);
+    expect(res.timedOutLayers).toEqual(["cdn", "hosting"]);
+  });
+
+  it("rejects unknown or unconfigured --provider filters", async () => {
+    await expect(
+      runVerification({ providerFilter: "nope", scanFn: async () => ({}) }),
+    ).rejects.toThrow('Unknown provider slug "nope"');
+
+    await expect(
+      runVerification({ providerFilter: "ns1", scanFn: async () => ({}) }),
+    ).rejects.toThrow('Provider "ns1" has no verification_domains configured');
+  });
 });
