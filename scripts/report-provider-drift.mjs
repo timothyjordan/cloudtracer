@@ -49,7 +49,9 @@ export function formatDriftIssueBody(provider, generatedAt) {
   if (provider.domains.length > 0) {
     lines.push("", "### Verification domains", "");
     for (const d of provider.domains) {
-      if (d.ok) {
+      if (d.ok && d.timedOut) {
+        lines.push(`- \`${d.domain}\`: partial (timed out); matched [${d.matchedLayers.join(", ") || "none"}]`);
+      } else if (d.ok) {
         lines.push(`- \`${d.domain}\`: matched [${d.matchedLayers.join(", ") || "none"}]`);
       } else {
         lines.push(`- \`${d.domain}\`: error (${d.error})`);

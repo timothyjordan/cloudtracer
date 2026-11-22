@@ -157,7 +157,7 @@ describe("verify-providers harness", () => {
     expect(md).not.toContain("`vercel`");
   });
 
-  it("preserves partial results emitted via onResult when a scan times out", async () => {
+  it("preserves partial results emitted via onResult when a scan times out and does not mark unfinished layers as missed", async () => {
     const dir = mkdtempSync(join(tmpdir(), "cloudtracer-verify-"));
     try {
       writeFileSync(
@@ -167,6 +167,7 @@ describe("verify-providers harness", () => {
           name: "Amazon Route 53",
           verification_domains: ["slack.com"],
           dns: { patterns: ["*.awsdns-*"] },
+          thirdparty: { scripts: ["example-sdk.js"], category: "analytics" },
         }),
       );
 
@@ -189,6 +190,9 @@ describe("verify-providers harness", () => {
       expect(report.counts).toEqual({ passing: 1, degraded: 0, failing: 0 });
       expect(report.providers[0].status).toBe("passing");
       expect(report.providers[0].matchedLayers).toEqual(["dns"]);
+      expect(report.providers[0].missedLayers).toEqual([]);
+      expect(report.providers[0].timedOutLayers).toEqual(["thirdparty"]);
+      expect(report.providers[0].domains[0].timedOut).toBe(true);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

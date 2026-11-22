@@ -44,6 +44,7 @@ export function evaluateProviderResult(provider, domainScans) {
   }
 
   const matchedLayers = new Set();
+  const timedOutLayers = new Set();
   const newSignals = [];
   const domainDetails = [];
   let succeededScans = 0;
@@ -53,6 +54,7 @@ export function evaluateProviderResult(provider, domainScans) {
       domainDetails.push({
         domain: entry.domain,
         ok: false,
+        timedOut: Boolean(entry.timedOut),
         error: entry.error ?? "scan returned no result",
         matchedLayers: [],
       });
@@ -61,52 +63,76 @@ export function evaluateProviderResult(provider, domainScans) {
 
     succeededScans++;
     const r = entry.result;
+    const isTimedOut = Boolean(entry.timedOut);
     const domainMatched = [];
 
-    if (expectedLayers.includes("dns") && r.dns?.provider?.name === provider.name) {
-      matchedLayers.add("dns");
-      domainMatched.push("dns");
+    if (expectedLayers.includes("dns")) {
+      if (r.dns?.provider?.name === provider.name) {
+        matchedLayers.add("dns");
+        domainMatched.push("dns");
+      } else if (isTimedOut && r.dns === undefined) {
+        timedOutLayers.add("dns");
+      }
     }
 
-    if (
-      expectedLayers.includes("cdn") &&
-      r.cdn?.providers?.some((p) => p.provider.name === provider.name)
-    ) {
-      matchedLayers.add("cdn");
-      domainMatched.push("cdn");
+    if (expectedLayers.includes("cdn")) {
+      if (r.cdn?.providers?.some((p) => p.provider.name === provider.name)) {
+        matchedLayers.add("cdn");
+        domainMatched.push("cdn");
+      } else if (isTimedOut && r.cdn === undefined) {
+        timedOutLayers.add("cdn");
+      }
     }
 
-    if (
-      expectedLayers.includes("hosting") &&
-      (r.hosting?.provider?.name === provider.name ||
-        r.hosting?.platform?.name === provider.name)
-    ) {
-      matchedLayers.add("hosting");
-      domainMatched.push("hosting");
+    if (expectedLayers.includes("hosting")) {
+      if (
+        r.hosting?.provider?.name === provider.name ||
+        r.hosting?.platform?.name === provider.name
+      ) {
+        matchedLayers.add("hosting");
+        domainMatched.push("hosting");
+      } else if (isTimedOut && r.hosting === undefined) {
+        timedOutLayers.add("hosting");
+      }
     }
 
-    if (expectedLayers.includes("email") && r.email?.provider?.name === provider.name) {
-      matchedLayers.add("email");
-      domainMatched.push("email");
+    if (expectedLayers.includes("email")) {
+      if (r.email?.provider?.name === provider.name) {
+        matchedLayers.add("email");
+        domainMatched.push("email");
+      } else if (isTimedOut && r.email === undefined) {
+        timedOutLayers.add("email");
+      }
     }
 
     const tpHit = r.thirdPartyServices?.some((s) => s.name === provider.name);
-    if (expectedLayers.includes("thirdparty") && tpHit) {
-      matchedLayers.add("thirdparty");
-      domainMatched.push("thirdparty");
+    if (expectedLayers.includes("thirdparty")) {
+      if (tpHit) {
+        matchedLayers.add("thirdparty");
+        domainMatched.push("thirdparty");
+      } else if (isTimedOut && r.thirdPartyServices === undefined) {
+        timedOutLayers.add("thirdparty");
+      }
     }
-    if (expectedLayers.includes("html_frameworks") && tpHit) {
-      matchedLayers.add("html_frameworks");
-      domainMatched.push("html_frameworks");
+    if (expectedLayers.includes("html_frameworks")) {
+      if (tpHit) {
+        matchedLayers.add("html_frameworks");
+        domainMatched.push("html_frameworks");
+      } else if (isTimedOut && r.thirdPartyServices === undefined) {
+        timedOutLayers.add("html_frameworks");
+      }
     }
 
-    if (
-      expectedLayers.includes("platform_rules") &&
-      (r.hosting?.platform?.name === provider.name ||
-        r.dns?.provider?.name === provider.name)
-    ) {
-      matchedLayers.add("platform_rules");
-      domainMatched.push("platform_rules");
+    if (expectedLayers.includes("platform_rules")) {
+      if (
+        r.hosting?.platform?.name === provider.name ||
+        r.dns?.provider?.name === provider.name
+      ) {
+        matchedLayers.add("platform_rules");
+        domainMatched.push("platform_rules");
+      } else if (isTimedOut && (r.hosting === undefined || r.cdn === undefined)) {
+        timedOutLayers.add("platform_rules");
+      }
     }
 
     // Detect unrecorded ASN on a verification domain when another layer matched
@@ -134,18 +160,26 @@ export function evaluateProviderResult(provider, domainScans) {
     domainDetails.push({
       domain: entry.domain,
       ok: true,
+      ...(isTimedOut ? { timedOut: true } : {}),
       matchedLayers: domainMatched,
     });
   }
 
   const matched = expectedLayers.filter((l) => matchedLayers.has(l));
-  const missed = expectedLayers.filter((l) => !matchedLayers.has(l));
+  const inconclusive = expectedLayers.filter(
+    (l) => !matchedLayers.has(l) && timedOutLayers.has(l),
+  );
+  const missed = expectedLayers.filter(
+    (l) => !matchedLayers.has(l) && !timedOutLayers.has(l),
+  );
 
   let status;
-  if (succeededScans === 0 || matched.length === 0) {
+  if (succeededScans === 0 || (matched.length === 0 && inconclusive.length === 0)) {
     status = "failing";
   } else if (missed.length > 0 || newSignals.length > 0) {
     status = "degraded";
+  } else if (matched.length === 0 && inconclusive.length > 0) {
+    status = "failing";
   } else {
     status = "passing";
   }
@@ -158,6 +192,7 @@ export function evaluateProviderResult(provider, domainScans) {
     expectedLayers,
     matchedLayers: matched,
     missedLayers: missed,
+    ...(inconclusive.length > 0 ? { timedOutLayers: inconclusive } : {}),
     newSignals,
     domains: domainDetails,
   };
@@ -203,8 +238,14 @@ export function formatDriftMarkdown(report) {
     const sigs = p.newSignals
       .map((s) => (s.type === "unrecorded_asn" ? `AS${s.asn} (${s.asnName})` : s.key))
       .join(", ");
+    const missedText = [
+      p.missedLayers.join(", "),
+      p.timedOutLayers?.length ? `timed out: ${p.timedOutLayers.join(", ")}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
     lines.push(
-      `| \`${p.id}\` (${p.name}) | **${p.status}** | ${p.matchedLayers.join(", ") || "none"} | ${p.missedLayers.join(", ") || "none"} | ${sigs || "none"} |`,
+      `| \`${p.id}\` (${p.name}) | **${p.status}** | ${p.matchedLayers.join(", ") || "none"} | ${missedText || "none"} | ${sigs || "none"} |`,
     );
   }
   lines.push("");
