@@ -99,6 +99,37 @@ describe("verify-providers harness", () => {
     ]);
   });
 
+  it("does not emit unrecorded_asn when a platform runs on another known provider's ASN", () => {
+    const vercel = {
+      id: "vercel",
+      name: "Vercel",
+      cdn: { headers: { Server: "Vercel" }, is_platform: true },
+      hosting: { asns: [209242] },
+    };
+
+    const res = evaluateProviderResult(vercel, [
+      {
+        domain: "vercel.com",
+        result: {
+          domain: "vercel.com",
+          scannedAt: "2026-11-22T00:00:00Z",
+          cdn: {
+            providers: [{ provider: { name: "Vercel", confidence: "high" }, evidence: ["Header: server: Vercel"] }],
+          },
+          hosting: {
+            ipAddresses: { v4: ["76.76.21.21"], v6: [] },
+            asn: { number: 16509, name: "AMAZON-02" },
+            provider: { name: "Amazon Web Services", confidence: "high" },
+            platform: { name: "Vercel", confidence: "high" },
+          },
+        },
+      },
+    ]);
+
+    expect(res.status).toBe("passing");
+    expect(res.newSignals).toEqual([]);
+  });
+
   it("classifies a provider as failing when all domains error or zero layers match", () => {
     const errRes = evaluateProviderResult(cloudflare, [
       { domain: "cloudflare.com", result: null, error: "timed out after 10000ms" },

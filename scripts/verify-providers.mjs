@@ -135,14 +135,16 @@ export function evaluateProviderResult(provider, domainScans) {
       }
     }
 
-    // Detect unrecorded ASN on a verification domain when another layer matched
-    // and the site is not proxied behind a CDN edge.
+    // Detect unrecorded ASN on a verification domain when another layer matched,
+    // the site is not proxied behind a CDN edge, and the ASN is not already
+    // attributed to another known hosting provider (for example Vercel on AWS).
     if (
       domainMatched.length > 0 &&
       Array.isArray(provider.hosting?.asns) &&
       provider.hosting.asns.length > 0 &&
       r.hosting?.asn &&
       !r.hosting.behindCdn &&
+      (!r.hosting.provider || r.hosting.provider.name === provider.name) &&
       !provider.hosting.asns.includes(r.hosting.asn.number)
     ) {
       const sigKey = `asn:${r.hosting.asn.number}`;
