@@ -87,6 +87,16 @@ describe("matchCdnByHeaders", () => {
     expect(result[0].evidence).toHaveLength(3);
   });
 
+  it("should detect Shopify by edge headers", () => {
+    const result = matchCdnByHeaders({
+      "powered-by": "Shopify",
+      "x-shopid": "123",
+    });
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe("Shopify");
+    expect(result[0].evidence).toHaveLength(2);
+  });
+
   it("should return empty for no matches", () => {
     const result = matchCdnByHeaders({ "content-type": "text/html" });
     expect(result).toHaveLength(0);
@@ -110,6 +120,12 @@ describe("matchCdnByCname", () => {
     const result = matchCdnByCname(["timothyjordan.github.io"]);
     expect(result).toHaveLength(1);
     expect(result[0].name).toBe("GitHub Pages");
+  });
+
+  it("should detect Shopify by CNAME", () => {
+    const result = matchCdnByCname(["shops.myshopify.com"]);
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe("Shopify");
   });
 });
 

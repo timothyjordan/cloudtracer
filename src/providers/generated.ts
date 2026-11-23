@@ -313,6 +313,18 @@ export const CDN_PROVIDERS: readonly CdnProviderEntry[] = [
     "cnames": [
       "*.github.io"
     ]
+  },
+  {
+    "id": "shopify",
+    "name": "Shopify",
+    "headers": {
+      "X-ShopId": "*",
+      "X-Shopify-Stage": "*",
+      "Powered-By": "Shopify"
+    },
+    "cnames": [
+      "shops.myshopify.com"
+    ]
   }
 ];
 
@@ -1896,7 +1908,8 @@ export const HTML_FRAMEWORK_PROVIDERS: readonly HtmlFrameworkProviderEntry[] = [
 export const PLATFORM_PROVIDER_NAMES: readonly string[] = [
   "Vercel",
   "Netlify",
-  "GitHub Pages"
+  "GitHub Pages",
+  "Shopify"
 ];
 
 export const HOSTING_PLATFORM_PROVIDER_NAMES: readonly string[] = [
