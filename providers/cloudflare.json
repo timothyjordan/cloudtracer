@@ -2,6 +2,9 @@
   "id": "cloudflare",
   "name": "Cloudflare",
   "priority": 10,
+  "verification_domains": [
+    "cloudtracer.dev"
+  ],
   "dns": {
     "patterns": [
       "*.ns.cloudflare.com"

@@ -1,6 +1,9 @@
 {
   "id": "stripe",
   "name": "Stripe",
+  "verification_domains": [
+    "stripe.com"
+  ],
   "thirdparty": {
     "scripts": [
       "js.stripe.com"

@@ -2,6 +2,9 @@
   "id": "fastly",
   "name": "Fastly",
   "priority": 20,
+  "verification_domains": [
+    "fastly.com"
+  ],
   "cdn": {
     "headers": {
       "X-Served-By": "cache-*",

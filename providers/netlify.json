@@ -2,6 +2,9 @@
   "id": "netlify",
   "name": "Netlify",
   "priority": 92,
+  "verification_domains": [
+    "netlify.com"
+  ],
   "cdn": {
     "headers": {
       "Server": "Netlify",

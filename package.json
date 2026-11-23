@@ -20,6 +20,7 @@
   "scripts": {
     "providers:build": "node scripts/build-providers.mjs",
     "providers:validate": "node scripts/validate-providers.mjs",
+    "providers:verify": "node scripts/verify-providers.mjs",
     "build": "npm run providers:build && tsup",
     "dev": "tsup --watch",
     "build:ext": "npm run providers:build && tsc --noEmit -p extension/tsconfig.json && node extension/build.mjs",

@@ -1,0 +1,84 @@
+name: Provider Freshness
+
+on:
+  schedule:
+    # Weekly on Mondays at 09:00 UTC.
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Optional provider slug to verify (leave blank for all providers with verification_domains)
+        required: false
+        type: string
+      max_items:
+        description: Maximum new provider-drift issues to open in this run
+        required: false
+        default: '5'
+        type: string
+      dry_run:
+        description: Print planned drift actions without creating GitHub issues
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: provider-freshness
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate providers and build scanner
+        run: |
+          npm run providers:validate
+          npm run build
+
+      - name: Run provider verification harness
+        env:
+          PROVIDER_FILTER: ${{ inputs.provider || '' }}
+        run: |
+          ARGS=(--out drift-report.json --markdown-out drift-report.md --concurrency 4 --timeout 10000)
+          if [[ -n "$PROVIDER_FILTER" ]]; then
+            ARGS+=(--provider "$PROVIDER_FILTER")
+          fi
+          node scripts/verify-providers.mjs "${ARGS[@]}"
+          cat drift-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload drift report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-drift-report
+          path: |
+            drift-report.json
+            drift-report.md
+          retention-days: 14
+
+      - name: Report deduplicated provider drift
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAX_ITEMS: ${{ inputs.max_items || '5' }}
+          DRY_RUN: ${{ inputs.dry_run || false }}
+        run: |
+          ARGS=(--report drift-report.json --max-items "$MAX_ITEMS")
+          if [[ "$DRY_RUN" == "true" ]]; then
+            ARGS+=(--dry-run)
+          fi
+          node scripts/report-provider-drift.mjs "${ARGS[@]}"
