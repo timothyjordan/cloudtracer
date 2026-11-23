@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/timothyjordan/cloudtracer/compare/cloudtracer-v0.1.4...cloudtracer-v0.1.5) (2026-11-23)
+
+
+### Features
+
+* automated provider-freshness verification harness and drift cadence (TJ-1994) ([#42](https://github.com/timothyjordan/cloudtracer/issues/42)) ([c6c3d71](https://github.com/timothyjordan/cloudtracer/commit/c6c3d71300d730dc9fe1b10589c322d111d68dc4))
+
 ## [0.1.4](https://github.com/timothyjordan/cloudtracer/compare/cloudtracer-v0.1.3...cloudtracer-v0.1.4) (2026-11-20)
 
 

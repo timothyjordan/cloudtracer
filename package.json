@@ -1,6 +1,6 @@
 {
   "name": "cloudtracer",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Scan a website and identify all cloud providers it uses",
   "type": "module",
   "bin": {
